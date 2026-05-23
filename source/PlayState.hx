@@ -96,6 +96,12 @@ class PlayState extends ConductorState
 			onSongEnd();
 
 		persistentUpdate = true;
+
+		if (introCutscene())
+		{
+			inIntroCutscene = true;
+			return;
+		}
 	}
 
 	override public function update(elapsed:Float)
@@ -110,14 +116,14 @@ class PlayState extends ConductorState
 		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
 		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
 
-		if (!inCutscene)
+		if (!inEndCutscene && !inIntroCutscene)
 			managePlayer();
 
 		for (monster in beatMonsters)
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (!inCutscene)
+			if (!inEndCutscene)
 				if (monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
 				{
 					playerStunned = true;
@@ -173,21 +179,15 @@ class PlayState extends ConductorState
 			player.x = FlxG.width - (player.width * 2);
 			player.velocity.x = 0;
 		}
-
-		if (player.animation.finished)
-		{
-			player.animation.play('idle');
-			playerStunned = false;
-		}
 	}
 
 	function onSongEnd()
 	{
-		inCutscene = true;
+		inEndCutscene = true;
 
 		if (endCutscene())
 		{
-			trace('Playin cutscene');
+			trace('Playin end cutscene');
 			return;
 		}
 
@@ -199,9 +199,8 @@ class PlayState extends ConductorState
 	{
 		super.onStepHit(step, backward);
 
-		if (!inCutscene)
-			if (!playerStunned)
-				score += 25;
+		if (!inEndCutscene && !inIntroCutscene && !playerStunned)
+			score += 25;
 	}
 
 	override function onBeatHit(beat:Int, backward:Bool)
@@ -210,16 +209,15 @@ class PlayState extends ConductorState
 
 		// trace('beat');
 
-		if (!inCutscene)
-			if (data.beatMonsters.spawn && Math.floor(beat % data.beatMonsters.rate) < 1)
-			{
-				var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
+		if (!inEndCutscene && data.beatMonsters.spawn && Math.floor(beat % data.beatMonsters.rate) < 1)
+		{
+			var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 
-				beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
-				beatMonster.y = beatMonster.height * -2;
+			beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
+			beatMonster.y = beatMonster.height * -2;
 
-				beatMonsters.add(beatMonster);
-			}
+			beatMonsters.add(beatMonster);
+		}
 	}
 
 	var data = {
@@ -258,24 +256,6 @@ class PlayState extends ConductorState
 		}
 	}
 
-	public function makePlayer()
-	{
-		var file:String = 'bro';
-
-		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
-		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/$file'), true, 64, 64);
-
-		player.animation.add('idle', [0], 24, false);
-		player.animation.add('hurt', [1], 2, false);
-		player.animation.add('move', [2, 3], 6, false);
-		player.animation.add('chinatown-bridge', [4], 6, false);
-
-		player.animation.play('idle');
-
-		player.scale.set(2, 2);
-		player.updateHitbox();
-	}
-
 	public var stageBackLayer:FlxSpriteGroup;
 
 	public function generateStage()
@@ -307,13 +287,13 @@ class PlayState extends ConductorState
 		{
 			case 'chinatown-bridge':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
-				sky.scale.set(4,4);
+				sky.scale.set(4, 4);
 				sky.updateHitbox();
 
 				sky.velocity.x = 2;
 				sky.screenCenter();
 				stageBackLayer.add(sky);
-				
+
 				var bridge:StageSprite = new StageSprite('chinatown-bridge/bridge');
 				bridge.screenCenter();
 				stageBackLayer.add(bridge);
@@ -325,15 +305,102 @@ class PlayState extends ConductorState
 		}
 	}
 
-	var inCutscene:Bool = false;
-	var seenCutscene:Bool = false;
+	public function makePlayer()
+	{
+		var file:String = 'bro-regular';
+
+		switch (song.id)
+		{
+			case 'scroll down chinatown':
+				file = 'bro-chinatown';
+		}
+
+		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
+		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/$file'), true, 64, 64);
+
+		player.animation.add('idle', [0], 24, false);
+		player.animation.add('hurt', [1], 2, false);
+		player.animation.add('move', [2, 3], 6, false);
+
+		if (file == 'bro-chinatown')
+		{
+			player.animation.add('chinatown-bridge', [4]);
+			player.animation.add('chinatown-bridge-lookup', [4, 5, 6, 7, 8], 6, false);
+			player.animation.add('chinatown-bridge-jump', [9], 6, false);
+		}
+
+		player.animation.play('idle');
+
+		player.scale.set(2, 2);
+		player.updateHitbox();
+
+		player.animation.onFinish.add(animName ->
+		{
+			if (!inIntroCutscene && !inEndCutscene)
+			{
+				player.animation.play('idle');
+				playerStunned = false;
+			}
+		});
+	}
+
+	var inIntroCutscene:Bool = false;
+	var inEndCutscene:Bool = false;
+
+	var seenEndCutscene:Bool = false;
+	var seenIntroCutscene:Bool = false;
+
+	public function introCutscene():Bool
+	{
+		if (seenIntroCutscene)
+			return false;
+
+		seenIntroCutscene = true;
+
+		switch (song.id)
+		{
+			case 'scroll down chinatown':
+				player.animation.play('chinatown-bridge');
+				player.y -= player.height * 0.5;
+
+				FlxTimer.wait(7.5, () ->
+				{
+					player.animation.play('chinatown-bridge-lookup');
+					player.animation.onFinish.add(animName ->
+					{
+						if (animName == 'chinatown-bridge-lookup')
+						{
+							FlxTween.tween(player, {x: player.x - 128}, .4, {
+								ease: FlxEase.sineOut,
+							});
+
+							FlxTween.tween(player, {y: player.y + player.height * 0.5}, .4, {
+								ease: FlxEase.sineOut,
+								onStart: t ->
+								{
+									player.animation.play('chinatown-bridge-jump');
+								},
+								onComplete: t ->
+								{
+									inIntroCutscene = false;
+								}
+							});
+						}
+					});
+				});
+
+				return true;
+		}
+
+		return false;
+	}
 
 	public function endCutscene():Bool
 	{
-		if (seenCutscene)
+		if (seenEndCutscene)
 			return false;
 
-		seenCutscene = true;
+		seenEndCutscene = true;
 
 		switch (song.id)
 		{
