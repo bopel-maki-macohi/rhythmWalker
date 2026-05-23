@@ -30,11 +30,11 @@ class PlayState extends ConductorState
 	var score:Int = 0;
 	var hits:Int = 0;
 
-	override public function new(song:String, variation:SongVariation = defaultVariation)
+	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
 		super();
 
-		this.song = new Song(song, variation);
+		this.song = new Song(song, variation ?? defaultVariation);
 	}
 
 	override public function create()
@@ -174,7 +174,7 @@ class PlayState extends ConductorState
 	function onSongEnd()
 	{
 		trace('Yay we done');
-		FlxG.switchState(() -> new DemoEndState());
+		FlxG.switchState(() -> new Freeplay());
 	}
 
 	override function onStepHit(step:Int, backward:Bool)
