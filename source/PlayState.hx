@@ -31,6 +31,12 @@ class PlayState extends ConductorState
 		bpm = 100;
 		#end
 
+		var stage:FlxSprite = new FlxSprite().loadGraphic('assets/stage.png');
+		stage.scale.set(4,4);
+		stage.updateHitbox();
+		stage.screenCenter();
+		add(stage);
+
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		player = new FlxSprite().loadGraphic('assets/bro.png', true, 64, 64);
 
