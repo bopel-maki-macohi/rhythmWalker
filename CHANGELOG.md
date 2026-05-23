@@ -1,4 +1,4 @@
-# Unreleased
+# 0.2.0 - 5/23/2026
 
 - New Song: Scroll Down Chinatown!!
 - New Song: Shift Around!
