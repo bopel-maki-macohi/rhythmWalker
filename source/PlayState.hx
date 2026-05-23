@@ -52,11 +52,10 @@ class PlayState extends ConductorState
 
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
 
-		var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/stage'));
-		stage.scale.set(4, 4);
-		stage.updateHitbox();
-		stage.screenCenter();
-		add(stage);
+		stageBackLayer = new FlxSpriteGroup();
+		add(stageBackLayer);
+
+		generateStage();
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/bro'), true, 64, 64);
@@ -158,7 +157,7 @@ class PlayState extends ConductorState
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (monster.overlaps(playerCollision) && !playerStunned)
+			if (monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
 			{
 				playerStunned = true;
 				player.animation.play('hurt');
@@ -221,10 +220,56 @@ class PlayState extends ConductorState
 
 		switch (event.id.toLowerCase())
 		{
+			case 'camera-off', 'cam-off':
+				FlxG.camera.visible = false;
+
+			case 'camera-on', 'cam-on':
+				FlxG.camera.visible = true;
+
+			case 'stage-switch', 'stage-change':
+				if (event.data != null)
+					makeStage(Std.string(event.data));
+
 			case 'beatmonsters-stop':
 				data.beatMonsters.spawn = false;
+
 			case 'beatmonsters-resume':
 				data.beatMonsters.spawn = true;
+		}
+	}
+
+	public var stageBackLayer:FlxSpriteGroup;
+
+	public function generateStage()
+	{
+		switch ([song.id, song.variation])
+		{
+			default:
+				makeStage('stage');
+		}
+	}
+
+	public function makeStage(?stage:String)
+	{
+		if (stageBackLayer == null)
+			return;
+
+		for (sprite in stageBackLayer.members)
+		{
+			stageBackLayer.members.remove(sprite);
+			sprite.destroy();
+		}
+
+		stageBackLayer.clear();
+
+		switch (stage.toLowerCase())
+		{
+			case 'stage', 'understage':
+				var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/$stage'));
+				stage.scale.set(4, 4);
+				stage.updateHitbox();
+				stage.screenCenter();
+				stageBackLayer.add(stage);
 		}
 	}
 }

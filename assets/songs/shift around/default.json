@@ -14,7 +14,20 @@
             "id": "beatmonsters-stop"
         },
         {
+            "time": 8399,
+            "id": "camera-off"
+        },
+        {
             "time": 9550,
+            "id": "stage-switch",
+            "data": "understage"
+        },
+        {
+            "time": 9600,
+            "id": "camera-on"
+        },
+        {
+            "time": 12800,
             "id": "beatmonsters-resume"
         },
         {
