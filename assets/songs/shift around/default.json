@@ -1,0 +1,21 @@
+{
+    "id": "shift around",
+    "variation": "default",
+    "scrollSpeed": 2,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 150
+        }
+    ],
+    "events": [
+        {
+            "time": 8399,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 9550,
+            "id": "beatmonsters-stop"
+        }
+    ]
+}
