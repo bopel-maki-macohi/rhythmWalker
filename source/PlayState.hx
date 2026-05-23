@@ -22,7 +22,7 @@ class PlayState extends FlxState
 
 		player.screenCenter();
 
-		player.maxVelocity.x = 100;
+		player.maxVelocity.x = 400;
 	}
 
 	override public function update(elapsed:Float)
@@ -33,7 +33,19 @@ class PlayState extends FlxState
 			player.velocity.x -= playerSpeed;
 		else if (FlxG.keys.anyPressed([D, RIGHT]))
 			player.velocity.x += playerSpeed;
+		else
+			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
-		player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+		if (player.x < player.width)
+		{
+			player.x = player.width;
+			player.velocity.x = 0;
+		}
+
+		if (player.x > FlxG.width - (player.width * 2))
+		{
+			player.x = FlxG.width - (player.width * 2);
+			player.velocity.x = 0;
+		}
 	}
 }
