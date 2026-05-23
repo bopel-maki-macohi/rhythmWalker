@@ -33,10 +33,8 @@ class PlayState extends ConductorState
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		player = new FlxSprite().loadGraphic('assets/bro.png', true, 64, 64);
 
-		// MOVEMENT STUN STUFF NOT DONE, I STILL GET TRAPPED
-
 		player.animation.add('idle', [0], 24, false);
-		player.animation.add('hurt', [1], 1, false);
+		player.animation.add('hurt', [1], 2, false);
 		player.animation.add('move', [2, 3], 6, false);
 
 		player.animation.play('idle');
@@ -66,12 +64,12 @@ class PlayState extends ConductorState
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing *= 2;
 
-		if (FlxG.keys.anyPressed([A, LEFT]) && !playerStunned)
+		if (FlxG.keys.anyPressed([A, LEFT]))
 		{
 			player.flipX = false;
 			player.velocity.x -= playerSpeed * shiftThing;
 		}
-		else if (FlxG.keys.anyPressed([D, RIGHT]) && !playerStunned)
+		else if (FlxG.keys.anyPressed([D, RIGHT]))
 		{
 			player.flipX = true;
 			player.velocity.x += playerSpeed * shiftThing;
