@@ -42,11 +42,11 @@ class PlayState extends ConductorState
 		var shiftThing:Float = 1;
 		player.maxVelocity.x = 400;
 
-		if (FlxG.keys.pressed.SHIFT)
-		{
-			shiftThing *= 2;
-			player.maxVelocity.x = 600;
-		}
+		// if (FlxG.keys.pressed.SHIFT)
+		// {
+		// 	shiftThing *= 2;
+		// 	player.maxVelocity.x = 600;
+		// }
 
 		if (FlxG.keys.anyPressed([A, LEFT]))
 			player.velocity.x -= playerSpeed * shiftThing;
