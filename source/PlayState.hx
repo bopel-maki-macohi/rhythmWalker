@@ -1,5 +1,6 @@
 package;
 
+import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
@@ -19,20 +20,24 @@ class PlayState extends ConductorState
 	var scrollSpeed:Float = 1;
 
 	var song:Song;
-	
+
+	var scoreText:FlxText;
+	var score:Int = 0;
+	var hits:Int = 0;
+
 	override public function create()
 	{
 		super.create();
 
 		song = new Song('Bopeebo', #if BOPEEBO_ERECT 'Erect' #else 'Default' #end);
-		
+
 		bpm = song.bpm;
 		scrollSpeed = song.scrollSpeed;
 
 		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation));
 
 		var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/stage'));
-		stage.scale.set(4,4);
+		stage.scale.set(4, 4);
 		stage.updateHitbox();
 		stage.screenCenter();
 		add(stage);
@@ -61,11 +66,17 @@ class PlayState extends ConductorState
 
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
+
+		scoreText = new FlxText(0, 0, 0, 'BOB', 16);
+		add(scoreText);
 	}
 
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		scoreText.screenCenter(X);
+		scoreText.text = 'Score: $score | Hits: $hits';
 
 		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
 		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
@@ -127,6 +138,8 @@ class PlayState extends ConductorState
 
 				beatMonsters.remove(monster);
 				monster.destroy();
+
+				hits++;
 			}
 
 			if (monster.y > FlxG.height + monster.height)
@@ -135,6 +148,14 @@ class PlayState extends ConductorState
 				monster.destroy();
 			}
 		}
+	}
+
+	override function stepHit()
+	{
+		super.stepHit();
+
+		if (!playerStunned)
+			score += 100;
 	}
 
 	override function beatHit()
