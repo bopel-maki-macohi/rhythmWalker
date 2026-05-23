@@ -50,6 +50,8 @@ class PlayState extends ConductorState
 
 		playerCollision = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 		add(playerCollision);
+		playerCollision.alpha = .25; // idk if i want it on i want it subtle
+		playerCollision.visible = false;
 
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
@@ -129,7 +131,7 @@ class PlayState extends ConductorState
 
 		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 
-		beatMonster.x = player.getGraphicMidpoint().x;
+		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
 		beatMonster.y = beatMonster.height * -2;
 
 		beatMonsters.add(beatMonster);
