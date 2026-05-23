@@ -1,6 +1,4 @@
-package charting.groups;
-
-import editorstuff.TabGroup;
+package editors.charting.groups;
 
 class ChartPreferencesTabGroup extends TabGroup
 {

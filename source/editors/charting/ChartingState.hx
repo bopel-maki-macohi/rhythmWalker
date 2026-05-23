@@ -1,5 +1,4 @@
-import charting.ChartingTabMenu;
-import flixel.addons.ui.FlxUITabMenu;
+package editors.charting;
 
 class ChartingState extends ConductorState
 {

@@ -10,7 +10,7 @@ class Main extends Sprite
 		super();
 
 		#if CHARTING
-		addChild(new FlxGame(0, 0, ChartingState));
+		addChild(new FlxGame(0, 0, editors.charting.ChartingState));
 		#else
 		addChild(new FlxGame(0, 0, PlayState));
 		#end

@@ -1,9 +1,7 @@
-package charting;
+package editors.charting;
 
-import charting.groups.ChartPreferencesTabGroup;
-import charting.groups.ChartFileTabGroup;
+import editors.charting.groups.*;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
-import charting.groups.ChartMetadataTabGroup;
 import flixel.addons.ui.FlxUITabMenu;
 
 class ChartingTabMenu extends FlxUITabMenu

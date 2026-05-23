@@ -1,4 +1,4 @@
-package editorstuff;
+package editors;
 
 import flixel.addons.ui.FlxUIInputText;
 import flixel.FlxSprite;

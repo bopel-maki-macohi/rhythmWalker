@@ -1,7 +1,6 @@
-package charting.groups;
+package editors.charting.groups;
 
 import flixel.addons.ui.FlxUIButton;
-import editorstuff.TabGroup;
 
 class ChartFileTabGroup extends TabGroup
 {

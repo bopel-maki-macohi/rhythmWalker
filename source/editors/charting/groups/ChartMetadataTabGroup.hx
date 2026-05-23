@@ -1,8 +1,7 @@
-package charting.groups;
+package editors.charting.groups;
 
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import flixel.addons.ui.FlxUINumericStepper;
-import editorstuff.TabGroup;
 
 class ChartMetadataTabGroup extends TabGroup
 {
