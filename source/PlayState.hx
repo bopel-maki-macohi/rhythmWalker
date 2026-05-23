@@ -1,5 +1,7 @@
 package;
 
+import flixel.addons.sound.FlxRhythmConductorUtil;
+import flixel.addons.sound.FlxRhythmConductor;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
@@ -31,10 +33,11 @@ class PlayState extends ConductorState
 
 		song = new Song('First Steps', defaultVariation);
 
-		bpm = song.bpm;
 		scrollSpeed = song.scrollSpeed;
 
+		resetConductor();
 		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation));
+		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
 
 		var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/stage'));
 		stage.scale.set(4, 4);
@@ -75,16 +78,13 @@ class PlayState extends ConductorState
 	{
 		super.update(elapsed);
 
+		conductor.update(null);
+
 		scoreText.screenCenter(X);
 		scoreText.text = 'Score: $score | Hits: $hits';
 
 		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
 		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
-
-		// songTime += elapsed * 1000;
-		if (FlxG.sound.music != null)
-			songTime = FlxG.sound.music.time;
-		updateConductor();
 
 		var shiftThing:Float = 1;
 		player.maxVelocity.x = 200 * scrollSpeed;
@@ -150,17 +150,17 @@ class PlayState extends ConductorState
 		}
 	}
 
-	override function stepHit()
+	override function onStepHit(step:Int, backward:Bool)
 	{
-		super.stepHit();
+		super.onStepHit(step, backward);
 
 		if (!playerStunned)
 			score += 25;
 	}
 
-	override function beatHit()
+	override function onBeatHit(beat:Int, backward:Bool)
 	{
-		super.beatHit();
+		super.onBeatHit(beat, backward);
 
 		// trace('beat');
 

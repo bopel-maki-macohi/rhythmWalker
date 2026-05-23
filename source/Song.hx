@@ -1,3 +1,6 @@
+import flixel.addons.sound.MusicTimeChangeEvent.MusicTimeChangeData;
+import flixel.FlxG;
+import song.SongData;
 import song.Variation;
 import openfl.net.FileReference;
 import haxe.Json;
@@ -17,7 +20,7 @@ class Song
 			this.loadFile();
 	}
 
-	public var bpm:Float = 0;
+	public var bpmChanges:Array<MusicTimeChangeData> = [];
 	public var scrollSpeed:Float = 1;
 
 	public function loadFile()
@@ -27,36 +30,43 @@ class Song
 		if (!Assets.exists(path))
 			return;
 
-		var json:Dynamic = Json.parse(Assets.getText(path));
+		try
+		{
+			var json:SongData = Json.parse(Assets.getText(path));
 
-		loadData(json);
+			loadData(json);
+		}
+		catch (e)
+		{
+			FlxG.stage.window.alert('Song File Loading Error: ${e.message}');
+		}
 	}
 
-	public function loadData(json:Dynamic)
+	public function loadData(json:SongData)
 	{
 		if (json == null)
 			return;
 
-		if (json.id != null && (Std.isOfType(json.id, String)))
+		if (json.id != null)
 			this.id = json.id.toLowerCase();
 
-		if (json.variation != null && (Std.isOfType(json.variation, String)))
+		if (json.variation != null)
 			this.variation = new Variation(json.variation);
 
-		if (json.bpm != null && (Std.isOfType(json.bpm, Float) || Std.isOfType(json.bpm, Int)))
-			this.bpm = json.bpm;
+		if (json.bpmChanges != null)
+			this.bpmChanges = json.bpmChanges;
 
-		if (json.scrollSpeed != null && (Std.isOfType(json.scrollSpeed, Float) || Std.isOfType(json.scrollSpeed, Int)))
+		if (json.scrollSpeed != null)
 			this.scrollSpeed = json.scrollSpeed;
 	}
 
 	public function save()
 	{
-		var json:Dynamic = {
-			id: this.id,
-			variation: this.variation,
-			bpm: this.bpm,
-			scrollSpeed: this.scrollSpeed,
+		var json:SongData = {
+			id: id,
+			variation: variation,
+			scrollSpeed: scrollSpeed,
+			bpmChanges: bpmChanges
 		};
 
 		var fileref:FileReference = new FileReference();

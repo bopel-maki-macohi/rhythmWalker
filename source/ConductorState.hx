@@ -1,63 +1,30 @@
+import flixel.addons.sound.FlxRhythmConductor;
 import flixel.addons.ui.FlxUIState;
 import flixel.FlxG;
 import flixel.FlxState;
 
 class ConductorState extends FlxUIState
 {
-	public var songTime:Float = 0;
-	public var songTimeChange:Float = 0;
+	public var conductor(get, never):FlxRhythmConductor;
 
-	public var bpm(default, set):Float = 0;
+	function get_conductor():FlxRhythmConductor
+		return FlxRhythmConductor.instance;
 
-	function set_bpm(bpm:Float):Float
+	public function resetConductor()
 	{
-		if (this.bpm == bpm)
-			return this.bpm = bpm;
+		FlxRhythmConductor.reset();
 
-		songTimeChange = songTime;
-		stepChange = step;
-
-		return this.bpm = bpm;
+		conductor.onBeatHit.add(onBeatHit);
+		conductor.onBpmChange.add(onBpmChange);
+		conductor.onMeasureHit.add(onMeasureHit);
+		conductor.onStepHit.add(onStepHit);
 	}
 
-	public var crochet(get, never):Float;
+	public function onBeatHit(beat:Int, backward:Bool) {}
 
-	function get_crochet():Float
-	{
-		return (60 / bpm) * 1000;
-	}
+	public function onBpmChange(time:Float, backward:Bool) {}
 
-	public var stepCrochet(get, never):Float;
+	public function onMeasureHit(measure:Float, backward:Bool) {}
 
-	function get_stepCrochet():Float
-	{
-		return crochet / 4;
-	}
-
-	public var beat:Int = 0;
-	public var step:Int = 0;
-	public var stepChange:Int = 0;
-
-	public function updateConductor()
-	{
-		final lastStep:Int = step;
-		final lastBeat:Int = beat;
-
-		step = stepChange + Math.floor((songTime - songTimeChange) / stepCrochet);
-		beat = Math.floor(step / 4);
-
-		if (step != lastStep)
-			stepHit();
-		if (beat != lastBeat)
-			beatHit();
-
-		FlxG.watch.addQuick('bpm', bpm);
-		FlxG.watch.addQuick('beat', beat);
-		FlxG.watch.addQuick('step', step);
-		FlxG.watch.addQuick('songTime', songTime);
-	}
-
-	public function beatHit() {}
-
-	public function stepHit() {}
+	public function onStepHit(step:Int, backward:Bool) {}
 }
