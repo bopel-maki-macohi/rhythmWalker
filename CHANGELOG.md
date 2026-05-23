@@ -1,5 +1,6 @@
 # Unreleased
 
+- Updates during the transition in gameplay are disabled now
 - Added Menu UI Sounds by [Nathan Gibson](https://nathangibson.myportfolio.com)
 
 # 0.2.0 - 5/23/2026

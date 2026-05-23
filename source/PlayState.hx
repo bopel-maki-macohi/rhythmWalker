@@ -95,8 +95,6 @@ class PlayState extends ConductorState
 		if (FlxG.sound.music.length < 1)
 			onSongEnd();
 
-		persistentUpdate = true;
-
 		if (introCutscene())
 		{
 			inIntroCutscene = true;
