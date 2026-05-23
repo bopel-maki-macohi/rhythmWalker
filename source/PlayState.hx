@@ -20,8 +20,14 @@ class PlayState extends ConductorState
 	{
 		super.create();
 
+		#if BOPEEBO_ERECT
+		FlxG.sound.playMusic('assets/Bopeebo-Erect.ogg');
+		bpm = 123;
+		scrollSpeed = 2;
+		#else
 		FlxG.sound.playMusic('assets/Bopeebo.ogg');
 		bpm = 100;
+		#end
 
 		player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		add(player);
