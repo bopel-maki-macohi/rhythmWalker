@@ -155,7 +155,7 @@ class PlayState extends ConductorState
 		super.stepHit();
 
 		if (!playerStunned)
-			score += 100;
+			score += 25;
 	}
 
 	override function beatHit()
