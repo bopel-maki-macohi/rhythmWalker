@@ -1,3 +1,4 @@
+import song.Variation;
 import openfl.net.FileReference;
 import haxe.Json;
 import lime.utils.Assets;
@@ -5,12 +6,12 @@ import lime.utils.Assets;
 class Song
 {
 	public var id(default, null):String;
-	public var variation(default, null):String;
+	public var variation(default, null):Variation;
 
-	public function new(nid:String, nvariation:String = 'default')
+	public function new(nid:String, nvariation:Variation = defaultVariation)
 	{
 		this.id = nid.toLowerCase();
-		this.variation = nvariation.toLowerCase();
+		this.variation = nvariation.clone();
 
 		load();
 	}
