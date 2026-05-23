@@ -168,6 +168,7 @@ class PlayState extends ConductorState
 	function onSongEnd()
 	{
 		trace('Yay we done');
+		FlxG.switchState(() -> new DemoEndState());
 	}
 
 	override function onStepHit(step:Int, backward:Bool)
