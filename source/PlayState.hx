@@ -17,8 +17,10 @@ class PlayState extends FlxState
 
 		FlxG.sound.playMusic('assets/Bopeebo.ogg');
 
-		player = new FlxSprite().makeGraphic(32, 32, FlxColor.WHITE);
+		player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		add(player);
+
+		player.screenCenter();
 
 		player.maxVelocity.x = 100;
 	}
