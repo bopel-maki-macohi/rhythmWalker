@@ -11,6 +11,7 @@ class PlayState extends ConductorState
 {
 	var player:FlxSprite;
 	var playerSpeed:Float = 10;
+	var playerStunned:Bool = false;
 
 	var beatMonsters:FlxSpriteGroup;
 
@@ -31,6 +32,8 @@ class PlayState extends ConductorState
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		player = new FlxSprite().loadGraphic('assets/bro.png', true, 64, 64);
+
+		// 
 
 		player.animation.add('idle', [0], 24, false);
 		player.animation.add('hurt', [1], 1, false);
@@ -63,12 +66,12 @@ class PlayState extends ConductorState
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing *= 2;
 
-		if (FlxG.keys.anyPressed([A, LEFT]))
+		if (FlxG.keys.anyPressed([A, LEFT]) && !playerStunned)
 		{
 			player.flipX = false;
 			player.velocity.x -= playerSpeed * shiftThing;
 		}
-		else if (FlxG.keys.anyPressed([D, RIGHT]))
+		else if (FlxG.keys.anyPressed([D, RIGHT]) && !playerStunned)
 		{
 			player.flipX = true;
 			player.velocity.x += playerSpeed * shiftThing;
@@ -76,7 +79,7 @@ class PlayState extends ConductorState
 		else
 			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
-		if (FlxG.keys.anyPressed([A, LEFT, D, RIGHT]))
+		if (FlxG.keys.anyPressed([A, LEFT, D, RIGHT]) && !playerStunned)
 			player.animation.play('move');
 
 		if (player.x < player.width)
@@ -92,14 +95,18 @@ class PlayState extends ConductorState
 		}
 
 		if (player.animation.finished)
+		{
 			player.animation.play('idle');
+			playerStunned = false;
+		}
 
 		for (monster in beatMonsters)
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (monster.overlaps(player))
+			if (monster.overlaps(player) && !playerStunned)
 			{
+				playerStunned = true;
 				player.animation.play('hurt');
 				player.velocity.x = 0;
 
