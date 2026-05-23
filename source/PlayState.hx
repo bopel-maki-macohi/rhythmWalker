@@ -1,5 +1,7 @@
 package;
 
+import flixel.addons.display.FlxBackdrop;
+import stage.StageSprite;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import song.SongVariation;
@@ -59,17 +61,7 @@ class PlayState extends ConductorState
 
 		generateStage();
 
-		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
-		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/bro'), true, 64, 64);
-
-		player.animation.add('idle', [0], 24, false);
-		player.animation.add('hurt', [1], 2, false);
-		player.animation.add('move', [2, 3], 6, false);
-
-		player.animation.play('idle');
-
-		player.scale.set(2, 2);
-		player.updateHitbox();
+		makePlayer();
 
 		add(player);
 
@@ -257,9 +249,28 @@ class PlayState extends ConductorState
 				data.beatMonsters.spawn = true;
 
 			case 'beatmonsters-setrate', 'beatmonsters-rate':
-				if (event.data != null && (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
+				if (event.data != null
+					&& (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
 					data.beatMonsters.rate = Std.parseFloat(Std.string(event.data)) ?? 1.0;
 		}
+	}
+
+	public function makePlayer()
+	{
+		var file:String = 'bro';
+
+		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
+		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/$file'), true, 64, 64);
+
+		player.animation.add('idle', [0], 24, false);
+		player.animation.add('hurt', [1], 2, false);
+		player.animation.add('move', [2, 3], 6, false);
+		player.animation.add('chinatown-bridge', [4], 6, false);
+
+		player.animation.play('idle');
+
+		player.scale.set(2, 2);
+		player.updateHitbox();
 	}
 
 	public var stageBackLayer:FlxSpriteGroup;
@@ -268,6 +279,9 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['scroll down chinatown', defaultVariation]:
+				makeStage('chinatown-bridge');
+
 			default:
 				makeStage('stage');
 		}
@@ -288,10 +302,21 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
+			case 'chinatown-bridge':
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
+				sky.scale.set(4,4);
+				sky.updateHitbox();
+				
+				sky.velocity.x = 32;
+				sky.screenCenter();
+				stageBackLayer.add(sky);
+				
+				var bridge:StageSprite = new StageSprite('chinatown-bridge/bridge');
+				bridge.screenCenter();
+				stageBackLayer.add(bridge);
+
 			case 'stage', 'understage':
-				var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/$stage'));
-				stage.scale.set(4, 4);
-				stage.updateHitbox();
+				var stage:StageSprite = new StageSprite(stage);
 				stage.screenCenter();
 				stageBackLayer.add(stage);
 		}
