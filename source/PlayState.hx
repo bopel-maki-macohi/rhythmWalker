@@ -216,7 +216,7 @@ class PlayState extends ConductorState
 		// trace('beat');
 
 		if (!inCutscene)
-			if (data.beatMonsters.spawn)
+			if (data.beatMonsters.spawn && Math.floor(beat % data.beatMonsters.rate) < 1)
 			{
 				var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 
@@ -230,6 +230,7 @@ class PlayState extends ConductorState
 	var data = {
 		beatMonsters: {
 			spawn: true,
+			rate: 1.0,
 		}
 	};
 
@@ -254,6 +255,10 @@ class PlayState extends ConductorState
 
 			case 'beatmonsters-resume':
 				data.beatMonsters.spawn = true;
+
+			case 'beatmonsters-setrate', 'beatmonsters-rate':
+				if (event.data != null && (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
+					data.beatMonsters.rate = Std.parseFloat(Std.string(event.data)) ?? 1.0;
 		}
 	}
 
