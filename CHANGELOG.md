@@ -1,5 +1,6 @@
 # Unreleased
 
+- New Song: Scroll Down Chinatown!!
 - New Song: Shift Around!
 
 - Beat Monsters can't hurt you if the camera is off or faded below 10%

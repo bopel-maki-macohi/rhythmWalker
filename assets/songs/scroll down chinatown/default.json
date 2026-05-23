@@ -1,0 +1,83 @@
+{
+    "id": "scroll down chinatown",
+    "variation": "default",
+    "scrollSpeed": 2.5,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 120
+        }
+    ],
+    "events": [
+        {
+            "time": 0,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 7937,
+            "id": "beatmonsters-rate",
+            "data": 4
+        },
+        {
+            "time": 8000,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 10000,
+            "id": "beatmonsters-rate",
+            "data": 3
+        },
+        {
+            "time": 12000,
+            "id": "beatmonsters-rate",
+            "data": 2
+        },
+        {
+            "time": 14000,
+            "id": "beatmonsters-rate",
+            "data": 1
+        },
+        {
+            "time": 16000,
+            "id": "beatmonsters-rate",
+            "data": 2
+        },
+        {
+            "time": 18375,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 20000,
+            "id": "beatmonsters-rate",
+            "data": 3
+        },
+        {
+            "time": 20000,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 22000,
+            "id": "beatmonsters-rate",
+            "data": 2
+        },
+        {
+            "time": 24000,
+            "id": "beatmonsters-rate",
+            "data": 1
+        },
+        {
+            "time": 34000,
+            "id": "beatmonsters-rate",
+            "data": 2
+        },
+        {
+            "time": 36000,
+            "id": "beatmonsters-rate",
+            "data": 3
+        },
+        {
+            "time": 38000,
+            "id": "beatmonsters-stop"
+        }
+    ]
+}

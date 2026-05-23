@@ -1,9 +1,13 @@
+import flixel.FlxSprite;
+import lime.utils.Assets;
 import flixel.FlxObject;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import song.SongFreeplayData;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+
+using StringTools;
 
 class Freeplay extends ConductorState
 {
@@ -16,6 +20,10 @@ class Freeplay extends ConductorState
 			song: 'Shift Around',
 			variation: defaultVariation,
 		},
+		{
+			song: 'Scroll Down Chinatown',
+			variation: defaultVariation,
+		},
 	];
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
@@ -23,6 +31,11 @@ class Freeplay extends ConductorState
 	var selected = 0;
 
 	var camFollow:FlxObject;
+
+	var tips:Array<String> = [
+		for (line in Assets.getText(Paths.getPath('tips.txt')).split('\n'))
+			if (line.trim().length > 0) line.trim()
+	];
 
 	override function create()
 	{
@@ -49,6 +62,17 @@ class Freeplay extends ConductorState
 		camFollow.x = (FlxG.width / 2);
 
 		FlxG.camera.follow(camFollow, LOCKON, .1);
+
+		var tipText:FlxText = new FlxText(0, 0, 0, 'Random Tip:\n' + tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n'), 16);
+		tipText.alignment = CENTER;
+		tipText.screenCenter(X);
+		tipText.scrollFactor.set();
+
+		var tipTextBG = new FlxSprite(0, 0).makeGraphic(Math.floor(tipText.width), Math.floor(tipText.height), FlxColor.BLACK);
+		tipTextBG.scrollFactor.set();
+
+		add(tipTextBG);
+		add(tipText);
 
 		changeSel(0);
 	}
