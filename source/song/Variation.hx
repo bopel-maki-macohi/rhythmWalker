@@ -4,9 +4,9 @@ enum abstract Variation(String) from String to String
 {
 	var defaultVariation:Variation = new Variation('default');
 
-	inline function new(variation:String)
+	public inline function new(variation:String)
 		this = variation;
 
-	public function clone()
+	public inline function clone()
 		return new Variation(this);
 }
