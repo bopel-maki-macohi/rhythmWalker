@@ -1,7 +1,9 @@
+package song;
+
 import flixel.addons.sound.MusicTimeChangeEvent.MusicTimeChangeData;
 import flixel.FlxG;
 import song.SongData;
-import song.Variation;
+import song.SongVariation;
 import openfl.net.FileReference;
 import haxe.Json;
 import lime.utils.Assets;
@@ -9,9 +11,9 @@ import lime.utils.Assets;
 class Song
 {
 	public var id(default, null):String;
-	public var variation(default, null):Variation;
+	public var variation(default, null):SongVariation;
 
-	public function new(nid:String, nvariation:Variation = defaultVariation, ?loadFile:Bool = true)
+	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)
 	{
 		this.id = nid.toLowerCase();
 		this.variation = nvariation.clone();
@@ -51,7 +53,7 @@ class Song
 			this.id = json.id.toLowerCase();
 
 		if (json.variation != null)
-			this.variation = new Variation(json.variation);
+			this.variation = new SongVariation(json.variation);
 
 		if (json.bpmChanges != null)
 			this.bpmChanges = json.bpmChanges;

@@ -1,14 +1,13 @@
 package;
 
+import song.Song;
 import flixel.addons.sound.FlxRhythmConductorUtil;
-import flixel.addons.sound.FlxRhythmConductor;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
 
 class PlayState extends ConductorState
 {
