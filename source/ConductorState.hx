@@ -1,7 +1,8 @@
+import flixel.addons.ui.FlxUIState;
 import flixel.FlxG;
 import flixel.FlxState;
 
-class ConductorState extends FlxState
+class ConductorState extends FlxUIState
 {
 	public var songTime:Float = 0;
 	public var songTimeChange:Float = 0;
@@ -50,10 +51,10 @@ class ConductorState extends FlxState
 		if (beat != lastBeat)
 			beatHit();
 
-        FlxG.watch.addQuick('bpm', bpm);
-        FlxG.watch.addQuick('beat', beat);
-        FlxG.watch.addQuick('step', step);
-        FlxG.watch.addQuick('songTime', songTime);
+		FlxG.watch.addQuick('bpm', bpm);
+		FlxG.watch.addQuick('beat', beat);
+		FlxG.watch.addQuick('step', step);
+		FlxG.watch.addQuick('songTime', songTime);
 	}
 
 	public function beatHit() {}

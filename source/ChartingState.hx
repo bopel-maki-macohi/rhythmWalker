@@ -23,4 +23,11 @@ class ChartingState extends ConductorState
 
 		song = null;
 	}
+
+	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
+	{
+		super.getEvent(id, sender, data, params);
+
+		uiBox?.sendEvent(id, sender, data, params);
+	}
 }

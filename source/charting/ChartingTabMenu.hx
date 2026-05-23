@@ -1,5 +1,6 @@
 package charting;
 
+import flixel.addons.ui.interfaces.IFlxUIWidget;
 import charting.groups.SongMetadataTabGroup;
 import flixel.addons.ui.FlxUITabMenu;
 
@@ -23,5 +24,10 @@ class ChartingTabMenu extends FlxUITabMenu
 
 		metadata = new SongMetadataTabGroup(this);
 		addGroup(metadata);
+	}
+
+	public function sendEvent(name:String, sender:IFlxUIWidget, data:Dynamic, ?params:Array<Dynamic>)
+	{
+		metadata.getEvent(name, sender, data, params);
 	}
 }
