@@ -36,9 +36,7 @@ class Song
 			bpm: this.bpm
 		};
 
-		var path:String = Paths.json('songs/$id/chart-$variation');
-
         var fileref:FileReference = new FileReference();
-        fileref.save(Json.stringify(json, '\t'), path);
+        fileref.save(Json.stringify(json, '\t'), 'chart-$variation');
 	}
 }

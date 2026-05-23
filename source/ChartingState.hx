@@ -7,7 +7,5 @@ class ChartingState extends ConductorState
 		super.create();
 
         song = new Song('bopeebo');
-
-        song.save();
 	}
 }
