@@ -1,11 +1,10 @@
 package charting.groups;
 
-import flixel.addons.ui.FlxUIInputText;
 import flixel.addons.ui.interfaces.IFlxUIWidget;
 import flixel.addons.ui.FlxUINumericStepper;
 import editorstuff.TabGroup;
 
-class SongMetadataTabGroup extends TabGroup
+class ChartMetadataTabGroup extends TabGroup
 {
 	public var bpmStepper:FlxUINumericStepper;
 
