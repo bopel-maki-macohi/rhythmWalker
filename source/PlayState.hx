@@ -12,6 +12,7 @@ class PlayState extends ConductorState
 	var player:FlxSprite;
 	var playerSpeed:Float = 10;
 	var playerStunned:Bool = false;
+	var playerCollision:FlxSprite;
 
 	var beatMonsters:FlxSpriteGroup;
 
@@ -47,6 +48,9 @@ class PlayState extends ConductorState
 		player.screenCenter();
 		player.y = FlxG.height - player.height * 1.25;
 
+		playerCollision = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
+		add(playerCollision);
+
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
 	}
@@ -54,6 +58,9 @@ class PlayState extends ConductorState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
+		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
 
 		songTime += elapsed * 1000;
 		updateConductor();
@@ -102,7 +109,7 @@ class PlayState extends ConductorState
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (monster.overlaps(player) && !playerStunned)
+			if (monster.overlaps(playerCollision) && !playerStunned)
 			{
 				playerStunned = true;
 				player.animation.play('hurt');
