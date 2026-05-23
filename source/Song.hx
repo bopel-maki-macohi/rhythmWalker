@@ -21,7 +21,7 @@ class Song
 
 	public function load()
 	{
-		var path:String = Paths.json('songs/$id/$variation-meta');
+		var path:String = Paths.json('songs/$id/$variation');
 
 		if (!Assets.exists(path))
 			return;
@@ -43,6 +43,6 @@ class Song
 		};
 
 		var fileref:FileReference = new FileReference();
-		fileref.save(Json.stringify(json, '\t'), '$variation-meta');
+		fileref.save(Json.stringify(json, '\t'), '$variation');
 	}
 }

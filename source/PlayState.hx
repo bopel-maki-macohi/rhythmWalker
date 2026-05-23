@@ -29,7 +29,7 @@ class PlayState extends ConductorState
 	{
 		super.create();
 
-		song = new Song('Bopeebo', defaultVariation);
+		song = new Song('First Steps', defaultVariation);
 
 		bpm = song.bpm;
 		scrollSpeed = song.scrollSpeed;
