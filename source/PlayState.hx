@@ -120,6 +120,12 @@ class PlayState extends ConductorState
 				beatMonsters.remove(monster);
 				monster.destroy();
 			}
+
+			if (monster.y > FlxG.height + monster.height)
+			{
+				beatMonsters.remove(monster);
+				monster.destroy();
+			}
 		}
 	}
 
