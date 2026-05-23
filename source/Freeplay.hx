@@ -88,6 +88,8 @@ class Freeplay extends ConductorState
 
 		if (FlxG.keys.justPressed.ENTER)
 		{
+			FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
+			
 			var song:SongFreeplayData = songs[selected];
 			FlxG.switchState(() -> new PlayState(song.song, song.variation));
 		}
@@ -95,12 +97,17 @@ class Freeplay extends ConductorState
 
 	function changeSel(amount:Int)
 	{
+		var prevSel = selected;
+
 		selected += amount;
 
 		if (selected < 0)
 			selected = songs.length - 1;
 		if (selected > songs.length - 1)
 			selected = 0;
+
+		if (selected != prevSel)
+			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
 		for (i => text in texts.members)
 		{

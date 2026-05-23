@@ -1,3 +1,7 @@
+# Unreleased
+
+- Added Menu UI Sounds by [Nathan Gibson](https://nathangibson.myportfolio.com)
+
 # 0.2.0 - 5/23/2026
 
 - New Song: Scroll Down Chinatown!!

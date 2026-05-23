@@ -18,6 +18,9 @@ class InitState extends FlxState
 		FlxTransitionableState.defaultTransIn = getDefaultTransition();
 		FlxTransitionableState.defaultTransOut = getDefaultTransition();
 
+		FlxG.sound.soundTray.volumeUpSound = Paths.getAudio('sfx/volume');
+		FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
+
 		#if !web
 		proceed();
 		return;
