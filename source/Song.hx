@@ -1,3 +1,4 @@
+import openfl.net.FileReference;
 import haxe.Json;
 import lime.utils.Assets;
 
@@ -27,5 +28,17 @@ class Song
 
 		if (json.bpm != null && (Std.isOfType(json.bpm, Float) || Std.isOfType(json.bpm, Int)))
 			this.bpm = json.bpm;
+	}
+
+	public function save()
+	{
+		var json:Dynamic = {
+			bpm: this.bpm
+		};
+
+		var path:String = Paths.json('songs/$id/chart-$variation');
+
+        var fileref:FileReference = new FileReference();
+        fileref.save(Json.stringify(json, '\t'), path);
 	}
 }
