@@ -78,6 +78,7 @@ class PlayState extends ConductorState
 
 		scoreText = new FlxText(0, 0, 0, 'BOB', 16);
 		add(scoreText);
+		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 
 		for (event in song.events)
 		{
@@ -306,7 +307,7 @@ class PlayState extends ConductorState
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
 				sky.scale.set(4,4);
 				sky.updateHitbox();
-				
+
 				sky.velocity.x = 32;
 				sky.screenCenter();
 				stageBackLayer.add(sky);
