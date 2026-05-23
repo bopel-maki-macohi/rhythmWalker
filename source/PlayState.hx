@@ -29,7 +29,12 @@ class PlayState extends ConductorState
 		bpm = 100;
 		#end
 
-		player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
+		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
+		player = new FlxSprite().loadGraphic('assets/bro.png', true, 64, 64);
+		player.animation.add('idle', [0], 24, false);
+		player.animation.add('hurt', [1], 1, false);
+		player.animation.add('move', [2, 3], 6, false);
+		player.animation.play('idle');
 		add(player);
 
 		player.screenCenter();
@@ -53,11 +58,20 @@ class PlayState extends ConductorState
 			shiftThing *= 2;
 
 		if (FlxG.keys.anyPressed([A, LEFT]))
+		{
+			player.flipX = false;
 			player.velocity.x -= playerSpeed * shiftThing;
+		}
 		else if (FlxG.keys.anyPressed([D, RIGHT]))
+		{
+			player.flipX = true;
 			player.velocity.x += playerSpeed * shiftThing;
+		}
 		else
 			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+
+		if (FlxG.keys.anyPressed([A, LEFT, D, RIGHT]))
+			player.animation.play('move');
 
 		if (player.x < player.width)
 		{
@@ -71,9 +85,21 @@ class PlayState extends ConductorState
 			player.velocity.x = 0;
 		}
 
+		if (player.animation.finished)
+			player.animation.play('idle');
+
 		for (monster in beatMonsters)
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
+
+			if (monster.overlaps(player))
+			{
+				player.animation.play('hurt');
+				player.velocity.x = 0;
+
+				beatMonsters.remove(monster);
+				monster.destroy();
+			}
 		}
 	}
 
