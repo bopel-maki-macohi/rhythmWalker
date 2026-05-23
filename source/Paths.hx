@@ -6,7 +6,7 @@ class Paths
 	public static inline function getAudio(path:String)
 		return getPath('$path.ogg');
 
-	public static inline function getSong(song:String, varation:String = 'default')
+	public static inline function getSong(song:String, variation:String = 'default')
 		return getAudio('${song.toLowerCase()}/${variation.toLowerCase()}');
 
 	public static inline function getImagePath(path:String)
