@@ -1,4 +1,6 @@
 export/
 .haxelib/
 
+dev/albumVideos/
+
 .DS_Store
