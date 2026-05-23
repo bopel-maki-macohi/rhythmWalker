@@ -9,4 +9,5 @@ typedef SongData = {
     scrollSpeed:Null<Float>,
 
     bpmChanges:Array<MusicTimeChangeData>,
+    events:Array<SongEventData>,
 }

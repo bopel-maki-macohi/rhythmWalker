@@ -1,5 +1,7 @@
 package;
 
+import song.SongEventData;
+import flixel.util.FlxTimer;
 import song.Song;
 import flixel.addons.sound.FlxRhythmConductorUtil;
 import flixel.text.FlxText;
@@ -21,6 +23,7 @@ class PlayState extends ConductorState
 	var scrollSpeed:Float = 1;
 
 	var song:Song;
+	var songEvents:Array<FlxTimer> = [];
 
 	var scoreText:FlxText;
 	var score:Int = 0;
@@ -35,7 +38,8 @@ class PlayState extends ConductorState
 		scrollSpeed = song.scrollSpeed;
 
 		resetConductor();
-		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation));
+		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation), 1, false);
+		FlxG.sound.music.onComplete = onSongEnd;
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
 
 		var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/stage'));
@@ -71,6 +75,17 @@ class PlayState extends ConductorState
 
 		scoreText = new FlxText(0, 0, 0, 'BOB', 16);
 		add(scoreText);
+
+		for (event in song.events)
+		{
+			var songEvent = new FlxTimer();
+			songEvents.push(songEvent);
+
+			songEvent.start(event.time / 1000, function(t)
+			{
+				parseEvent(event);
+			});
+		}
 	}
 
 	override public function update(elapsed:Float)
@@ -149,6 +164,11 @@ class PlayState extends ConductorState
 		}
 	}
 
+	function onSongEnd()
+	{
+		trace('Yay we done');
+	}
+
 	override function onStepHit(step:Int, backward:Bool)
 	{
 		super.onStepHit(step, backward);
@@ -163,11 +183,33 @@ class PlayState extends ConductorState
 
 		// trace('beat');
 
-		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
+		if (data.beatMonsters.spawn)
+		{
+			var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 
-		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
-		beatMonster.y = beatMonster.height * -2;
+			beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
+			beatMonster.y = beatMonster.height * -2;
 
-		beatMonsters.add(beatMonster);
+			beatMonsters.add(beatMonster);
+		}
+	}
+
+	var data = {
+		beatMonsters: {
+			spawn: true,
+		}
+	};
+
+	public function parseEvent(event:SongEventData)
+	{
+		trace(event);
+
+		switch (event.id.toLowerCase())
+		{
+			case 'beatmonsters-stop':
+				data.beatMonsters.spawn = false;
+			case 'beatmonsters-resume':
+				data.beatMonsters.spawn = true;
+		}
 	}
 }

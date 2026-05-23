@@ -23,6 +23,7 @@ class Song
 	}
 
 	public var bpmChanges:Array<MusicTimeChangeData> = [];
+	public var events:Array<SongEventData> = [];
 	public var scrollSpeed:Float = 1;
 
 	public function loadFile()
@@ -58,6 +59,9 @@ class Song
 		if (json.bpmChanges != null)
 			this.bpmChanges = json.bpmChanges;
 
+		if (json.events != null)
+			this.events = json.events;
+
 		if (json.scrollSpeed != null)
 			this.scrollSpeed = json.scrollSpeed;
 	}
@@ -68,7 +72,8 @@ class Song
 			id: id,
 			variation: variation,
 			scrollSpeed: scrollSpeed,
-			bpmChanges: bpmChanges
+			bpmChanges: bpmChanges,
+			events: events,
 		};
 
 		var fileref:FileReference = new FileReference();
