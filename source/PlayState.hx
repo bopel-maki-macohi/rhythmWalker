@@ -84,6 +84,7 @@ class PlayState extends ConductorState
 			songEvent.start(event.time / 1000, function(t)
 			{
 				parseEvent(event);
+				songEvents.remove(songEvent);
 			});
 		}
 	}
