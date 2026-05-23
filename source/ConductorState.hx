@@ -1,3 +1,4 @@
+import flixel.FlxG;
 import flixel.addons.sound.FlxRhythmConductor;
 import flixel.addons.ui.FlxUIState;
 
@@ -25,4 +26,13 @@ class ConductorState extends FlxUIState
 	public function onMeasureHit(measure:Float, backward:Bool) {}
 
 	public function onStepHit(step:Int, backward:Bool) {}
+
+	var mouseEnabled:Bool = false;
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		FlxG.mouse.visible = mouseEnabled;
+	}
 }
