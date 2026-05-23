@@ -1,7 +1,7 @@
 {
     "id": "shift around",
     "variation": "default",
-    "scrollSpeed": 2,
+    "scrollSpeed": 3,
     "bpmChanges": [
         {
             "t": 0,
