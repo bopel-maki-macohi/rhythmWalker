@@ -1,8 +1,7 @@
 import flixel.FlxG;
 import flixel.text.FlxText;
-import flixel.FlxState;
 
-class DemoEndState extends FlxState
+class DemoEndState extends ConductorState
 {
 	override function create()
 	{

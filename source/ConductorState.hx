@@ -1,7 +1,5 @@
 import flixel.addons.sound.FlxRhythmConductor;
 import flixel.addons.ui.FlxUIState;
-import flixel.FlxG;
-import flixel.FlxState;
 
 class ConductorState extends FlxUIState
 {
