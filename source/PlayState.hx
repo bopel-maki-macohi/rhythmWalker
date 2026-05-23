@@ -1,5 +1,6 @@
 package;
 
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flixel.FlxG;
@@ -10,6 +11,10 @@ class PlayState extends ConductorState
 {
 	var player:FlxSprite;
 	var playerSpeed:Float = 20;
+
+	var beatMonsters:FlxSpriteGroup;
+
+	var scrollSpeed:Float = 1;
 
 	override public function create()
 	{
@@ -24,6 +29,9 @@ class PlayState extends ConductorState
 		player.screenCenter();
 
 		player.maxVelocity.x = 400;
+
+		beatMonsters = new FlxSpriteGroup();
+		add(beatMonsters);
 	}
 
 	override public function update(elapsed:Float)
@@ -51,12 +59,24 @@ class PlayState extends ConductorState
 			player.x = FlxG.width - (player.width * 2);
 			player.velocity.x = 0;
 		}
+
+		for (monster in beatMonsters)
+		{
+			monster.y += monster.height * (.2 * scrollSpeed);
+		}
 	}
 
 	override function beatHit()
 	{
 		super.beatHit();
 
-		trace('beat');
+		// trace('beat');
+
+		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
+		
+		beatMonster.x = player.getGraphicMidpoint().x;
+		beatMonster.y = beatMonster.height * -2;
+
+		beatMonsters.add(beatMonster);
 	}
 }
