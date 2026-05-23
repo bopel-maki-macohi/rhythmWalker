@@ -1,5 +1,7 @@
 package;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import song.SongVariation;
 import song.SongEventData;
 import flixel.util.FlxTimer;
@@ -113,6 +115,36 @@ class PlayState extends ConductorState
 		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
 		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
 
+		if (!inCutscene)
+			managePlayer();
+
+		for (monster in beatMonsters)
+		{
+			monster.y += monster.height * (.2 * scrollSpeed);
+
+			if (!inCutscene)
+				if (monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
+				{
+					playerStunned = true;
+					player.animation.play('hurt');
+					player.velocity.x = 0;
+
+					beatMonsters.remove(monster);
+					monster.destroy();
+
+					hits++;
+				}
+
+			if (monster.y > FlxG.height + monster.height)
+			{
+				beatMonsters.remove(monster);
+				monster.destroy();
+			}
+		}
+	}
+
+	function managePlayer()
+	{
 		var shiftThing:Float = 1;
 		player.maxVelocity.x = 200 * scrollSpeed;
 
@@ -152,33 +184,18 @@ class PlayState extends ConductorState
 			player.animation.play('idle');
 			playerStunned = false;
 		}
-
-		for (monster in beatMonsters)
-		{
-			monster.y += monster.height * (.2 * scrollSpeed);
-
-			if (monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
-			{
-				playerStunned = true;
-				player.animation.play('hurt');
-				player.velocity.x = 0;
-
-				beatMonsters.remove(monster);
-				monster.destroy();
-
-				hits++;
-			}
-
-			if (monster.y > FlxG.height + monster.height)
-			{
-				beatMonsters.remove(monster);
-				monster.destroy();
-			}
-		}
 	}
 
 	function onSongEnd()
 	{
+		inCutscene = true;
+
+		if (endCutscene())
+		{
+			trace('Playin cutscene');
+			return;
+		}
+
 		trace('Yay we done');
 		FlxG.switchState(() -> new Freeplay());
 	}
@@ -187,8 +204,9 @@ class PlayState extends ConductorState
 	{
 		super.onStepHit(step, backward);
 
-		if (!playerStunned)
-			score += 25;
+		if (!inCutscene)
+			if (!playerStunned)
+				score += 25;
 	}
 
 	override function onBeatHit(beat:Int, backward:Bool)
@@ -197,15 +215,16 @@ class PlayState extends ConductorState
 
 		// trace('beat');
 
-		if (data.beatMonsters.spawn)
-		{
-			var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
+		if (!inCutscene)
+			if (data.beatMonsters.spawn)
+			{
+				var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 
-			beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
-			beatMonster.y = beatMonster.height * -2;
+				beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
+				beatMonster.y = beatMonster.height * -2;
 
-			beatMonsters.add(beatMonster);
-		}
+				beatMonsters.add(beatMonster);
+			}
 	}
 
 	var data = {
@@ -271,5 +290,50 @@ class PlayState extends ConductorState
 				stage.screenCenter();
 				stageBackLayer.add(stage);
 		}
+	}
+
+	var inCutscene:Bool = false;
+	var seenCutscene:Bool = false;
+
+	public function endCutscene():Bool
+	{
+		if (seenCutscene)
+			return false;
+
+		seenCutscene = true;
+
+		switch (song.id)
+		{
+			case 'shift around':
+				var walkTmr:FlxTimer;
+
+				player.animation.play('idle');
+
+				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
+				{
+					player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+				}, FlxG.updateFramerate);
+
+				FlxTimer.wait(1, () ->
+				{
+					player.flipX = true;
+
+					player.animation.play('move');
+					player.animation.onFinish.add(anim ->
+					{
+						player.animation.play('move');
+					});
+
+					FlxTween.tween(player, {x: FlxG.width + (player.width * 2)}, 3, {
+						ease: FlxEase.sineIn,
+					});
+				});
+
+				FlxTimer.wait(4, onSongEnd);
+
+				return true;
+		}
+
+		return false;
 	}
 }
