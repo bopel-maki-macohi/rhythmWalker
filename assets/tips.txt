@@ -1,2 +1,2 @@
-You can press SHIFT to sprint!\n(your max velocity depending on scroll speed so sometimes sprinting doesn't help)
-Beat Monsters can't hurt you if the camera is off or faded below 10%,\nso you can chill when that happens.
+You can press SHIFT to sprint!\n(Your max velocity is set depending on scroll speed so sometimes sprinting doesn't help)
+Beat Monsters can't hurt you if the camera is off or faded below 10%,\nSo you can chill when that happens.
