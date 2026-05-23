@@ -1,5 +1,6 @@
 package;
 
+import song.SongVariation;
 import song.SongEventData;
 import flixel.util.FlxTimer;
 import song.Song;
@@ -29,11 +30,16 @@ class PlayState extends ConductorState
 	var score:Int = 0;
 	var hits:Int = 0;
 
+	override public function new(song:String, variation:SongVariation = defaultVariation)
+	{
+		super();
+
+		this.song = new Song(song, variation);
+	}
+
 	override public function create()
 	{
 		super.create();
-
-		song = new Song('First Steps', defaultVariation);
 
 		scrollSpeed = song.scrollSpeed;
 

@@ -38,7 +38,7 @@ class InitState extends FlxState
 
 	function proceed()
 	{
-		FlxG.switchState(() -> new PlayState());
+		FlxG.switchState(() -> new Freeplay());
 	}
 
 	function getDefaultTransition():TransitionData
