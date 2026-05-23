@@ -110,31 +110,30 @@ class PlayState extends ConductorState
 
 		conductor.update(null);
 
-		scoreText.screenCenter(X);
 		scoreText.text = 'Score: $score | Hits: $hits';
+		scoreText.screenCenter(X);
 
 		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
 		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
 
-		if (!inEndCutscene && !inIntroCutscene)
+		if (!inCutscene)
 			managePlayer();
 
 		for (monster in beatMonsters)
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (!inEndCutscene)
-				if (monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
-				{
-					playerStunned = true;
-					player.animation.play('hurt');
-					player.velocity.x = 0;
+			if (!inCutscene && monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
+			{
+				playerStunned = true;
+				player.animation.play('hurt');
+				player.velocity.x = 0;
 
-					beatMonsters.remove(monster);
-					monster.destroy();
+				beatMonsters.remove(monster);
+				monster.destroy();
 
-					hits++;
-				}
+				hits++;
+			}
 
 			if (monster.y > FlxG.height + monster.height)
 			{
@@ -199,7 +198,7 @@ class PlayState extends ConductorState
 	{
 		super.onStepHit(step, backward);
 
-		if (!inEndCutscene && !inIntroCutscene && !playerStunned)
+		if (!inCutscene && !playerStunned)
 			score += 25;
 	}
 
@@ -336,7 +335,7 @@ class PlayState extends ConductorState
 
 		player.animation.onFinish.add(animName ->
 		{
-			if (!inIntroCutscene && !inEndCutscene)
+			if (!inCutscene)
 			{
 				player.animation.play('idle');
 				playerStunned = false;
@@ -346,6 +345,11 @@ class PlayState extends ConductorState
 
 	var inIntroCutscene:Bool = false;
 	var inEndCutscene:Bool = false;
+
+	public var inCutscene(get, never):Bool;
+
+	function get_inCutscene():Bool
+		return inIntroCutscene || inEndCutscene;
 
 	var seenEndCutscene:Bool = false;
 	var seenIntroCutscene:Bool = false;
