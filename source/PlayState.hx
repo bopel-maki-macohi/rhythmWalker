@@ -64,7 +64,9 @@ class PlayState extends ConductorState
 		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
 		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
 
-		songTime += elapsed * 1000;
+		// songTime += elapsed * 1000;
+		if (FlxG.sound.music != null)
+			songTime = FlxG.sound.music.time;
 		updateConductor();
 
 		var shiftThing:Float = 1;
