@@ -25,13 +25,20 @@ class ChartingTabMenu extends FlxUITabMenu
 
 		selected_tab = 0;
 
+		file = new ChartFileTabGroup(this);
+		addGroup(file);
+
 		metadata = new ChartMetadataTabGroup(this);
 		addGroup(metadata);
+
+		preferences = new ChartPreferencesTabGroup(this);
+		addGroup(preferences);
 	}
 
 	public function sendEvent(name:String, sender:IFlxUIWidget, data:Dynamic, ?params:Array<Dynamic>)
 	{
 		for (grp in [file, metadata, preferences])
-			grp.getEvent(name, sender, data, params);
+			if (grp != null)
+				grp.getEvent(name, sender, data, params);
 	}
 }

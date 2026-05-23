@@ -43,6 +43,6 @@ class Song
 		};
 
 		var fileref:FileReference = new FileReference();
-		fileref.save(Json.stringify(json, '\t'), '$variation');
+		fileref.save(Json.stringify(json, '\t'), '$variation.json');
 	}
 }
