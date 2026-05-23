@@ -33,7 +33,7 @@ class PlayState extends ConductorState
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		player = new FlxSprite().loadGraphic('assets/bro.png', true, 64, 64);
 
-		// 
+		// MOVEMENT STUN STUFF NOT DONE, I STILL GET TRAPPED
 
 		player.animation.add('idle', [0], 24, false);
 		player.animation.add('hurt', [1], 1, false);
