@@ -3,6 +3,7 @@
 - New Song: Scroll Down Chinatown!!
 - New Song: Shift Around!
 
+- You can move during the transition in gameplay now
 - The Score Text has an outline now
 - Beat Monsters can't hurt you if the camera is off or faded below 10% now
 - Added Freeplay!

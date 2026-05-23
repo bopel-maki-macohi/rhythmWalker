@@ -94,6 +94,8 @@ class PlayState extends ConductorState
 
 		if (FlxG.sound.music.length < 1)
 			onSongEnd();
+
+		persistentUpdate = true;
 	}
 
 	override public function update(elapsed:Float)
