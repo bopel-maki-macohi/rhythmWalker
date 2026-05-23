@@ -1,3 +1,4 @@
+import haxe.Json;
 import flixel.FlxSprite;
 import lime.utils.Assets;
 import flixel.FlxObject;
@@ -11,20 +12,7 @@ using StringTools;
 
 class Freeplay extends ConductorState
 {
-	public var songs:Array<SongFreeplayData> = [
-		{
-			song: 'First Steps',
-			variation: defaultVariation,
-		},
-		{
-			song: 'Shift Around',
-			variation: defaultVariation,
-		},
-		{
-			song: 'Scroll Down Chinatown',
-			variation: defaultVariation,
-		},
-	];
+	public var songs:Array<SongFreeplayData> = [];
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
 
@@ -41,11 +29,15 @@ class Freeplay extends ConductorState
 	{
 		super.create();
 
+		songs = Json.parse(Assets.getText(Paths.json('songs/list'))).songs;
+
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
 
 		for (i => song in songs)
 		{
+			if (song.variation == null) song.variation = defaultVariation;
+
 			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', 32);
 
 			if (song.variation != defaultVariation)
@@ -89,7 +81,7 @@ class Freeplay extends ConductorState
 		if (FlxG.keys.justPressed.ENTER)
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
-			
+
 			var song:SongFreeplayData = songs[selected];
 			FlxG.switchState(() -> new PlayState(song.song, song.variation));
 		}
