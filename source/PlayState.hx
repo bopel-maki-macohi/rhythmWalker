@@ -28,8 +28,6 @@ class PlayState extends ConductorState
 
 		player.screenCenter();
 
-		player.maxVelocity.x = 400;
-
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
 	}
@@ -41,10 +39,19 @@ class PlayState extends ConductorState
 		songTime += elapsed * 1000;
 		updateConductor();
 
+		var shiftThing:Float = 1;
+		player.maxVelocity.x = 400;
+
+		if (FlxG.keys.pressed.SHIFT)
+		{
+			shiftThing *= 2;
+			player.maxVelocity.x = 600;
+		}
+
 		if (FlxG.keys.anyPressed([A, LEFT]))
-			player.velocity.x -= playerSpeed;
+			player.velocity.x -= playerSpeed * shiftThing;
 		else if (FlxG.keys.anyPressed([D, RIGHT]))
-			player.velocity.x += playerSpeed;
+			player.velocity.x += playerSpeed * shiftThing;
 		else
 			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
@@ -73,7 +80,7 @@ class PlayState extends ConductorState
 		// trace('beat');
 
 		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
-		
+
 		beatMonster.x = player.getGraphicMidpoint().x;
 		beatMonster.y = beatMonster.height * -2;
 
