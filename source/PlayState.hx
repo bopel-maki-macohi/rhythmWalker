@@ -310,7 +310,7 @@ class PlayState extends ConductorState
 				sky.scale.set(4,4);
 				sky.updateHitbox();
 
-				sky.velocity.x = 32;
+				sky.velocity.x = 2;
 				sky.screenCenter();
 				stageBackLayer.add(sky);
 				
