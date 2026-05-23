@@ -11,4 +11,7 @@ class Paths
 
 	public static inline function getImagePath(path:String)
 		return getPath('$path.png');
+
+	public static inline function json(path:String)
+		return getPath('$path.json');
 }
