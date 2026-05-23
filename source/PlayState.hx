@@ -33,6 +33,7 @@ class PlayState extends ConductorState
 		add(player);
 
 		player.screenCenter();
+		player.y = FlxG.height - player.height * 1.25;
 
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
