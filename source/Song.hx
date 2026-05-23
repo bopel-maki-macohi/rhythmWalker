@@ -16,10 +16,11 @@ class Song
 	}
 
 	public var bpm:Float = 0;
+	public var scrollSpeed:Float = 1;
 
 	public function load()
 	{
-		var path:String = Paths.json('songs/$id/chart-$variation');
+		var path:String = Paths.json('songs/$id/$variation-meta');
 
 		if (!Assets.exists(path))
 			return;
@@ -28,15 +29,19 @@ class Song
 
 		if (json.bpm != null && (Std.isOfType(json.bpm, Float) || Std.isOfType(json.bpm, Int)))
 			this.bpm = json.bpm;
+
+		if (json.scrollSpeed != null && (Std.isOfType(json.scrollSpeed, Float) || Std.isOfType(json.scrollSpeed, Int)))
+			this.scrollSpeed = json.scrollSpeed;
 	}
 
 	public function save()
 	{
 		var json:Dynamic = {
-			bpm: this.bpm
+			bpm: this.bpm,
+			scrollSpeed: this.scrollSpeed,
 		};
 
-        var fileref:FileReference = new FileReference();
-        fileref.save(Json.stringify(json, '\t'), 'chart-$variation');
+		var fileref:FileReference = new FileReference();
+		fileref.save(Json.stringify(json, '\t'), '$variation-meta');
 	}
 }

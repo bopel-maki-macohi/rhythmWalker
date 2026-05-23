@@ -18,18 +18,18 @@ class PlayState extends ConductorState
 
 	var scrollSpeed:Float = 1;
 
+	var song:Song;
+	
 	override public function create()
 	{
 		super.create();
 
-		#if BOPEEBO_ERECT
-		FlxG.sound.playMusic(Paths.getSong('Bopeebo', 'Erect'));
-		bpm = 123;
-		scrollSpeed = 2;
-		#else
-		FlxG.sound.playMusic(Paths.getSong('Bopeebo'));
-		bpm = 100;
-		#end
+		song = new Song('Bopeebo', #if BOPEEBO_ERECT 'Erect' #else 'Default' #end);
+		
+		bpm = song.bpm;
+		scrollSpeed = song.scrollSpeed;
+
+		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation));
 
 		var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/stage'));
 		stage.scale.set(4,4);
