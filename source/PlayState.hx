@@ -6,7 +6,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 
-class PlayState extends FlxState
+class PlayState extends ConductorState
 {
 	var player:FlxSprite;
 	var playerSpeed:Float = 20;
@@ -16,6 +16,7 @@ class PlayState extends FlxState
 		super.create();
 
 		FlxG.sound.playMusic('assets/Bopeebo.ogg');
+		bpm = 100;
 
 		player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		add(player);
@@ -28,6 +29,9 @@ class PlayState extends FlxState
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		songTime += elapsed * 1000;
+		updateConductor();
 
 		if (FlxG.keys.anyPressed([A, LEFT]))
 			player.velocity.x -= playerSpeed;
@@ -47,5 +51,12 @@ class PlayState extends FlxState
 			player.x = FlxG.width - (player.width * 2);
 			player.velocity.x = 0;
 		}
+	}
+
+	override function beatHit()
+	{
+		super.beatHit();
+
+		trace('beat');
 	}
 }
