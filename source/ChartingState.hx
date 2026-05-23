@@ -1,0 +1,1 @@
+class ChartingState extends ConductorState {}

@@ -31,14 +31,14 @@ class PlayState extends ConductorState
 		bpm = 100;
 		#end
 
-		var stage:FlxSprite = new FlxSprite().loadGraphic('assets/stage.png');
+		var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/stage'));
 		stage.scale.set(4,4);
 		stage.updateHitbox();
 		stage.screenCenter();
 		add(stage);
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
-		player = new FlxSprite().loadGraphic('assets/bro.png', true, 64, 64);
+		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/bro'), true, 64, 64);
 
 		player.animation.add('idle', [0], 24, false);
 		player.animation.add('hurt', [1], 2, false);
