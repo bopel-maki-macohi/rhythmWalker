@@ -10,7 +10,7 @@ import flixel.FlxState;
 class PlayState extends ConductorState
 {
 	var player:FlxSprite;
-	var playerSpeed:Float = 20;
+	var playerSpeed:Float = 10;
 
 	var beatMonsters:FlxSpriteGroup;
 
@@ -31,10 +31,16 @@ class PlayState extends ConductorState
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		player = new FlxSprite().loadGraphic('assets/bro.png', true, 64, 64);
+
 		player.animation.add('idle', [0], 24, false);
 		player.animation.add('hurt', [1], 1, false);
 		player.animation.add('move', [2, 3], 6, false);
+
 		player.animation.play('idle');
+
+		player.scale.set(2, 2);
+		player.updateHitbox();
+
 		add(player);
 
 		player.screenCenter();
@@ -52,7 +58,7 @@ class PlayState extends ConductorState
 		updateConductor();
 
 		var shiftThing:Float = 1;
-		player.maxVelocity.x = 400 * scrollSpeed;
+		player.maxVelocity.x = 200 * scrollSpeed;
 
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing *= 2;
