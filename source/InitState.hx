@@ -1,3 +1,4 @@
+import flixel.text.FlxText;
 import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
@@ -14,9 +15,29 @@ class InitState extends FlxState
 	{
 		super.create();
 
-        FlxTransitionableState.defaultTransIn = getDefaultTransition();
-        FlxTransitionableState.defaultTransOut = getDefaultTransition();
+		FlxTransitionableState.defaultTransIn = getDefaultTransition();
+		FlxTransitionableState.defaultTransOut = getDefaultTransition();
 
+		#if !web
+		proceed();
+		return;
+		#end
+
+		var clickForSync:FlxText = new FlxText(0, 0, 0, 'Click Here (Or anywhere!)', 16);
+		add(clickForSync);
+		clickForSync.screenCenter();
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		if (FlxG.mouse.justPressed)
+			proceed();
+	}
+
+	function proceed()
+	{
 		FlxG.switchState(() -> new PlayState());
 	}
 
