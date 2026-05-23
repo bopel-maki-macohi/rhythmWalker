@@ -3,7 +3,7 @@
 - New Song: Scroll Down Chinatown!!
 - New Song: Shift Around!
 
-- Beat Monsters can't hurt you if the camera is off or faded below 10%
+- Beat Monsters can't hurt you if the camera is off or faded below 10% now
 - Added Freeplay!
     - You can select songs here, its cool
 - Fixed mouse being visible
