@@ -13,6 +13,8 @@ class Song
 	public var id(default, null):String;
 	public var variation(default, null):SongVariation;
 
+	var data:SongData;
+
 	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)
 	{
 		this.id = nid.toLowerCase();
@@ -22,9 +24,14 @@ class Song
 			this.loadFile();
 	}
 
-	public var bpmChanges:Array<MusicTimeChangeData> = [];
-	public var events:Array<SongEventData> = [];
-	public var scrollSpeed:Float = 1;
+	public var bpmChanges(default, null):Array<MusicTimeChangeData> = [
+		{
+			t: 0,
+			bpm: 0,
+		}
+	];
+	public var events(default, null):Array<SongEventData> = [];
+	public var scrollSpeed(default, null):Float = 1;
 
 	public function loadFile()
 	{
@@ -36,7 +43,6 @@ class Song
 		try
 		{
 			var json:SongData = Json.parse(Assets.getText(path));
-
 			loadData(json);
 		}
 		catch (e)
@@ -51,32 +57,31 @@ class Song
 			return;
 
 		if (json.id != null)
-			this.id = json.id.toLowerCase();
-
+			json.id = json.id.toLowerCase();
 		if (json.variation != null)
-			this.variation = new SongVariation(json.variation);
+			json.variation = new SongVariation(json.variation);
 
-		if (json.bpmChanges != null)
-			this.bpmChanges = json.bpmChanges;
+		data = json;
 
-		if (json.events != null)
-			this.events = json.events;
+		if (data.id != null)
+			this.id = data.id.toLowerCase();
 
-		if (json.scrollSpeed != null)
-			this.scrollSpeed = json.scrollSpeed;
+		if (data.variation != null)
+			this.variation = data.variation;
+
+		if (data.bpmChanges != null)
+			this.bpmChanges = data.bpmChanges;
+
+		if (data.events != null)
+			this.events = data.events;
+
+		if (data.scrollSpeed != null)
+			this.scrollSpeed = data.scrollSpeed;
 	}
 
 	public function save()
 	{
-		var json:SongData = {
-			id: id,
-			variation: variation,
-			scrollSpeed: scrollSpeed,
-			bpmChanges: bpmChanges,
-			events: events,
-		};
-
 		var fileref:FileReference = new FileReference();
-		fileref.save(Json.stringify(json, '\t'), '$variation.json');
+		fileref.save(Json.stringify(data, '\t'), '$variation.json');
 	}
 }

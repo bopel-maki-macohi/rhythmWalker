@@ -44,8 +44,12 @@ class PlayState extends ConductorState
 		scrollSpeed = song.scrollSpeed;
 
 		resetConductor();
+
 		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation), 1, false);
 		FlxG.sound.music.onComplete = onSongEnd;
+
+		trace(FlxG.sound.music.length);
+
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
 
 		var stage:FlxSprite = new FlxSprite().loadGraphic(Paths.getImagePath('stages/stage'));
@@ -93,6 +97,9 @@ class PlayState extends ConductorState
 				songEvents.remove(songEvent);
 			});
 		}
+
+		if (FlxG.sound.music.length < 1)
+			onSongEnd();
 	}
 
 	override public function update(elapsed:Float)
