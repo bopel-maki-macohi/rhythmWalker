@@ -61,6 +61,12 @@ class Freeplay extends ConductorState
 			changeSel(-1);
 		if (FlxG.keys.anyJustPressed([S, DOWN]))
 			changeSel(1);
+
+		if (FlxG.keys.justPressed.ENTER)
+		{
+			var song:SongFreeplayData = songs[selected];
+			FlxG.switchState(() -> new PlayState(song.song, song.variation));
+		}
 	}
 
 	function changeSel(amount:Int)
