@@ -16,6 +16,7 @@ class DemoEndState extends FlxState
 			+ '\n\nIf you want to hear my terrible music again, press ENTER.',
 			16);
 		text.alignment = CENTER;
+		text.screenCenter();
 		add(text);
 	}
 
