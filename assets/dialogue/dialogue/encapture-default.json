@@ -29,6 +29,10 @@
                         "left": "shooter-wtf",
                         "right": "leader-confront"
                     }
+                },
+                {
+                    "id": "proceedIn",
+                    "data": 2
                 }
             ]
         },

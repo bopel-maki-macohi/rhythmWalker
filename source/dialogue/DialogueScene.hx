@@ -1,5 +1,6 @@
 package dialogue;
 
+import flixel.util.FlxTimer;
 import flixel.addons.text.FlxTypeText;
 import flixel.text.FlxText;
 import haxe.Json;
@@ -93,26 +94,34 @@ class DialogueScene extends ConductorState
 		dialogueText.screenCenter(X);
 
 		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
-		{
-			currentLine++;
+			proceed();
+	}
 
-			if (currentLine > dialogue.lines.length - 1)
-				leave();
-			else
-				startDialogue();
-		}
+	function proceed()
+	{
+		currentLine++;
+
+		if (currentLine > dialogue.lines.length - 1)
+			leave();
+		else
+			startDialogue();
 	}
 
 	function startDialogue()
 	{
-		dialogueFinished = false;
-
 		var line = dialogue?.lines[currentLine];
+
+		proceedInTimer.cancel();
+
+		for (event in line?.events ?? [])
+			parseEvent(event);
+
+		dialogueFinished = false;
 
 		dialogueText.resetText(line?.text ?? '');
 		dialogueText.start(0.04);
 
-		if (line?.text?.trim()?.length < 1)
+		if (line?.text?.trim()?.length < 1 && !proceedInTimer.active)
 			dialogueFinished = true;
 
 		characterLeft.alpha = characterRight.alpha = 0.5;
@@ -121,10 +130,9 @@ class DialogueScene extends ConductorState
 			characterLeft.alpha = 1;
 		if (line?.speaker == 2)
 			characterRight.alpha = 1;
-
-		for (event in line?.events ?? [])
-			parseEvent(event);
 	}
+
+	var proceedInTimer:FlxTimer;
 
 	function parseEvent(event:DialogueEventData)
 	{
@@ -142,6 +150,16 @@ class DialogueScene extends ConductorState
 					if (event.data.right != null)
 						characterRight.switchPortrait(event.data.right);
 				}
+			case 'proceedin':
+				if (event.data == null)
+					return;
+				if (proceedInTimer == null)
+					proceedInTimer = new FlxTimer();
+
+				proceedInTimer.start(Std.parseFloat(Std.string(event.data)), t ->
+				{
+					proceed();
+				});
 		}
 	}
 
