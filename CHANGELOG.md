@@ -1,5 +1,6 @@
 # 0.2.5 - 5/24/2026
 
+- Added Results Screen
 - Added Score + Rank text to Freeplay!
 - Added Song Ranks!
 - Added Saving!
