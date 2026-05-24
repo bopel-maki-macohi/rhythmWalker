@@ -43,6 +43,10 @@ class InitState extends FlxState
 
 	function proceed()
 	{
+		#if RESULTS
+		FlxG.switchState(() -> new ResultsState('train wreak-default'));
+		#end
+
 		FlxG.switchState(() -> new Freeplay());
 	}
 

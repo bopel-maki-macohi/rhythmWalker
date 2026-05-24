@@ -239,11 +239,17 @@ class PlayState extends ConductorState
 			return;
 		}
 
+		final songCode = '${song.id}-${song.variation}';
+
 		if (!immortal && !skipping)
-			Save.saveSongScore('${song.id}-${song.variation}', score, totalScore);
+			Save.saveSongScore(songCode, score, totalScore);
 
 		trace('Yay we done');
-		FlxG.switchState(() -> new Freeplay());
+
+		if (skipping)
+			FlxG.switchState(() -> new Freeplay());
+		else
+			FlxG.switchState(() -> new ResultsState(songCode));
 	}
 
 	override function onStepHit(step:Int, backward:Bool)
