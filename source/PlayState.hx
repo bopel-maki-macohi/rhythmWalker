@@ -399,14 +399,22 @@ class PlayState extends ConductorState
 			case 'train-wreak':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-wreak/sky'));
 				sky.scale.set(2, 2);
-				sky.velocity.x = 256 * -5;
+				sky.velocity.x = 10;
 				sky.screenCenter(X);
+				sky.scrollFactor.set(.1, .1);
 				stageBackLayer.add(sky);
 
-				// TODO: SCROLL FACTOR SHIT
-				for (piece in ['city', 'ground', 'smoke', 'trainSegment', 'trainGround',])
+				var pieceList:Array<Dynamic> = [
+					['city', 0.1],
+					['ground', 0.4],
+					['smoke', 0.45],
+					['trainSegment', 0.45],
+					['trainGround', 0.45],
+				];
+
+				for (piece in pieceList)
 				{
-					var pieceSpr = new TrainWreakPiece(piece);
+					var pieceSpr = new TrainWreakPiece(piece[0], piece[1]);
 					stageBackLayer.add(pieceSpr);
 				}
 
