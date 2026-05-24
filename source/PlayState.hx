@@ -233,13 +233,13 @@ class PlayState extends ConductorState
 
 		inEndCutscene = true;
 
-		if (endCutscene())
+		if (endCutscene() && !skipping)
 		{
 			trace('Playin end cutscene');
 			return;
 		}
 
-		if (!immortal)
+		if (!immortal && !skipping)
 			Save.saveSongScore('${song.id}-${song.variation}', score, totalScore);
 
 		trace('Yay we done');
