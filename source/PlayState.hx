@@ -792,9 +792,33 @@ class PlayState extends ConductorState
 
 		switch (song.id)
 		{
-			case 'shift around':
-				var walkTmr:FlxTimer;
+			case 'train wreak':
+				player.animation.play('idle');
 
+				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
+				{
+					player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+				}, FlxG.updateFramerate);
+
+				forEach(basic ->
+				{
+					basic.visible = false;
+				});
+
+				FlxTimer.wait(1, () ->
+				{
+					camGame.flash(FlxColor.ORANGE, 10);
+					FlxG.sound.play(Paths.getAudio('sfx/game/cutscenes/explosion'));
+				});
+
+				FlxTimer.wait(2, () ->
+				{
+					onSongEnd();
+				});
+
+				return true;
+
+			case 'shift around':
 				player.animation.play('idle');
 
 				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
