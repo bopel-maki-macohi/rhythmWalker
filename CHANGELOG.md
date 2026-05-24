@@ -1,5 +1,6 @@
 # 0.2.3 - 5/23/2026
 
+- Changed "Hits" text to "Hits Taken"
 - Added App Icon
 
 # 0.2.2 - 5/23/2026
