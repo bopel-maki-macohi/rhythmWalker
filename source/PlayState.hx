@@ -145,7 +145,10 @@ class PlayState extends ConductorState
 			if (!inCutscene && monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
 			{
 				playerStunned = true;
-				player.animation.play('hurt');
+				if (player.flipX)
+					player.animation.play('hurtR');
+				else
+					player.animation.play('hurtL');
 				player.velocity.x = 0;
 
 				beatMonsters.remove(monster);
@@ -555,7 +558,8 @@ class PlayState extends ConductorState
 
 		var animFrames:Map<String, Dynamic> = [
 			'idle' => {frames: [0]},
-			'hurt' => {frames: [1], fps: 2},
+			'hurtL' => {frames: [1], fps: 2},
+			'hurtR' => {frames: [1], fps: 2},
 			'moveL' => {frames: [2, 3], fps: 6},
 			'moveR' => {frames: [2, 3], fps: 6},
 		];
@@ -563,6 +567,7 @@ class PlayState extends ConductorState
 		switch (file)
 		{
 			case 'bro-chinatown-torn':
+				animFrames.get('moveL').flipX = true;
 				animFrames.get('moveR').frames = [4, 5];
 
 			case 'bro-chinatown':
@@ -584,7 +589,7 @@ class PlayState extends ConductorState
 		for (thing => data in animFrames)
 		{
 			trace('Player Anim "$thing" : $data');
-			player.animation.add(thing, data.frames, data?.fps ?? 24, false);
+			player.animation.add(thing, data.frames, data?.fps ?? 24, false, data.flipX);
 		}
 
 		player.animation.play('idle');
