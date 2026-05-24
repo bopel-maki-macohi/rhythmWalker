@@ -76,9 +76,11 @@ class PlayState extends ConductorState
 		FlxG.sound.playMusic(Paths.getSong(song.id, song.variation), 1, false);
 		FlxG.sound.music.onComplete = onSongEnd;
 
-		trace(FlxG.sound.music.length);
-
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
+
+		trace('song len: ${FlxG.sound.music.length / 1000}s');
+		trace('estimated song steps: ${FlxG.sound.music.length / conductor.stepLengthMs}');
+		trace('estimated song beats: ${FlxG.sound.music.length / conductor.beatLengthMs}');
 
 		stageBackLayer = new FlxSpriteGroup();
 		add(stageBackLayer);
@@ -258,6 +260,12 @@ class PlayState extends ConductorState
 				stageSprite.dance();
 			}
 		});
+
+		if (trainGetaway_sky != null && subState == null)
+		{
+			trainGetaway_sky.velocity.x -= trainGetaway_i;
+			trainGetaway_i += 0.25;
+		}
 	}
 
 	function spawnBeatMonster()
@@ -416,7 +424,11 @@ class PlayState extends ConductorState
 		}
 	}
 
+	var trainGetaway_i:Float = 1;
+
+	public var trainGetaway_sky:FlxBackdrop;
 	public var trainGetaway_shooter:TrainGetawayShooter;
+
 	public var trainWreak_shooter:TrainWreakShooter;
 
 	public function makeStage(?stage:String)
@@ -547,12 +559,12 @@ class PlayState extends ConductorState
 				persistentUpdate = true;
 
 			case 'train-getaway':
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
-				sky.scale.set(2, 2);
-				sky.velocity.x = 256 * -5;
-				sky.screenCenter(X);
-				stageBackLayer.add(sky);
-				sky.camera = camGame;
+				trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
+				trainGetaway_sky.scale.set(2, 2);
+				trainGetaway_sky.velocity.x = 256 * -5;
+				trainGetaway_sky.screenCenter(X);
+				stageBackLayer.add(trainGetaway_sky);
+				trainGetaway_sky.camera = camGame;
 
 				var train:StageSprite = new StageSprite('train-getaway/train');
 				train.setScale(2);

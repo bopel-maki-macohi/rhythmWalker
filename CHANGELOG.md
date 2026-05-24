@@ -2,6 +2,7 @@
 
 - New Song: Train Wreak
 
+- The Train Getaway sky gets faster as the song progressed
 - Changed Window Title to "Rhythm Walker"
 
 # 0.2.3 - 5/23/2026
