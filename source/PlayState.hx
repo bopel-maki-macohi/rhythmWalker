@@ -355,11 +355,11 @@ class PlayState extends ConductorState
 					});
 
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
-				sky.scale.set(2, 4);
+				sky.scale.set(2, 2);
 				sky.updateHitbox();
 
-				sky.velocity.x = 256;
-				sky.screenCenter();
+				sky.velocity.x = 256 * -10;
+				sky.screenCenter(X);
 				stageBackLayer.add(sky);
 
 				var train:StageSprite = new StageSprite('train-getaway/train');
@@ -368,7 +368,11 @@ class PlayState extends ConductorState
 
 				player.y -= player.height * 1.1;
 
+				persistentUpdate = true;
+
 			case 'chinatown-bridge':
+				persistentUpdate = true;
+				
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
 				sky.scale.set(4, 4);
 				sky.updateHitbox();
