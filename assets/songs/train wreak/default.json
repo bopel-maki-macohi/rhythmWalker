@@ -1,0 +1,30 @@
+{
+    "id": "train wreak",
+    "variation": "default",
+    "scrollSpeed": 3,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 120
+        }
+    ],
+    "events": [
+        {
+            "time": 0,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 12000,
+            "id": "beatmonsters-steprate",
+            "data": 2
+        },
+        {
+            "time": 12000,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 41937,
+            "id": "beatmonsters-stop"
+        }
+    ]
+}
