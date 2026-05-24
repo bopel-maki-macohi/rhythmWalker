@@ -112,7 +112,7 @@ class DialogueScene extends ConductorState
 		dialogueText.resetText(line?.text ?? '');
 		dialogueText.start(0.04);
 
-		if (line?.text.trim().length < 1)
+		if (line?.text?.trim()?.length < 1)
 			dialogueFinished = true;
 
 		characterLeft.alpha = characterRight.alpha = 0.5;
@@ -121,6 +121,28 @@ class DialogueScene extends ConductorState
 			characterLeft.alpha = 1;
 		if (line?.speaker == 2)
 			characterRight.alpha = 1;
+
+		for (event in line?.events ?? [])
+			parseEvent(event);
+	}
+
+	function parseEvent(event:DialogueEventData)
+	{
+		switch (event.id.toLowerCase())
+		{
+			case 'playsound':
+				if (event.data != null)
+					FlxG.sound.play(Paths.getAudio('sfx/game/cutscenes/${event.data}'));
+			case 'characterswitch':
+				if (event.data != null)
+				{
+					if (event.data.left != null)
+						characterLeft.switchPortrait(event.data.left);
+
+					if (event.data.right != null)
+						characterRight.switchPortrait(event.data.right);
+				}
+		}
 	}
 
 	function leave()

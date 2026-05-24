@@ -33,7 +33,11 @@
             ]
         },
         {
-            "text": "Lu. What was that?",
+            "text": "Lu.",
+            "speaker": 2
+        },
+        {
+            "text": "What was that?",
             "speaker": 2
         },
         {
