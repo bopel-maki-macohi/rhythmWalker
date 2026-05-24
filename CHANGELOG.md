@@ -1,5 +1,6 @@
 # Unreleased
 
+- Fixed Freeplay Rank Text BG
 - You now only go to the results screen when you have a new high score
 - Train Wreak ends a few seconds early now
 - Fixed Train Getaway sky going ZOOM when leaving

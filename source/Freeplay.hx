@@ -72,9 +72,8 @@ class Freeplay extends ConductorState
 		rankText.alignment = CENTER;
 		rankText.scrollFactor.set();
 
-		var rankTextBG = new FlxSprite(0, 0).makeGraphic(Math.floor(rankText.width), Math.floor(rankText.height), FlxColor.BLACK);
+		rankTextBG = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
 		rankTextBG.scrollFactor.set();
-		rankTextBG.y = FlxG.height - rankTextBG.height;
 
 		add(rankTextBG);
 		add(rankText);
@@ -83,6 +82,7 @@ class Freeplay extends ConductorState
 	}
 
 	var rankText:FlxText;
+	var rankTextBG:FlxSprite;
 
 	override function update(elapsed:Float)
 	{
@@ -136,5 +136,10 @@ class Freeplay extends ConductorState
 		rankText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
 		rankText.screenCenter();
 		rankText.y = FlxG.height - rankText.height;
+
+		rankTextBG.scale.set(FlxG.width, rankText.height);
+		rankTextBG.updateHitbox();
+
+		rankTextBG.setPosition(0, rankText.y,);
 	}
 }
