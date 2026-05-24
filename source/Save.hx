@@ -1,3 +1,4 @@
+import flixel.math.FlxMath;
 import lime.app.Application;
 import flixel.FlxG;
 import song.SongRank;
@@ -76,12 +77,12 @@ class Save
 
 			songScore = score;
 
-			songRankPercent = score / totalScore;
+			songRankPercent = FlxMath.roundDecimal(score / totalScore, 2);
 			songRank = SongRank.getRankFromPercent(songRankPercent);
 		}
 
 		songScores.set(id, songScore);
 		songRanks.set(id, songRank);
-		songRankPercents.set(id, songRankPercent);
+		songRankPercents.set(id, FlxMath.roundDecimal(songRankPercent, 2));
 	}
 }
