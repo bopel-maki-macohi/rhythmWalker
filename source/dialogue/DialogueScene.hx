@@ -39,7 +39,7 @@ class DialogueScene extends ConductorState
 		catch (e)
 		{
 			trace(e);
-			leave();
+			dialogue = null;
 		}
 	}
 
@@ -55,6 +55,12 @@ class DialogueScene extends ConductorState
 	override function create()
 	{
 		super.create();
+
+		if (dialogue == null)
+		{
+			leave();
+			return;
+		}
 
 		if (dialogue?.characters?.left != null)
 		{
@@ -103,6 +109,9 @@ class DialogueScene extends ConductorState
 	{
 		super.update(elapsed);
 
+		if (dialogue == null)
+			return;
+
 		dialogueText.screenCenter(X);
 
 		proceedText.alpha = FlxMath.lerp(proceedText.alpha, ((dialogueFinished) ? 1 : 0), .1);
@@ -138,11 +147,14 @@ class DialogueScene extends ConductorState
 		if (line?.text?.trim()?.length < 1 && !proceedInTimer.active)
 			dialogueFinished = true;
 
-		characterLeft.alpha = characterRight.alpha = 0.5;
+		if (characterLeft != null)
+			characterLeft.alpha = 0.5;
+		if (characterRight != null)
+			characterRight.alpha = 0.5;
 
-		if (line?.speaker == 1)
+		if (line?.speaker == 1 && characterLeft != null)
 			characterLeft.alpha = 1;
-		if (line?.speaker == 2)
+		if (line?.speaker == 2 && characterRight != null)
 			characterRight.alpha = 1;
 	}
 
