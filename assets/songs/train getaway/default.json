@@ -1,7 +1,7 @@
 {
     "id": "train getaway",
     "variation": "default",
-    "scrollSpeed": 4,
+    "scrollSpeed": 3.5,
     "bpmChanges": [
         {
             "t": 0,
@@ -11,6 +11,30 @@
     "events": [
         {
             "time": 0,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 6000,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 13500,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 15000,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 22500,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 27000,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 34218,
             "id": "beatmonsters-stop"
         },
         {
