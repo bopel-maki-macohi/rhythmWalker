@@ -1,7 +1,7 @@
 {
     "id": "encapture",
     "variation": "default",
-    "scrollSpeed": 5,
+    "scrollSpeed": 4,
     "bpmChanges": [
         {
             "t": 0,
