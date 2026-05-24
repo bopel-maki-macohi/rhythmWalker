@@ -197,15 +197,8 @@ class PlayState extends ConductorState
 
 		if (!inCutscene && !playerStunned)
 			score += 25;
-	}
 
-	override function onBeatHit(beat:Int, backward:Bool)
-	{
-		super.onBeatHit(beat, backward);
-
-		// trace('beat');
-
-		if (!inEndCutscene && data.beatMonsters.spawn && Math.floor(beat % data.beatMonsters.rate) < 1)
+		if (!inEndCutscene && data.beatMonsters.spawn && Math.floor(step % data.beatMonsters.stepRate) == 0)
 			spawnBeatMonster();
 	}
 
@@ -224,8 +217,8 @@ class PlayState extends ConductorState
 	var data = {
 		beatMonsters: {
 			spawn: true,
-			rate: 1.0,
-			scale: 1.0,
+			stepRate: 4,
+			scale: 1.0
 		}
 	};
 
@@ -279,10 +272,16 @@ class PlayState extends ConductorState
 			case 'beatmonsters-resume':
 				data.beatMonsters.spawn = true;
 
-			case 'beatmonsters-setrate', 'beatmonsters-rate':
+				// the old beat system
+			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate':
 				if (event.data != null
 					&& (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
-					data.beatMonsters.rate = Std.parseFloat(Std.string(event.data)) ?? 1.0;
+					data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1.0) * 4);
+					
+			case 'beatmonsters-setsteprate', 'beatmonsters-steprate':
+				if (event.data != null
+					&& (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
+					data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1));
 		}
 	}
 
