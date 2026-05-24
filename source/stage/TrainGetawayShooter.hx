@@ -1,5 +1,7 @@
 package stage;
 
+import flixel.FlxG;
+
 class TrainGetawayShooter extends StageSprite
 {
 	override public function new()
@@ -12,13 +14,20 @@ class TrainGetawayShooter extends StageSprite
 		addAnim('jammed', [12, 13, 14, 15], 8);
 		addAnim('reload', [16, 17, 18, 18, 18, 18], 8);
 
-		animation.onFinish.add(anim -> {
-			// dance();
-		});
-
 		setScale(1);
 
 		dance();
+	}
+
+	var time:Float = 0;
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		time += elapsed;
+
+		y = ((FlxG.height - height) / 2) + (Math.cos(time * 2) * 10);
 	}
 
 	override function dance()
