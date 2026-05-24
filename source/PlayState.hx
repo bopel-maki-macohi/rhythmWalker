@@ -1,5 +1,6 @@
 package;
 
+import stage.TrainWreakPiece;
 import stage.TrainGetawayShooter;
 import flixel.addons.display.FlxBackdrop;
 import stage.StageSprite;
@@ -315,6 +316,9 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['train wreak', defaultVariation]:
+				makeStage('train-wreak');
+
 			case ['train getaway', defaultVariation]:
 				var fireSegs:Array<Float> = [];
 				var jammedSegs:Array<Float> = [];
@@ -392,6 +396,29 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
+			case 'train-wreak':
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-wreak/sky'));
+				sky.scale.set(2, 2);
+				sky.velocity.x = 256 * -5;
+				sky.screenCenter(X);
+				stageBackLayer.add(sky);
+
+				for (piece in ['city', 'ground', 'smoke', 'trainSegment', 'trainGround',])
+				{
+					var pieceSpr = new TrainWreakPiece(piece);
+					stageBackLayer.add(pieceSpr);
+				}
+
+				player.scale.set(1, 1);
+				player.updateHitbox();
+
+				player.screenCenter();
+				player.y = FlxG.height - player.height * 2.3;
+
+				data.beatMonsters.scale = 0.5;
+
+				persistentUpdate = true;
+
 			case 'train-getaway':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
 				sky.scale.set(2, 2);
