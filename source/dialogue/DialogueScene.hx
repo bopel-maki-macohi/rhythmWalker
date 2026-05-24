@@ -43,6 +43,7 @@ class DialogueScene extends ConductorState
 
 	var dialogueText:FlxTypeText;
 	var currentLine:Int = 0;
+	var dialogueFinished:Bool = false;
 
 	override function create()
 	{
@@ -75,6 +76,11 @@ class DialogueScene extends ConductorState
 		dialogueText.screenCenter();
 		dialogueText.y += dialogueText.height * 4;
 
+		dialogueText.completeCallback = function()
+		{
+			dialogueFinished = true;
+		};
+
 		startDialogue();
 	}
 
@@ -83,10 +89,22 @@ class DialogueScene extends ConductorState
 		super.update(elapsed);
 
 		dialogueText.screenCenter(X);
+
+		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
+		{
+			currentLine++;
+
+			if (currentLine > dialogue.lines.length - 1)
+				leave();
+			else
+				startDialogue();
+		}
 	}
 
 	function startDialogue()
 	{
+		dialogueFinished = false;
+
 		var line = dialogue?.lines[currentLine];
 
 		dialogueText.resetText(line?.text ?? '');
