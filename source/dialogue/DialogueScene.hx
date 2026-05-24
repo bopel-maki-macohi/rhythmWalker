@@ -42,6 +42,7 @@ class DialogueScene extends ConductorState
 	var characterRight:DialogueCharacter;
 
 	var dialogueText:FlxTypeText;
+	var currentLine:Int = 0;
 
 	override function create()
 	{
@@ -69,11 +70,34 @@ class DialogueScene extends ConductorState
 		add(dialogueText);
 
 		dialogueText.sounds = [FlxG.sound.load(Paths.getAudio('sfx/game/cutscenes/dialogueText')),];
+		dialogueText.finishSounds = true;
 
 		dialogueText.screenCenter();
 		dialogueText.y += dialogueText.height * 4;
 
+		startDialogue();
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+
+		dialogueText.screenCenter(X);
+	}
+
+	function startDialogue()
+	{
+		var line = dialogue?.lines[currentLine];
+
+		dialogueText.resetText(line?.text ?? '');
 		dialogueText.start(0.04);
+
+		characterLeft.alpha = characterRight.alpha = 0.75;
+
+		if (line?.speaker == 1)
+			characterLeft.alpha = 1;
+		if (line?.speaker == 2)
+			characterRight.alpha = 1;
 	}
 
 	function leave()
