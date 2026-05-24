@@ -1,5 +1,6 @@
 package dialogue;
 
+import flixel.addons.text.FlxTypeText;
 import flixel.text.FlxText;
 import haxe.Json;
 import lime.utils.Assets;
@@ -40,7 +41,7 @@ class DialogueScene extends ConductorState
 	var characterLeft:DialogueCharacter;
 	var characterRight:DialogueCharacter;
 
-	var dialogueText:FlxText;
+	var dialogueText:FlxTypeText;
 
 	override function create()
 	{
@@ -64,11 +65,15 @@ class DialogueScene extends ConductorState
 			characterRight.x = FlxG.width - (characterRight.width * 2);
 		}
 
-		dialogueText = new FlxText(0, 0, 0, 'Lorem Ipsum Dolor Sit Amet', 32);
+		dialogueText = new FlxTypeText(0, 0, 0, 'Lorem Ipsum Dolor Sit Amet', 32);
 		add(dialogueText);
+
+		dialogueText.sounds = [FlxG.sound.load(Paths.getAudio('sfx/game/cutscenes/dialogueText')),];
 
 		dialogueText.screenCenter();
 		dialogueText.y += dialogueText.height * 4;
+
+		dialogueText.start(0.04);
 	}
 
 	function leave()
