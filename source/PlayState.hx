@@ -238,10 +238,12 @@ class PlayState extends ConductorState
 	{
 		super.onStepHit(step, backward);
 
-		if (!inCutscene && !playerStunned)
+		final canSpawnMonster = !inEndCutscene && data.beatMonsters.spawn;
+
+		if (!inCutscene && !playerStunned && canSpawnMonster)
 			score += 25;
 
-		if (!inEndCutscene && data.beatMonsters.spawn && Math.floor(step % data.beatMonsters.stepRate) == 0)
+		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0)
 			spawnBeatMonster();
 	}
 
