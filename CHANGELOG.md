@@ -1,5 +1,7 @@
 # Unreleased
 
+- New Song: Train Getaway
+
 - You can press ESCAPE to leave gameplay to the freeplay (if not in a cutscene)
 - Fixed Scroll Down Chinatown intro cutscene sometimes missing the beat monster
 
