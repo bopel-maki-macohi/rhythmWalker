@@ -33,8 +33,7 @@ class ResultsState extends ConductorState
 		windupText.alignment = CENTER;
 		windupText.screenCenter();
 
-
-        FlxG.sound.play(Paths.getAudio('results/results'));
+		FlxG.sound.play(Paths.getAudio('results/results'));
 
 		FlxTween.num(0, songScore, 4, {
 			ease: FlxEase.quintInOut,
@@ -44,12 +43,20 @@ class ResultsState extends ConductorState
 			}
 		}, v ->
 		{
+			final prev = Math.floor(windupScore);
+
 			windupScore = v;
+
+			if (Math.floor(windupScore) != prev)
+				FlxG.sound.play(Paths.getAudio('results/resultsTick'), 0.2);
 
 			windupText.text = 'Score:\n${Math.floor(windupScore)}';
 			windupText.screenCenter();
 		});
 	}
 
-	function onWindupDone() {}
+	function onWindupDone()
+	{
+		FlxG.sound.play(Paths.getAudio('results/resultsTickDone'));
+	}
 }
