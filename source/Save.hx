@@ -63,6 +63,9 @@ class Save
 
 		if (score > songScore)
 		{
+			trace('NEW HIGHSCORE: $score');
+			trace(' | $score / $totalScore');
+
 			songScore = score;
 			songRank = SongRank.getRankFromPercent(score / totalScore);
 		}
