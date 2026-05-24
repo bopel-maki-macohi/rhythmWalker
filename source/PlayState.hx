@@ -407,7 +407,7 @@ class PlayState extends ConductorState
 		switch ([song.id, song.variation])
 		{
 			case ['encapture', defaultVariation]:
-				makeStage('container-04');
+				makeStage('containment-04');
 
 			case ['train wreak', defaultVariation]:
 				makeStage('train-wreak');
@@ -494,10 +494,25 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
-			case 'container-04':
+			case 'containment-04':
+				var backdrop:StageSprite = new StageSprite('$stage/backdrop');
+				backdrop.setScale(2);
+				backdrop.screenCenter();
+				stageBackLayer.add(backdrop);
+				backdrop.setCamera(camGame);
+
+				for (i in 0...3) {
+					var tube = new StageSprite('$stage/tube');
+					tube.setScale(2);
+					
+					tube.y = FlxG.height - tube.height * 1.4 - 4;
+					tube.x = ((tube.width * 2.5) * i) + 32;
+
+					stageBackLayer.add(tube);
+				}
 
 			case 'train-wreak':
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-wreak/sky'));
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/$stage/sky'));
 				sky.scale.set(2, 2);
 				sky.velocity.x = 10;
 				sky.screenCenter(X);
@@ -615,14 +630,14 @@ class PlayState extends ConductorState
 				persistentUpdate = true;
 
 			case 'train-getaway':
-				trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
+				trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('stages/$stage/sky'));
 				trainGetaway_sky.scale.set(2, 2);
 				trainGetaway_sky.velocity.x = 256 * -5;
 				trainGetaway_sky.screenCenter(X);
 				stageBackLayer.add(trainGetaway_sky);
 				trainGetaway_sky.camera = camGame;
 
-				var train:StageSprite = new StageSprite('train-getaway/train');
+				var train:StageSprite = new StageSprite('$stage/train');
 				train.setScale(2);
 				train.screenCenter();
 				train.y = FlxG.height - train.height;
@@ -653,7 +668,7 @@ class PlayState extends ConductorState
 			case 'chinatown-bridge':
 				persistentUpdate = true;
 
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/$stage/sky'));
 				sky.scale.set(4, 4);
 				sky.updateHitbox();
 				sky.camera = camGame;
@@ -662,16 +677,16 @@ class PlayState extends ConductorState
 				sky.screenCenter();
 				stageBackLayer.add(sky);
 
-				var bridge:StageSprite = new StageSprite('chinatown-bridge/bridge');
+				var bridge:StageSprite = new StageSprite('$stage/bridge');
 				bridge.screenCenter();
 				stageBackLayer.add(bridge);
 				bridge.camera = camGame;
 
 			case 'stage', 'understage':
-				var stage:StageSprite = new StageSprite(stage);
-				stage.screenCenter();
-				stageBackLayer.add(stage);
-				stage.camera = camGame;
+				var backdrop:StageSprite = new StageSprite(stage);
+				backdrop.screenCenter();
+				stageBackLayer.add(backdrop);
+				backdrop.setCamera(camGame);
 		}
 	}
 
@@ -701,7 +716,7 @@ class PlayState extends ConductorState
 
 		switch (file)
 		{
-			case 'bro-chinatown-torn':
+			case 'bro-chinatown-torn', 'bro-captured':
 				animFrames.get('hurtR').flipX = true;
 				animFrames.get('moveR').frames = [4, 5];
 
