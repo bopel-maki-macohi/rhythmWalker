@@ -1,3 +1,7 @@
+# Unreleased
+
+- Fixed the lack of a transition into gameplay
+
 # 0.2.5 - 5/24/2026
 
 - Added Marcella to Train Wreak BG Crowd (None of yall know who that is hehehe >:))

@@ -1,5 +1,6 @@
 package;
 
+import flixel.addons.transition.FlxTransitionableState;
 import dialogue.DialogueScene;
 import stage.TrainWreakShooter;
 import flixel.FlxObject;
@@ -52,7 +53,7 @@ class PlayState extends ConductorState
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
-		super();
+		super(null, null);
 
 		this.song = new Song(song, variation ?? defaultVariation);
 
@@ -62,6 +63,8 @@ class PlayState extends ConductorState
 
 	override function create()
 	{
+		FlxTransitionableState.skipNextTransIn = true;
+
 		super.create();
 
 		camGameFollow = new FlxObject(FlxG.width / 2, FlxG.height / 2);
@@ -136,6 +139,8 @@ class PlayState extends ConductorState
 			inIntroCutscene = true;
 			return;
 		}
+
+		transitionIn();
 	}
 
 	override function update(elapsed:Float)
