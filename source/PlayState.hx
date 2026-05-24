@@ -272,12 +272,12 @@ class PlayState extends ConductorState
 			case 'beatmonsters-resume':
 				data.beatMonsters.spawn = true;
 
-				// the old beat system
+			// the old beat system
 			case 'beatmonsters-setrate', 'beatmonsters-rate', 'beatmonsters-setbeatrate', 'beatmonsters-beatrate':
 				if (event.data != null
 					&& (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
 					data.beatMonsters.stepRate = Math.floor((Std.parseFloat(Std.string(event.data)) ?? 1.0) * 4);
-					
+
 			case 'beatmonsters-setsteprate', 'beatmonsters-steprate':
 				if (event.data != null
 					&& (Std.isOfType(event.data, Float) || Std.isOfType(event.data, Int) || Std.isOfType(event.data, String)))
@@ -483,17 +483,16 @@ class PlayState extends ConductorState
 					{
 						if (animName == 'chinatown-bridge-lookup')
 						{
-							FlxTimer.wait(.2, () ->
-							{
-								spawnBeatMonster();
-							});
+							spawnBeatMonster();
 
 							FlxTween.tween(player, {x: player.x - 128}, .4, {
 								ease: FlxEase.sineOut,
+								startDelay: .2
 							});
 
 							FlxTween.tween(player, {y: player.y + player.height * 0.5}, .4, {
 								ease: FlxEase.sineOut,
+								startDelay: .2,
 								onStart: t ->
 								{
 									player.animation.play('chinatown-bridge-jump');
