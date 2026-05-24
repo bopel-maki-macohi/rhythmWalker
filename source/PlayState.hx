@@ -235,19 +235,19 @@ class PlayState extends ConductorState
 		{
 			case 'traingetaway-swapPeople':
 				if (song.id == 'train getaway')
-					FlxG.camera.flash(FlxColor.RED, conductor.stepLengthMs / 1000);
+					return;
 
 			case 'traingetaway-reload':
 				if (song.id == 'train getaway')
-					FlxG.camera.flash(FlxColor.BLUE, conductor.stepLengthMs / 1000);
+					return;
 
 			case 'traingetaway-gunJammeD':
 				if (song.id == 'train getaway')
-					FlxG.camera.flash(FlxColor.PURPLE, conductor.stepLengthMs / 1000);
+					return;
 
 			case 'traingetaway-gun':
 				if (song.id == 'train getaway')
-					FlxG.camera.flash(FlxColor.WHITE, conductor.stepLengthMs / 1000);
+					return;
 
 			case 'camera-off', 'cam-off':
 				FlxG.camera.visible = false;
