@@ -25,6 +25,8 @@ using StringTools;
 
 class PlayState extends ConductorState
 {
+	var immortal:Bool = #if immortal true #else false #end;
+
 	var player:FlxSprite;
 	var playerSpeed:Float = 10;
 	var playerStunned:Bool = false;
@@ -147,7 +149,7 @@ class PlayState extends ConductorState
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (!inCutscene && monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
+			if (!immortal && !inCutscene && monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
 			{
 				playerStunned = true;
 				if (player.flipX)
@@ -801,6 +803,10 @@ class PlayState extends ConductorState
 				{
 					player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 				}, FlxG.updateFramerate);
+
+				FlxTween.tween(camGame, {zoom: 1.1}, 4, {ease: FlxEase.quintOut});
+
+				FlxG.sound.play(Paths.getAudio('sfx/game/cutscenes/fuse'));
 
 				FlxTimer.wait(1, () ->
 				{
