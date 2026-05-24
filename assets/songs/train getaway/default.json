@@ -1,0 +1,17 @@
+{
+    "id": "train getaway",
+    "variation": "default",
+    "scrollSpeed": 4,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 160
+        }
+    ],
+    "events": [
+        {
+            "time": 0,
+            "id": "beatmonsters-stop"
+        }
+    ]
+}

@@ -81,16 +81,7 @@ class PlayState extends ConductorState
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 
 		for (event in song.events)
-		{
-			var songEvent = new FlxTimer();
-			songEvents.push(songEvent);
-
-			songEvent.start(event.time / 1000, function(t)
-			{
-				parseEvent(event);
-				songEvents.remove(songEvent);
-			});
-		}
+			addEvent(event);
 
 		if (FlxG.sound.music.length < 1)
 			onSongEnd();
@@ -224,12 +215,26 @@ class PlayState extends ConductorState
 		}
 	};
 
+	public function addEvent(event:SongEventData)
+	{
+		var songEvent = new FlxTimer();
+		songEvents.push(songEvent);
+
+		songEvent.start(event.time / 1000, function(t)
+		{
+			parseEvent(event);
+			songEvents.remove(songEvent);
+		});
+	}
+
 	public function parseEvent(event:SongEventData)
 	{
 		trace(event);
 
 		switch (event.id.toLowerCase())
 		{
+			case 'traingetaway-firing':
+
 			case 'camera-off', 'cam-off':
 				FlxG.camera.visible = false;
 
@@ -259,6 +264,9 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['train getaway', defaultVariation]:
+				makeStage('train-getaway');
+
 			case ['scroll down chinatown', defaultVariation]:
 				makeStage('chinatown-bridge');
 
@@ -282,6 +290,34 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
+			case 'train-getaway':
+				var timesMS:Array<Int> = [];
+				// var timesMS = [3000, 3187, 3375, 3562, 3750, 3937, 4125, 4500];
+
+				function addFireSegment(start:Int, add:Int, amount:Int)
+				{
+					for (i in 0...amount)
+						timesMS.push(start + (add * (i + 1) + ((i % 1 == 0 && i != 0) ? 1 : 0)));
+				}
+
+				function addGunSection(start:Int, add:Int, len:Int)
+				{
+					addFireSegment(start, add, len);
+					addFireSegment(start + 750, add, len);
+				}
+
+				addFireSegment(3000, 187, 7);
+				for (i in 0...3)
+					addGunSection(6000 + (3000 * i), 187, 3);
+
+				trace(timesMS);
+
+				for (time in timesMS)
+					addEvent({
+						time: time,
+						id: 'traingetaway-gun'
+					});
+
 			case 'chinatown-bridge':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
 				sky.scale.set(4, 4);
