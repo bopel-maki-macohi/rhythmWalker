@@ -1,5 +1,6 @@
 package;
 
+import util.RWSprite;
 import flixel.addons.transition.FlxTransitionableState;
 import dialogue.DialogueScene;
 import stage.TrainWreakShooter;
@@ -296,7 +297,7 @@ class PlayState extends ConductorState
 			}
 		});
 
-		if (trainGetaway_sky != null && subState == null)
+		if (trainGetaway_sky != null && FlxG.sound.music.playing)
 		{
 			trainGetaway_sky.velocity.x -= trainGetaway_i;
 			trainGetaway_i += 0.25;
@@ -576,7 +577,7 @@ class PlayState extends ConductorState
 					}
 				}
 
-				var solidGround:StageSprite = new StageSprite(null);
+				var solidGround:RWSprite = new RWSprite(null);
 				solidGround.setCamera(camGame);
 				solidGround.makeGraphic(FlxG.width * 3, FlxG.height, FlxColor.fromString('#3b3e44'));
 				solidGround.screenCenter();
@@ -762,6 +763,8 @@ class PlayState extends ConductorState
 						{
 							if (Std.isOfType(sprite, StageSprite))
 							{
+								if (sprite == null) return;
+
 								if (sprite != trainWreak_shooter
 									&& (sprite.scale.x >= 2 && !cast(sprite, StageSprite).sprite.contains('randoms')))
 									if (sprite.x != 0 || sprite.y != 0)
