@@ -1,3 +1,4 @@
+import dialogue.DialogueScene;
 import song.SongRank;
 import haxe.Json;
 import flixel.FlxSprite;
@@ -98,6 +99,7 @@ class Freeplay extends ConductorState
 			FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
 
 			var song:SongFreeplayData = songs[selected];
+			DialogueScene.seenIntroCutscene = false;
 			FlxG.switchState(() -> new PlayState(song.song, song.variation));
 		}
 	}

@@ -57,9 +57,6 @@ class PlayState extends ConductorState
 		super(null, null);
 
 		this.song = new Song(song, variation ?? defaultVariation);
-
-		if (!DialogueScene.seenIntroCutscene)
-			FlxG.switchState(() -> new DialogueScene(this.song));
 	}
 
 	override function create()
@@ -135,6 +132,17 @@ class PlayState extends ConductorState
 			onSongEnd();
 		}
 
+		if (!DialogueScene.seenIntroCutscene)
+		{
+			camGame.visible = camHUD.visible = false;
+			transIn = transOut = null;
+
+			FlxG.switchState(() -> new DialogueScene(this.song));
+
+			FlxG.sound.music.stop();
+			return;
+		}
+
 		if (introCutscene())
 		{
 			inIntroCutscene = true;
@@ -150,14 +158,25 @@ class PlayState extends ConductorState
 
 		conductor.update(null);
 
-		scoreText.text = 'Score: $score | Hits Taken: $hits';
-		scoreText.screenCenter(X);
+		if (scoreText != null)
+		{
+			scoreText.text = 'Score: $score | Hits Taken: $hits';
+			scoreText.screenCenter(X);
+		}
 
-		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
-		playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
+		if (playerCollision != null)
+		{
+			playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
+			playerCollision.y = player.getGraphicMidpoint().y - (playerCollision.height / 2);
+		}
 
 		if (!inCutscene)
 			managePlayer();
+		else
+		{
+			if (song.id == 'encapture')
+				playerVelocityDamping();
+		}
 
 		for (monster in beatMonsters)
 		{
@@ -218,7 +237,7 @@ class PlayState extends ConductorState
 				player.animation.play('moveR');
 		}
 		else
-			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+			playerVelocityDamping();
 
 		if (player.x < player.width)
 		{
@@ -238,6 +257,11 @@ class PlayState extends ConductorState
 			skipping = true;
 			onSongEnd();
 		}
+	}
+
+	function playerVelocityDamping()
+	{
+		player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 	}
 
 	var skipping:Bool = false;
@@ -348,6 +372,26 @@ class PlayState extends ConductorState
 
 		switch (event.id.toLowerCase())
 		{
+			case 'player-idle':
+				player.animation.play('idle');
+
+			case 'encapture-subjectbang':
+				if (song.id == 'encapture' && containment04_tubeSubject != null)
+				{
+					if (!inEndCutscene)
+					{
+						camGame.followLerp *= 0.1;
+						camGameFollow.setPosition(containment04_tubeSubject.getGraphicMidpoint().x, containment04_tubeSubject.getGraphicMidpoint().y);
+
+						FlxTween.tween(camGame, {zoom: 1.5}, (FlxG.sound.music.length - FlxG.sound.music.time) / 1000, {
+							ease: FlxEase.quartOut,
+						});
+
+						inEndCutscene = true;
+					}
+					containment04_tubeSubject.animation.play('bang');
+				}
+
 			case 'song-end':
 				onSongEnd();
 
@@ -472,6 +516,8 @@ class PlayState extends ConductorState
 		}
 	}
 
+	var containment04_tubeSubject:StageSprite;
+
 	var trainGetaway_i:Float = 1;
 
 	var trainGetaway_sky:FlxBackdrop;
@@ -501,14 +547,26 @@ class PlayState extends ConductorState
 				stageBackLayer.add(backdrop);
 				backdrop.setCamera(camGame);
 
-				for (i in 0...3) {
+				var tubes = 2;
+
+				for (i in 0...tubes)
+				{
 					var tube = new StageSprite('$stage/tube');
 					tube.setScale(2);
-					
+
 					tube.y = FlxG.height - tube.height * 1.4 - 4;
-					tube.x = ((tube.width * 2.5) * i) + 32;
+					tube.x = ((tube.width * 2.25) * (i)) + 32;
 
 					stageBackLayer.add(tube);
+
+					if (i == tubes - 1)
+					{
+						containment04_tubeSubject = tube;
+						containment04_tubeSubject.loadGraphic(Paths.getImagePath('stages/$stage/subject'), true, 128, 128);
+						containment04_tubeSubject.addAnim('idle', [0, 1], 2, true);
+						containment04_tubeSubject.addAnim('bang', [2, 3], 6, false);
+						containment04_tubeSubject.animation.play('idle');
+					}
 				}
 
 			case 'train-wreak':
@@ -874,7 +932,7 @@ class PlayState extends ConductorState
 
 				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
 				{
-					player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+					playerVelocityDamping();
 				}, FlxG.updateFramerate);
 
 				FlxTween.tween(camGame, {zoom: 1.1}, 4, {ease: FlxEase.quintOut});
@@ -904,7 +962,7 @@ class PlayState extends ConductorState
 
 				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
 				{
-					player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+					playerVelocityDamping();
 				}, FlxG.updateFramerate);
 
 				FlxTimer.wait(1, () ->

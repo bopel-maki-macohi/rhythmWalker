@@ -27,6 +27,7 @@ class DialogueScene extends ConductorState
 		seenIntroCutscene = true;
 
 		var path = Paths.json('dialogue/dialogue/${song.id}-${song.variation ?? defaultVariation}');
+		trace(path);
 
 		if (!Assets.exists(path))
 			leave();
