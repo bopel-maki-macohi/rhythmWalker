@@ -1,5 +1,6 @@
 package;
 
+import dialogue.DialogueScene;
 import stage.TrainWreakShooter;
 import flixel.FlxObject;
 import flixel.FlxCamera;
@@ -54,6 +55,9 @@ class PlayState extends ConductorState
 		super();
 
 		this.song = new Song(song, variation ?? defaultVariation);
+
+		if (!DialogueScene.seenIntroCutscene)
+			FlxG.switchState(() -> new DialogueScene(this.song));
 	}
 
 	override function create()

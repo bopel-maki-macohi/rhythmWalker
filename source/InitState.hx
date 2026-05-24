@@ -1,5 +1,4 @@
 import flixel.text.FlxText;
-import flixel.math.FlxRect;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.addons.transition.FlxTransitionSprite;
@@ -43,6 +42,11 @@ class InitState extends FlxState
 
 	function proceed()
 	{
+		#if DIALOGUE
+		FlxG.switchState(() -> new dialogue.ResultsState(new song.Song('encapture')));
+		return;
+		#end
+
 		#if RESULTS
 		FlxG.switchState(() -> new ResultsState('train wreak-default'));
 		return;

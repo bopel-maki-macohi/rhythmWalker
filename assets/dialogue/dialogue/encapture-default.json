@@ -1,0 +1,44 @@
+{
+    "characters": {
+        "left": "shooter-stand",
+        "right": "leader-stand"
+    },
+    "lines": [
+        {
+            "text": "Report.",
+            "speaker": 2
+        },
+        {
+            "text": "Bro has been captured.",
+            "speaker": 1
+        },
+        {
+            "text": "Good job Commander.",
+            "speaker": 1
+        },
+        {
+            "speaker": 0,
+            "events": [
+                {
+                    "id": "playSound",
+                    "data": "explosion"
+                },
+                {
+                    "id": "characterSwitch",
+                    "data": {
+                        "left": "shooter-wtf",
+                        "right": "leader-confront"
+                    }
+                }
+            ]
+        },
+        {
+            "text": "Lu. What was that?",
+            "speaker": 2
+        },
+        {
+            "text": "He woke up.",
+            "speaker": 1
+        }
+    ]
+}
