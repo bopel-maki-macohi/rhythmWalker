@@ -1,5 +1,7 @@
 # Unreleased
 
+- New Song: Encapture
+
 - Fixed Freeplay Tip Text BG
 - The Chinatown Torn skin of Bro now has his eye bruise darken when he's hurt
 - Fixed Freeplay Rank Text BG
