@@ -40,8 +40,10 @@ class Save
 		game.songScores ??= [];
 		game.songRanks ??= [];
 
+		#if !clear
 		songScores = game.songScores;
 		songRanks = game.songRanks;
+		#end
 
 		trace(game);
 	}
@@ -56,10 +58,10 @@ class Save
 		trace(game);
 	}
 
-	public static function saveSongScore(songID:String, score:Int, totalScore:Int)
+	public static function saveSongScore(id:String, score:Int, totalScore:Int)
 	{
-		var songScore:Int = songScores.get(songID) ?? 0;
-		var songRank:SongRank = songRanks.get(songID) ?? BAD;
+		var songScore:Int = songScores.get(id) ?? 0;
+		var songRank:SongRank = songRanks.get(id) ?? NONE;
 
 		if (score > songScore)
 		{
@@ -70,7 +72,7 @@ class Save
 			songRank = SongRank.getRankFromPercent(score / totalScore);
 		}
 
-		songScores.set(songID, songScore);
-		songRanks.set(songID, songRank);
+		songScores.set(id, songScore);
+		songRanks.set(id, songRank);
 	}
 }

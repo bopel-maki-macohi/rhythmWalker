@@ -2,7 +2,8 @@ package song;
 
 enum abstract SongRank(String) from String to String
 {
-	var BAD = 'BAD'; // fallback
+	var NONE = 'NONE'; // null
+	var BAD = 'BAD'; // anything else
 	var OK = 'OK'; // 50%
 	var GOOD = 'GOOD'; // 60%
 	var GREAT = 'GREAT'; // 70%

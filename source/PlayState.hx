@@ -240,7 +240,7 @@ class PlayState extends ConductorState
 		}
 
 		if (!immortal)
-			Save.saveSongScore(song.id, score, totalScore);
+			Save.saveSongScore('${song.id}-${song.variation}', score, totalScore);
 
 		trace('Yay we done');
 		FlxG.switchState(() -> new Freeplay());
