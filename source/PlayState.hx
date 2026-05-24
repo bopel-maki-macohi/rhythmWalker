@@ -176,17 +176,20 @@ class PlayState extends ConductorState
 		{
 			player.flipX = false;
 			player.velocity.x -= playerSpeed * shiftThing;
+
+			if (!playerStunned)
+				player.animation.play('moveL');
 		}
 		else if (FlxG.keys.anyPressed([D, RIGHT]))
 		{
 			player.flipX = true;
 			player.velocity.x += playerSpeed * shiftThing;
+
+			if (!playerStunned)
+				player.animation.play('moveR');
 		}
 		else
 			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
-
-		if (FlxG.keys.anyPressed([A, LEFT, D, RIGHT]) && !playerStunned)
-			player.animation.play('move');
 
 		if (player.x < player.width)
 		{
@@ -543,22 +546,45 @@ class PlayState extends ConductorState
 
 		switch (song.id)
 		{
+			case 'train wreak':
+				file = 'bro-chinatown-torn';
+
 			case 'scroll down chinatown', 'train getaway':
 				file = 'bro-chinatown';
+		}
+
+		var animFrames:Map<String, Dynamic> = [
+			'idle' => {frames: [0]},
+			'hurt' => {frames: [1], fps: 2},
+			'moveL' => {frames: [2, 3], fps: 6},
+			'moveR' => {frames: [2, 3], fps: 6, flipX: true},
+		];
+
+		switch (file)
+		{
+			case 'bro-chinatown-torn':
+				animFrames.get('moveR').frames = [4, 5];
+
+			case 'bro-chinatown':
+				animFrames.set('chinatown-bridge', {
+					frames: [4],
+				});
+				animFrames.set('chinatown-bridge-lookup', {
+					frames: [4, 5, 6, 7, 8],
+					fps: 6
+				});
+				animFrames.set('chinatown-bridge-jump', {
+					frames: [9],
+				});
 		}
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
 		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/$file'), true, 64, 64);
 
-		player.animation.add('idle', [0], 24, false);
-		player.animation.add('hurt', [1], 2, false);
-		player.animation.add('move', [2, 3], 6, false);
-
-		if (file == 'bro-chinatown')
+		for (thing => data in animFrames)
 		{
-			player.animation.add('chinatown-bridge', [4]);
-			player.animation.add('chinatown-bridge-lookup', [4, 5, 6, 7, 8], 6, false);
-			player.animation.add('chinatown-bridge-jump', [9], 6, false);
+			trace('Player Anim "$thing" : $data');
+			player.animation.add(thing, data.frames, data?.fps ?? 24, false, data.flipX ?? false);
 		}
 
 		player.animation.play('idle');
@@ -697,10 +723,10 @@ class PlayState extends ConductorState
 				{
 					player.flipX = true;
 
-					player.animation.play('move');
+					player.animation.play('moveR');
 					player.animation.onFinish.add(anim ->
 					{
-						player.animation.play('move');
+						player.animation.play('moveR');
 					});
 
 					FlxTween.tween(player, {x: FlxG.width + (player.width * 2)}, 3, {
