@@ -497,7 +497,7 @@ class PlayState extends ConductorState
 							crowdSpriteShit(pieceSprCENTER);
 
 							if (Std.string(piece[0]).contains('dj'))
-								pieceSprCENTER.x -= pieceSprCENTER.width * .1;
+								pieceSprCENTER.x -= pieceSprCENTER.width * .05;
 						}
 
 						if (piece[0] == 'smoke')
