@@ -92,7 +92,7 @@ class DialogueScene extends ConductorState
 		dialogueText.resetText(line?.text ?? '');
 		dialogueText.start(0.04);
 
-		characterLeft.alpha = characterRight.alpha = 0.75;
+		characterLeft.alpha = characterRight.alpha = 0.5;
 
 		if (line?.speaker == 1)
 			characterLeft.alpha = 1;
