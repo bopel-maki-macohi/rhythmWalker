@@ -1,5 +1,6 @@
 package dialogue;
 
+import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import flixel.addons.text.FlxTypeText;
 import flixel.text.FlxText;
@@ -88,8 +89,11 @@ class DialogueScene extends ConductorState
 
 		proceedInTimer = new FlxTimer();
 
-		proceedText = new FlxText(0,0,0,'ENTER to proceed', 16);
+		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed', 16);
 		add(proceedText);
+		proceedText.alpha = 0;
+		proceedText.screenCenter();
+		proceedText.y = FlxG.height - proceedText.height;
 
 		startDialogue();
 	}
@@ -100,7 +104,7 @@ class DialogueScene extends ConductorState
 
 		dialogueText.screenCenter(X);
 
-		proceedText.visible = dialogueFinished;
+		proceedText.alpha = FlxMath.lerp(proceedText.alpha, ((dialogueFinished) ? 1 : 0), .1);
 
 		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
 			proceed();
