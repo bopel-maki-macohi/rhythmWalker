@@ -99,6 +99,7 @@ class DialogueScene extends ConductorState
 		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed\nESCAPE to leave', 16);
 		add(proceedText);
 		proceedText.alpha = 0;
+		proceedText.alignment = CENTER;
 		proceedText.screenCenter();
 		proceedText.y = FlxG.height - proceedText.height;
 
