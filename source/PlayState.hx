@@ -498,6 +498,8 @@ class PlayState extends ConductorState
 
 							if (Std.string(piece[0]).contains('dj'))
 								pieceSprCENTER.x -= pieceSprCENTER.width * .05;
+							if (Std.string(piece[0]).contains('ocs'))
+								pieceSprCENTER.x += pieceSprCENTER.width * .05;
 						}
 
 						if (piece[0] == 'smoke')
