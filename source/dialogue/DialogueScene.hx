@@ -7,6 +7,8 @@ import lime.utils.Assets;
 import flixel.FlxG;
 import song.Song;
 
+using StringTools;
+
 class DialogueScene extends ConductorState
 {
 	public static var seenIntroCutscene:Bool = false;
@@ -109,6 +111,9 @@ class DialogueScene extends ConductorState
 
 		dialogueText.resetText(line?.text ?? '');
 		dialogueText.start(0.04);
+
+		if (line?.text.trim().length < 1)
+			dialogueFinished = true;
 
 		characterLeft.alpha = characterRight.alpha = 0.5;
 
