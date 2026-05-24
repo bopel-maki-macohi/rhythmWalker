@@ -676,6 +676,9 @@ class PlayState extends ConductorState
 
 		switch (song.id)
 		{
+			case 'encapture':
+				file = 'bro-captured';
+
 			case 'train wreak':
 				file = 'bro-chinatown-torn';
 
