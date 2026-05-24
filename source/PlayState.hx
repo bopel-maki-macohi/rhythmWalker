@@ -272,7 +272,7 @@ class PlayState extends ConductorState
 
 			case 'traingetaway-gun':
 				if (song.id == 'train getaway')
-					trainGetaway_shooter.animation.play('shoot', true);
+					trainGetaway_shooter.animation.play('shoot${FlxG.random.int(1, 2)}', true);
 
 			case 'camera-off', 'cam-off':
 				FlxG.camera.visible = false;
