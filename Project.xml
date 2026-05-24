@@ -94,4 +94,6 @@
 
 	<icon path="dev/icon.png" />
 
+	<haxedef name="lime_disable_assets_version"/>
+
 </project>
