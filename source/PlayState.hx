@@ -56,7 +56,7 @@ class PlayState extends ConductorState
 		this.song = new Song(song, variation ?? defaultVariation);
 	}
 
-	override public function create()
+	override function create()
 	{
 		super.create();
 
@@ -134,7 +134,7 @@ class PlayState extends ConductorState
 		}
 	}
 
-	override public function update(elapsed:Float)
+	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
@@ -314,7 +314,7 @@ class PlayState extends ConductorState
 		}
 	};
 
-	public function addEvent(event:SongEventData)
+	function addEvent(event:SongEventData)
 	{
 		var songEvent = new FlxTimer();
 		songEvents.push(songEvent);
@@ -326,7 +326,7 @@ class PlayState extends ConductorState
 		});
 	}
 
-	public function parseEvent(event:SongEventData)
+	function parseEvent(event:SongEventData)
 	{
 		trace(event);
 
@@ -381,9 +381,9 @@ class PlayState extends ConductorState
 		}
 	}
 
-	public var stageBackLayer:FlxSpriteGroup;
+	var stageBackLayer:FlxSpriteGroup;
 
-	public function generateStage()
+	function generateStage()
 	{
 		switch ([song.id, song.variation])
 		{
@@ -452,12 +452,12 @@ class PlayState extends ConductorState
 
 	var trainGetaway_i:Float = 1;
 
-	public var trainGetaway_sky:FlxBackdrop;
-	public var trainGetaway_shooter:TrainGetawayShooter;
+	var trainGetaway_sky:FlxBackdrop;
+	var trainGetaway_shooter:TrainGetawayShooter;
 
-	public var trainWreak_shooter:TrainWreakShooter;
+	var trainWreak_shooter:TrainWreakShooter;
 
-	public function makeStage(?stage:String)
+	function makeStage(?stage:String)
 	{
 		if (stageBackLayer == null)
 			return;
@@ -651,7 +651,7 @@ class PlayState extends ConductorState
 		}
 	}
 
-	public function makePlayer()
+	function makePlayer()
 	{
 		var file:String = 'bro-regular';
 
@@ -718,7 +718,7 @@ class PlayState extends ConductorState
 	var inIntroCutscene:Bool = false;
 	var inEndCutscene:Bool = false;
 
-	public var inCutscene(get, never):Bool;
+	var inCutscene(get, never):Bool;
 
 	function get_inCutscene():Bool
 		return inIntroCutscene || inEndCutscene;
@@ -726,7 +726,7 @@ class PlayState extends ConductorState
 	var seenEndCutscene:Bool = false;
 	var seenIntroCutscene:Bool = false;
 
-	public function introCutscene():Bool
+	function introCutscene():Bool
 	{
 		if (seenIntroCutscene)
 			return false;
@@ -815,7 +815,7 @@ class PlayState extends ConductorState
 		return false;
 	}
 
-	public function endCutscene():Bool
+	function endCutscene():Bool
 	{
 		if (seenEndCutscene)
 			return false;

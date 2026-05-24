@@ -13,7 +13,7 @@ using StringTools;
 
 class Freeplay extends ConductorState
 {
-	public var songs:Array<SongFreeplayData> = [];
+	var songs:Array<SongFreeplayData> = [];
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
 

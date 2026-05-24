@@ -4,12 +4,12 @@ import flixel.addons.ui.FlxUIState;
 
 class ConductorState extends FlxUIState
 {
-	public var conductor(get, never):FlxRhythmConductor;
+	var conductor(get, never):FlxRhythmConductor;
 
 	function get_conductor():FlxRhythmConductor
 		return FlxRhythmConductor.instance;
 
-	public function resetConductor()
+	function resetConductor()
 	{
 		FlxRhythmConductor.reset();
 
@@ -19,13 +19,13 @@ class ConductorState extends FlxUIState
 		conductor.onStepHit.add(onStepHit);
 	}
 
-	public function onBeatHit(beat:Int, backward:Bool) {}
+	function onBeatHit(beat:Int, backward:Bool) {}
 
-	public function onBpmChange(time:Float, backward:Bool) {}
+	function onBpmChange(time:Float, backward:Bool) {}
 
-	public function onMeasureHit(measure:Float, backward:Bool) {}
+	function onMeasureHit(measure:Float, backward:Bool) {}
 
-	public function onStepHit(step:Int, backward:Bool) {}
+	function onStepHit(step:Int, backward:Bool) {}
 
 	var mouseEnabled:Bool = false;
 
