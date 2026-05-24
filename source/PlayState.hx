@@ -198,14 +198,17 @@ class PlayState extends ConductorState
 		// trace('beat');
 
 		if (!inEndCutscene && data.beatMonsters.spawn && Math.floor(beat % data.beatMonsters.rate) < 1)
-		{
-			var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
+			spawnBeatMonster();
+	}
 
-			beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
-			beatMonster.y = beatMonster.height * -2;
+	function spawnBeatMonster()
+	{
+		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 
-			beatMonsters.add(beatMonster);
-		}
+		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
+		beatMonster.y = beatMonster.height * -2;
+
+		beatMonsters.add(beatMonster);
 	}
 
 	var data = {
@@ -220,7 +223,7 @@ class PlayState extends ConductorState
 		var songEvent = new FlxTimer();
 		songEvents.push(songEvent);
 
-		songEvent.start(Math.ffloor(event.time / 1000), function(t)
+		songEvent.start(event.time / 1000, function(t)
 		{
 			parseEvent(event);
 			songEvents.remove(songEvent);
@@ -372,7 +375,7 @@ class PlayState extends ConductorState
 
 			case 'chinatown-bridge':
 				persistentUpdate = true;
-				
+
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
 				sky.scale.set(4, 4);
 				sky.updateHitbox();
@@ -457,11 +460,18 @@ class PlayState extends ConductorState
 
 				FlxTimer.wait(7.5, () ->
 				{
+					inEndCutscene = true;
+
 					player.animation.play('chinatown-bridge-lookup');
 					player.animation.onFinish.add(animName ->
 					{
 						if (animName == 'chinatown-bridge-lookup')
 						{
+							FlxTimer.wait(.2, () ->
+							{
+								spawnBeatMonster();
+							});
+
 							FlxTween.tween(player, {x: player.x - 128}, .4, {
 								ease: FlxEase.sineOut,
 							});
@@ -474,7 +484,8 @@ class PlayState extends ConductorState
 								},
 								onComplete: t ->
 								{
-									inIntroCutscene = false;
+									player.animation.play('idle');
+									inEndCutscene = inIntroCutscene = false;
 								}
 							});
 						}

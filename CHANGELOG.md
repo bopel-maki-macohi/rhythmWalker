@@ -1,6 +1,6 @@
 # Unreleased
 
-- Event Times get float rounded
+- Fixed Scroll Down Chinatown intro cutscene sometimes missing the beat monster
 
 # 0.2.1 - 5/23/2026
 
