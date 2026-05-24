@@ -1,5 +1,6 @@
 package;
 
+import stage.TrainWreakShooter;
 import flixel.FlxObject;
 import flixel.FlxCamera;
 import stage.TrainWreakPiece;
@@ -410,6 +411,7 @@ class PlayState extends ConductorState
 	}
 
 	public var trainGetaway_shooter:TrainGetawayShooter;
+	public var trainWreak_shooter:TrainWreakShooter;
 
 	public function makeStage(?stage:String)
 	{
@@ -471,6 +473,12 @@ class PlayState extends ConductorState
 				solidGround.screenCenter();
 				solidGround.y = FlxG.height;
 				stageBackLayer.add(solidGround);
+
+				trainWreak_shooter = new TrainWreakShooter(camGame);
+				trainWreak_shooter.screenCenter();
+				trainWreak_shooter.x -= trainWreak_shooter.width * 0.5;
+				trainWreak_shooter.y -= trainWreak_shooter.width * 0.5;
+				stageBackLayer.add(trainWreak_shooter);
 
 				player.scale.set(1, 1);
 				player.updateHitbox();
@@ -567,7 +575,7 @@ class PlayState extends ConductorState
 		switch (file)
 		{
 			case 'bro-chinatown-torn':
-				animFrames.get('moveL').flipX = true;
+				animFrames.get('hurtR').flipX = true;
 				animFrames.get('moveR').frames = [4, 5];
 
 			case 'bro-chinatown':
@@ -645,11 +653,12 @@ class PlayState extends ConductorState
 						{
 							if (Std.isOfType(sprite, StageSprite))
 							{
-								if (sprite.x != 0 || sprite.y != 0)
-								{
-									stageBackLayer.remove(sprite);
-									sprite.destroy();
-								}
+								if (sprite != trainWreak_shooter)
+									if (sprite.x != 0 || sprite.y != 0)
+									{
+										stageBackLayer.remove(sprite);
+										sprite.destroy();
+									}
 							}
 						});
 					}

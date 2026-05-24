@@ -6,7 +6,7 @@ class TrainWreakPiece extends StageSprite
 {
 	override public function new(piece:String, cam:FlxCamera, scrollfactor:Float)
 	{
-		super('train-wreak/$piece', piece == 'smoke', 640, 360);
+		super('train-wreak/$piece', piece == 'smoke' || piece == 'shooter', ((piece == 'smoke') ? 640 : 128), ((piece == 'smoke') ? 360 : 192));
 
 		if (piece == 'smoke')
 		{
@@ -17,7 +17,7 @@ class TrainWreakPiece extends StageSprite
 		setScale(2);
 		screenCenter();
 
-        setCamera(cam);
-        setScrollFactor(scrollfactor);
+		setCamera(cam);
+		setScrollFactor(scrollfactor);
 	}
 }
