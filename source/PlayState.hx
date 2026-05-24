@@ -167,6 +167,12 @@ class PlayState extends ConductorState
 			player.x = FlxG.width - (player.width * 2);
 			player.velocity.x = 0;
 		}
+
+		if (FlxG.keys.justPressed.ESCAPE)
+		{
+			seenEndCutscene = seenIntroCutscene = true;
+			onSongEnd();
+		}
 	}
 
 	function onSongEnd()
