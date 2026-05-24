@@ -1,7 +1,7 @@
 {
     "id": "train getaway",
     "variation": "default",
-    "scrollSpeed": 3.5,
+    "scrollSpeed": 6,
     "bpmChanges": [
         {
             "t": 0,
@@ -22,7 +22,7 @@
             "id": "beatmonsters-stop"
         },
         {
-            "time": 15000,
+            "time": 15468,
             "id": "beatmonsters-resume"
         },
         {
@@ -30,7 +30,7 @@
             "id": "beatmonsters-stop"
         },
         {
-            "time": 27000,
+            "time": 27468,
             "id": "beatmonsters-resume"
         },
         {

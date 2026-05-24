@@ -210,6 +210,8 @@ class PlayState extends ConductorState
 	function spawnBeatMonster()
 	{
 		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
+		beatMonster.scale.y = beatMonster.scale.x = data.beatMonsters.scale;
+		beatMonster.updateHitbox();
 
 		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
 		beatMonster.y = beatMonster.height * -2;
@@ -221,6 +223,7 @@ class PlayState extends ConductorState
 		beatMonsters: {
 			spawn: true,
 			rate: 1.0,
+			scale: 1.0,
 		}
 	};
 
@@ -365,17 +368,23 @@ class PlayState extends ConductorState
 
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
 				sky.scale.set(2, 2);
-				sky.updateHitbox();
-
-				sky.velocity.x = 256 * -10;
+				sky.velocity.x = 256 * -5;
 				sky.screenCenter(X);
 				stageBackLayer.add(sky);
 
 				var train:StageSprite = new StageSprite('train-getaway/train');
+				train.setScale(2);
 				train.screenCenter();
+				train.y = FlxG.height - train.height;
 				stageBackLayer.add(train);
 
-				player.y -= player.height * 1.1;
+				player.scale.set(1, 1);
+				player.updateHitbox();
+
+				player.screenCenter();
+				player.y = FlxG.height - player.height * 2.3;
+
+				data.beatMonsters.scale = 0.5;
 
 				persistentUpdate = true;
 
