@@ -1,5 +1,6 @@
 # 0.2.5 - 5/24/2026
 
+- Added Marcella to Train Wreak BG Crowd (None of yall know who that is hehehe >:))
 - Added Results Screen
 - Added Score + Rank text to Freeplay!
 - Added Song Ranks!

@@ -490,6 +490,7 @@ class PlayState extends ConductorState
 
 					['crowds/dj', 0.8],
 					['crowds/tiago-mobmod', 0.85],
+					['crowds/marcella', 0.875],
 					['crowds/ocs', 0.9],
 					['crowds/super-eric', 0.95],
 
@@ -538,6 +539,11 @@ class PlayState extends ConductorState
 								pieceSprCENTER.x -= pieceSprCENTER.width * .05;
 							if (Std.string(piece[0]).contains('ocs'))
 								pieceSprCENTER.x += pieceSprCENTER.width * .05;
+							if (Std.string(piece[0]).contains('marcella'))
+							{
+								pieceSprCENTER.x += pieceSprCENTER.width * .05;
+								pieceSprCENTER.y += pieceSprCENTER.height * .025;
+							}
 						}
 
 						if (piece[0] == 'smoke')
