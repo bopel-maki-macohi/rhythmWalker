@@ -11,7 +11,7 @@ class TrainWreakShooter extends TrainWreakPiece
 		addAnim('idle', [0, 1], 2);
 		addAnim('shoot', [2, 3, 3, 3, 3], 12);
 
-		setScale(1);
+		setScale(2);
 		dance();
 	}
 

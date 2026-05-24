@@ -544,17 +544,17 @@ class PlayState extends ConductorState
 
 				trainWreak_shooter = new TrainWreakShooter(camGame);
 				trainWreak_shooter.screenCenter();
-				trainWreak_shooter.x -= trainWreak_shooter.width * 0.5;
+				trainWreak_shooter.x -= trainWreak_shooter.width * 0.25;
 				trainWreak_shooter.y -= trainWreak_shooter.width * 0.5;
 				stageBackLayer.add(trainWreak_shooter);
 
-				player.scale.set(1, 1);
+				player.scale.set(2, 2);
 				player.updateHitbox();
 
 				player.screenCenter();
-				player.y = FlxG.height - player.height * 2.3;
+				player.y = FlxG.height - player.height * 1.15;
 
-				data.beatMonsters.scale = 0.5;
+				// data.beatMonsters.scale = 0.5;
 
 				persistentUpdate = true;
 
