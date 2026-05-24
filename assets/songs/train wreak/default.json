@@ -19,6 +19,26 @@
             "data": 2
         },
         {
+            "time": 14000,
+            "id": "beatmonsters-steprate",
+            "data": 3
+        },
+        {
+            "time": 19875,
+            "id": "beatmonsters-steprate",
+            "data": 4
+        },
+        {
+            "time": 22000,
+            "id": "beatmonsters-steprate",
+            "data": 6
+        },
+        {
+            "time": 32000,
+            "id": "beatmonsters-steprate",
+            "data": 8
+        },
+        {
             "time": 12000,
             "id": "beatmonsters-resume"
         },
