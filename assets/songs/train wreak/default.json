@@ -27,6 +27,38 @@
             "id": "beatmonsters-stop"
         },
         {
+            "time": 12000,
+            "id": "trainwreak-gun"
+        },
+        {
+            "time": 12500,
+            "id": "trainwreak-gun"
+        },
+        {
+            "time": 13000,
+            "id": "trainwreak-gun"
+        },
+        {
+            "time": 13500,
+            "id": "trainwreak-gun"
+        },
+        {
+            "time": 14500,
+            "id": "trainwreak-gun"
+        },
+        {
+            "time": 16500,
+            "id": "trainwreak-gun"
+        },
+        {
+            "time": 18500,
+            "id": "trainwreak-gun"
+        },
+        {
+            "time": 12250,
+            "id": "trainwreak-gun"
+        },
+        {
             "time": 12250,
             "id": "trainwreak-gun"
         },
