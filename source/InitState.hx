@@ -43,7 +43,7 @@ class InitState extends FlxState
 	function proceed()
 	{
 		#if DIALOGUE
-		FlxG.switchState(() -> new dialogue.ResultsState(new song.Song('encapture')));
+		FlxG.switchState(() -> new dialogue.DialogueScene(new song.Song('encapture')));
 		return;
 		#end
 
