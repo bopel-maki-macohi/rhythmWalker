@@ -800,15 +800,15 @@ class PlayState extends ConductorState
 					player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 				}, FlxG.updateFramerate);
 
-				forEach(basic ->
-				{
-					basic.visible = false;
-				});
-
 				FlxTimer.wait(1, () ->
 				{
 					camGame.flash(FlxColor.ORANGE, 10);
 					FlxG.sound.play(Paths.getAudio('sfx/game/cutscenes/explosion'));
+
+					forEach(basic ->
+					{
+						basic.visible = false;
+					});
 				});
 
 				FlxTimer.wait(2, () ->
