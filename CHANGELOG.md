@@ -1,5 +1,7 @@
 # 0.2.5 - 5/24/2026
 
+- The total score is now including in the Score Text
+- Added Song Ranks!
 - Added Saving!
 
 # 0.2.4 - 5/24/2026
