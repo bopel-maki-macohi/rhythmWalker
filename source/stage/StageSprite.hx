@@ -5,12 +5,15 @@ import flixel.FlxSprite;
 
 class StageSprite extends FlxSprite
 {
+	public var sprite:String;
+
 	override public function new(sprite:String, ?animated:Bool, ?fw:Int, ?fh:Int)
 	{
 		super();
 
 		if (sprite != null)
 		{
+			this.sprite = sprite;
 			loadGraphic(Paths.getImagePath('stages/$sprite'), animated, fw, fh);
 
 			setScale(4);

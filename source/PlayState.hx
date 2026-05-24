@@ -21,6 +21,8 @@ import flixel.util.FlxColor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
+using StringTools;
+
 class PlayState extends ConductorState
 {
 	var player:FlxSprite;
@@ -444,6 +446,15 @@ class PlayState extends ConductorState
 				var pieceList:Array<Dynamic> = [
 					['city', 0.5],
 					['ground', 0.75],
+
+					['crowds/randoms-left', 0.75],
+					['crowds/randoms-right', 0.75],
+
+					['crowds/dj', 0.8],
+					['crowds/tiago-mobmod', 0.85],
+					['crowds/ocs', 0.9],
+					['crowds/super-eric', 0.95],
+
 					['smoke', 1],
 					['trainSegment', 1],
 					['trainGround', 1],
@@ -453,21 +464,57 @@ class PlayState extends ConductorState
 
 				for (piece in pieceList)
 				{
-					if (!onlyCenter.contains(piece[0]))
+					var isRandom:Bool = Std.string(piece[0]).startsWith('crowds/randoms-');
+					var isCrowd:Bool = Std.string(piece[0]).startsWith('crowds/');
+
+					function crowdSpriteShit(spr:TrainWreakPiece)
+					{
+						spr.setScale(1.75);
+						spr.screenCenter();
+						// spr.y -= spr.height * .1;
+					}
+
+					if (!onlyCenter.contains(piece[0]) && !isCrowd || piece[0] == 'crowds/randoms-left')
 					{
 						var pieceSprLEFT = new TrainWreakPiece(piece[0], camGame, piece[1]);
 						stageBackLayer.add(pieceSprLEFT);
+
+						if (isCrowd)
+							crowdSpriteShit(pieceSprLEFT);
 						pieceSprLEFT.x -= pieceSprLEFT.width;
+
+						if (isRandom)
+							pieceSprLEFT.x += pieceSprLEFT.width * 0.4;
 					}
 
-					var pieceSprCENTER = new TrainWreakPiece(piece[0], camGame, piece[1]);
-					stageBackLayer.add(pieceSprCENTER);
+					if (!isRandom)
+					{
+						var pieceSprCENTER = new TrainWreakPiece(piece[0], camGame, piece[1]);
+						stageBackLayer.add(pieceSprCENTER);
 
-					if (!onlyCenter.contains(piece[0]))
+						if (isCrowd)
+						{
+							crowdSpriteShit(pieceSprCENTER);
+
+							if (Std.string(piece[0]).contains('dj'))
+								pieceSprCENTER.x -= pieceSprCENTER.width * .1;
+						}
+
+						if (piece[0] == 'smoke')
+							pieceSprCENTER.blend = OVERLAY;
+					}
+
+					if (!onlyCenter.contains(piece[0]) && !isCrowd || piece[0] == 'crowds/randoms-right')
 					{
 						var pieceSprRIGHT = new TrainWreakPiece(piece[0], camGame, piece[1]);
 						stageBackLayer.add(pieceSprRIGHT);
+
+						if (isCrowd)
+							crowdSpriteShit(pieceSprRIGHT);
 						pieceSprRIGHT.x += pieceSprRIGHT.width;
+
+						if (isRandom)
+							pieceSprRIGHT.x -= pieceSprRIGHT.width * 0.4;
 					}
 				}
 
@@ -657,7 +704,8 @@ class PlayState extends ConductorState
 						{
 							if (Std.isOfType(sprite, StageSprite))
 							{
-								if (sprite != trainWreak_shooter)
+								if (sprite != trainWreak_shooter
+									&& (sprite.scale.x >= 2 && !cast(sprite, StageSprite).sprite.contains('randoms')))
 									if (sprite.x != 0 || sprite.y != 0)
 									{
 										stageBackLayer.remove(sprite);
