@@ -2,17 +2,23 @@ import lime.app.Application;
 import flixel.FlxG;
 import song.SongRank;
 
+typedef SaveData =
+{
+	?songScores:Map<String, Int>,
+	?songRanks:Map<String, SongRank>,
+};
+
 class Save
 {
 	public static var songScores:Map<String, Int> = [];
 	public static var songRanks:Map<String, SongRank> = [];
 
-	public static var game(get, set):Dynamic;
+	public static var game(get, set):SaveData;
 
-	static function get_game():Dynamic
+	static function get_game():SaveData
 		return FlxG.save.data.game;
 
-	static function set_game(value:Dynamic):Dynamic
+	static function set_game(value:SaveData):SaveData
 		return FlxG.save.data.game = value;
 
 	public static function init()
