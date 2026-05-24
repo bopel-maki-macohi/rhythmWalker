@@ -18,4 +18,11 @@ class StageSprite extends FlxSprite
 		scale.set(x ?? y ?? 1, y ?? x ?? 1);
 		updateHitbox();
 	}
+
+	public function addAnim(anim:String, frames:Array<Int>, fps:Int, ?looped:Bool = false)
+	{
+		animation.add(anim, frames, fps, looped);
+	}
+
+	public function dance() {}
 }

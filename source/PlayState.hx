@@ -1,5 +1,6 @@
 package;
 
+import stage.TrainGetawayShooter;
 import flixel.addons.display.FlxBackdrop;
 import stage.StageSprite;
 import flixel.tweens.FlxEase;
@@ -202,6 +203,23 @@ class PlayState extends ConductorState
 			spawnBeatMonster();
 	}
 
+	override function onBeatHit(beat:Int, backward:Bool)
+	{
+		super.onBeatHit(beat, backward);
+
+		stageBackLayer.forEach(sprite ->
+		{
+			if (Std.isOfType(sprite, StageSprite))
+			{
+				var stageSprite = cast(sprite, StageSprite);
+				if (stageSprite == null)
+					return;
+
+				stageSprite.dance();
+			}
+		});
+	}
+
 	function spawnBeatMonster()
 	{
 		var beatMonster:FlxSprite = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
@@ -240,21 +258,21 @@ class PlayState extends ConductorState
 
 		switch (event.id.toLowerCase())
 		{
-			case 'traingetaway-swapPeople':
+			case 'traingetaway-swappeople':
 				if (song.id == 'train getaway')
 					return;
 
 			case 'traingetaway-reload':
 				if (song.id == 'train getaway')
-					return;
+					trainGetaway_shooter.animation.play('reload', true);
 
-			case 'traingetaway-gunJammeD':
+			case 'traingetaway-gunjammed':
 				if (song.id == 'train getaway')
-					return;
+					trainGetaway_shooter.animation.play('jammed', true);
 
 			case 'traingetaway-gun':
 				if (song.id == 'train getaway')
-					return;
+					trainGetaway_shooter.animation.play('shoot', true);
 
 			case 'camera-off', 'cam-off':
 				FlxG.camera.visible = false;
@@ -292,32 +310,6 @@ class PlayState extends ConductorState
 		switch ([song.id, song.variation])
 		{
 			case ['train getaway', defaultVariation]:
-				makeStage('train-getaway');
-
-			case ['scroll down chinatown', defaultVariation]:
-				makeStage('chinatown-bridge');
-
-			default:
-				makeStage('stage');
-		}
-	}
-
-	public function makeStage(?stage:String)
-	{
-		if (stageBackLayer == null)
-			return;
-
-		for (sprite in stageBackLayer.members)
-		{
-			stageBackLayer.members.remove(sprite);
-			sprite.destroy();
-		}
-
-		stageBackLayer.clear();
-
-		switch (stage.toLowerCase())
-		{
-			case 'train-getaway':
 				var fireSegs:Array<Float> = [];
 				var jammedSegs:Array<Float> = [];
 
@@ -349,7 +341,7 @@ class PlayState extends ConductorState
 				addIncrementSeg(15, 7, [3]);
 				addIncrementSeg(18, 7, [3]);
 				addIncrementSeg(21, 7, [3]);
-				addIncrementSeg(24, 7, [3], true);
+				addIncrementSeg(22.5, 7, [3], true);
 
 				addIncrementSeg(27, 7, [3]);
 				addIncrementSeg(30, 7, [3]);
@@ -367,6 +359,34 @@ class PlayState extends ConductorState
 						id: 'traingetaway-gunJammed'
 					});
 
+				makeStage('train-getaway');
+
+			case ['scroll down chinatown', defaultVariation]:
+				makeStage('chinatown-bridge');
+
+			default:
+				makeStage('stage');
+		}
+	}
+
+	public var trainGetaway_shooter:TrainGetawayShooter;
+
+	public function makeStage(?stage:String)
+	{
+		if (stageBackLayer == null)
+			return;
+
+		for (sprite in stageBackLayer.members)
+		{
+			stageBackLayer.members.remove(sprite);
+			sprite.destroy();
+		}
+
+		stageBackLayer.clear();
+
+		switch (stage.toLowerCase())
+		{
+			case 'train-getaway':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
 				sky.scale.set(2, 2);
 				sky.velocity.x = 256 * -5;
@@ -388,6 +408,16 @@ class PlayState extends ConductorState
 				data.beatMonsters.scale = 0.5;
 
 				persistentUpdate = true;
+
+				trainGetaway_shooter = new TrainGetawayShooter();
+				stageBackLayer.add(trainGetaway_shooter);
+
+				trainGetaway_shooter.screenCenter();
+				trainGetaway_shooter.x = trainGetaway_shooter.width * -5;
+
+				FlxTween.tween(trainGetaway_shooter, {x: FlxG.width - trainGetaway_shooter.width}, 2.75, {
+					ease: FlxEase.sineInOut
+				});
 
 			case 'chinatown-bridge':
 				persistentUpdate = true;
