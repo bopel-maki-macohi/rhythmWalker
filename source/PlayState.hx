@@ -233,7 +233,9 @@ class PlayState extends ConductorState
 
 		switch (event.id.toLowerCase())
 		{
-			case 'traingetaway-firing':
+			case 'traingetaway-gun':
+				if (song.id == 'train getaway')
+					FlxG.camera.flash(FlxColor.WHITE, conductor.stepLengthMs);
 
 			case 'camera-off', 'cam-off':
 				FlxG.camera.visible = false;
@@ -291,30 +293,48 @@ class PlayState extends ConductorState
 		switch (stage.toLowerCase())
 		{
 			case 'train-getaway':
-				var timesMS:Array<Int> = [];
-				// var timesMS = [3000, 3187, 3375, 3562, 3750, 3937, 4125, 4500];
+				var fireSegs:Array<Float> = [];
+				var jammedSegs:Array<Float> = [];
 
-				function addFireSegment(start:Int, add:Int, amount:Int)
+				function addIncrementSeg(start:Float, inc:Int, skip:Array<Int>, ?jammed:Bool)
 				{
-					for (i in 0...amount)
-						timesMS.push(start + (add * (i + 1) + ((i % 1 == 0 && i != 0) ? 1 : 0)));
+					var incs = [0, 0.187, 0.375, 0.562, 0.750, 0.937, 1.125,];
+
+					for (i in 0...inc)
+					{
+						if (!skip.contains(i))
+							if (jammed)
+								jammedSegs.push(start + incs[i]);
+							else
+								fireSegs.push(start + incs[i]);
+					}
 				}
 
-				function addGunSection(start:Int, add:Int, len:Int)
+				function addSeg(seg:Array<Float>)
 				{
-					addFireSegment(start, add, len);
-					addFireSegment(start + 750, add, len);
+					for (thing in seg)
+						fireSegs.push(thing);
 				}
 
-				addFireSegment(3000, 187, 7);
-				for (i in 0...3)
-					addGunSection(6000 + (3000 * i), 187, 3);
+				addIncrementSeg(3, 7, []);
+				addSeg([4.500, 4.781, 5.062, 5.343, 5.625]);
+				addIncrementSeg(6, 7, [4]);
+				addIncrementSeg(9, 7, [4]);
+				addIncrementSeg(12, 7, [4]);
+				addIncrementSeg(15, 7, [4]);
+				addIncrementSeg(18, 7, [4]);
+				addIncrementSeg(21, 7, [4]);
+				addIncrementSeg(24, 7, [4], true);
 
-				trace(timesMS);
+				addIncrementSeg(27, 7, [4]);
+				addIncrementSeg(30, 7, [4]);
+				addIncrementSeg(33, 7, [4]);
 
-				for (time in timesMS)
+				trace(fireSegs);
+
+				for (time in fireSegs)
 					addEvent({
-						time: time,
+						time: time * 1000,
 						id: 'traingetaway-gun'
 					});
 

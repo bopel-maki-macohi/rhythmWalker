@@ -12,6 +12,18 @@
         {
             "time": 0,
             "id": "beatmonsters-stop"
+        },
+        {
+            "time": 13500,
+            "id": "traingetaway-swapPeople"
+        },
+        {
+            "time": 24750,
+            "id": "traingetaway-reload"
+        },
+        {
+            "time": 34500,
+            "id": "traingetaway-reload"
         }
     ]
 }
