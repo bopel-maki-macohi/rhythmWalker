@@ -240,7 +240,7 @@ class PlayState extends ConductorState
 
 		final canSpawnMonster = !inEndCutscene && data.beatMonsters.spawn;
 
-		if (!inCutscene && !playerStunned && canSpawnMonster)
+		if (!inCutscene && !playerStunned && (canSpawnMonster && data.beatMonsters.stepRate > 0))
 			score += 25;
 
 		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0)

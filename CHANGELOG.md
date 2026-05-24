@@ -3,7 +3,7 @@
 - New Song: Train Wreak
 
 - Changed App Icon slightly
-- You now receive scoring when you're not in a cutscene, when you're not stunned, and when monsters are allowed to spawn (ignoring stepRate)
+- You now receive scoring when you're not in a cutscene, when you're not stunned, when monsters are allowed to spawn, and the step rate is more then 0
 - The Train Getaway sky gets faster as the song progressed
 - Changed Window Title to "Rhythm Walker"
 
