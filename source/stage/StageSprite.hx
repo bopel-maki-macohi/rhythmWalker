@@ -10,7 +10,12 @@ class StageSprite extends FlxSprite
 
 		loadGraphic(Paths.getImagePath('stages/$sprite'), animated, fw, fh);
 
-		scale.set(4, 4);
+		setScale(4);
+	}
+
+	public function setScale(?x:Float, ?y:Float)
+	{
+		scale.set(x ?? y ?? 1, y ?? x ?? 1);
 		updateHitbox();
 	}
 }
