@@ -1,0 +1,25 @@
+{
+    "id": "encapture",
+    "variation": "default",
+    "scrollSpeed": 5,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 180
+        }
+    ],
+    "events": [
+        {
+            "time": 0,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 10666,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 21333,
+            "id": "beatmonsters-stop"
+        }
+    ]
+}
