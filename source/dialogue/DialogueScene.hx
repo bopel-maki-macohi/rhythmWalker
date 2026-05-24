@@ -47,19 +47,18 @@ class DialogueScene extends ConductorState
 		{
 			characterLeft = new DialogueCharacter(dialogue.characters.left);
 			add(characterLeft);
-			characterLeft.screenCenter();
-			
-			characterLeft.y = characterLeft.x = 32;
+
+			characterLeft.screenCenter(Y);
+			characterLeft.x = characterLeft.width;
 		}
 
 		if (dialogue?.characters?.right != null)
 		{
 			characterRight = new DialogueCharacter(dialogue.characters.right);
 			add(characterRight);
-			characterRight.screenCenter();
-			
-			characterRight.y = 32;
-			characterRight.x = FlxG.width - characterRight.width - characterRight.y;
+
+			characterRight.screenCenter(Y);
+			characterRight.x = FlxG.width - (characterRight.width * 2);
 		}
 	}
 
