@@ -33,6 +33,9 @@ class ResultsState extends ConductorState
 		windupText.alignment = CENTER;
 		windupText.screenCenter();
 
+
+        FlxG.sound.play(Paths.getAudio('results/results'));
+
 		FlxTween.num(0, songScore, 4, {
 			ease: FlxEase.quintInOut,
 			onComplete: t ->
