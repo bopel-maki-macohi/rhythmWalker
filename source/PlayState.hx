@@ -151,7 +151,7 @@ class PlayState extends ConductorState
 			player.velocity.x += playerSpeed * shiftThing;
 		}
 		else
-			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1 * (player.scale.x / 4));
+			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
 
 		if (FlxG.keys.anyPressed([A, LEFT, D, RIGHT]) && !playerStunned)
 			player.animation.play('move');
