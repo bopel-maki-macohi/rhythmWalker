@@ -1,5 +1,6 @@
 package dialogue;
 
+import flixel.text.FlxText;
 import haxe.Json;
 import lime.utils.Assets;
 import flixel.FlxG;
@@ -39,6 +40,8 @@ class DialogueScene extends ConductorState
 	var characterLeft:DialogueCharacter;
 	var characterRight:DialogueCharacter;
 
+	var dialogueText:FlxText;
+
 	override function create()
 	{
 		super.create();
@@ -60,6 +63,12 @@ class DialogueScene extends ConductorState
 			characterRight.screenCenter(Y);
 			characterRight.x = FlxG.width - (characterRight.width * 2);
 		}
+
+		dialogueText = new FlxText(0, 0, 0, 'Lorem Ipsum Dolor Sit Amet', 32);
+		add(dialogueText);
+
+		dialogueText.screenCenter();
+		dialogueText.y += dialogueText.height * 4;
 	}
 
 	function leave()
