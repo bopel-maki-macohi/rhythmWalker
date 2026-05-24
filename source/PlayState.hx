@@ -69,6 +69,10 @@ class PlayState extends ConductorState
 
 		add(player);
 
+		// just realized this did not get scaled with the player and now im in a situation,
+		// cause I already got used to how it was before.
+		// shit.
+
 		playerCollision = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 		add(playerCollision);
 		playerCollision.alpha = .25; // idk if i want it on i want it subtle
