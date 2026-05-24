@@ -1,5 +1,6 @@
 # Unreleased
 
+- Fixed Freeplay Tip Text BG
 - The Chinatown Torn skin of Bro now has his eye bruise darken when he's hurt
 - Fixed Freeplay Rank Text BG
 - You now only go to the results screen when you have a new high score
