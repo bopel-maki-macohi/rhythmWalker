@@ -1,5 +1,6 @@
 # Unreleased
 
+- Train Wreak ends a few seconds early now
 - Fixed Train Getaway sky going ZOOM when leaving
 - Fixed beat monsters being able to hit you while the camera is off or has an opacity less then 10%
 - Fixed camera-on, cam-on, camera-off, and cam-off song events (Usin the wrong camera lol!)

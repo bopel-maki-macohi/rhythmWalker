@@ -121,6 +121,10 @@
         {
             "time": 21875,
             "id": "trainwreak-gun"
+        },
+        {
+            "time": 42000,
+            "id": "song-end"
         }
     ]
 }

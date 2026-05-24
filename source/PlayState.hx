@@ -342,6 +342,9 @@ class PlayState extends ConductorState
 
 		switch (event.id.toLowerCase())
 		{
+			case 'song-end':
+				onSongEnd();
+
 			case 'trainwreak-gun':
 				if (song.id == 'train wreak')
 					trainWreak_shooter.animation.play('shoot', true);
