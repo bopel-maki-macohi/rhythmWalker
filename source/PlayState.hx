@@ -557,7 +557,7 @@ class PlayState extends ConductorState
 			'idle' => {frames: [0]},
 			'hurt' => {frames: [1], fps: 2},
 			'moveL' => {frames: [2, 3], fps: 6},
-			'moveR' => {frames: [2, 3], fps: 6, flipX: true},
+			'moveR' => {frames: [2, 3], fps: 6},
 		];
 
 		switch (file)
@@ -584,7 +584,7 @@ class PlayState extends ConductorState
 		for (thing => data in animFrames)
 		{
 			trace('Player Anim "$thing" : $data');
-			player.animation.add(thing, data.frames, data?.fps ?? 24, false, data.flipX ?? false);
+			player.animation.add(thing, data.frames, data?.fps ?? 24, false);
 		}
 
 		player.animation.play('idle');
