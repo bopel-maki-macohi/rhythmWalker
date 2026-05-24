@@ -96,7 +96,7 @@ class DialogueScene extends ConductorState
 
 		proceedInTimer = new FlxTimer();
 
-		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed', 16);
+		proceedText = new FlxText(0, 0, 0, 'ENTER to proceed\nESCAPE to leave', 16);
 		add(proceedText);
 		proceedText.alpha = 0;
 		proceedText.screenCenter();
@@ -118,7 +118,7 @@ class DialogueScene extends ConductorState
 
 		if (FlxG.keys.justPressed.ESCAPE)
 			leave();
-		
+
 		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
 			proceed();
 	}
