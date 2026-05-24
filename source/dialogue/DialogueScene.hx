@@ -56,7 +56,7 @@ class DialogueScene extends ConductorState
 	{
 		super.create();
 
-		if (dialogue == null)
+		if (dialogue == null || leaving)
 		{
 			leave();
 			return;
@@ -109,7 +109,7 @@ class DialogueScene extends ConductorState
 	{
 		super.update(elapsed);
 
-		if (dialogue == null)
+		if (dialogue == null || leaving)
 			return;
 
 		dialogueText.screenCenter(X);
@@ -122,6 +122,8 @@ class DialogueScene extends ConductorState
 		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
 			proceed();
 	}
+
+	var leaving:Bool = false;
 
 	function proceed()
 	{
@@ -190,6 +192,8 @@ class DialogueScene extends ConductorState
 
 	function leave()
 	{
+		leaving = true;
+
 		FlxG.switchState(() -> new PlayState(song.id, song.variation));
 	}
 }
