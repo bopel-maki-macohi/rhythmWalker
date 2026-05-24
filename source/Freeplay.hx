@@ -37,7 +37,8 @@ class Freeplay extends ConductorState
 
 		for (i => song in songs)
 		{
-			if (song.variation == null) song.variation = defaultVariation;
+			if (song.variation == null)
+				song.variation = defaultVariation;
 
 			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', 32);
 

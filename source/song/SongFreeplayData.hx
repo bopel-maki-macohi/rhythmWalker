@@ -6,6 +6,6 @@ typedef SongFreeplayData =
 {
 	var song:String;
 
-    @:optional
+	@:optional
 	var variation:SongVariation;
 }

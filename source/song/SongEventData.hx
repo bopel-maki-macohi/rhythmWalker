@@ -5,7 +5,7 @@ typedef SongEventData =
 	var time:Float;
 
 	var id:String;
-    
-    @:optional
+
+	@:optional
 	var data:Dynamic;
 }

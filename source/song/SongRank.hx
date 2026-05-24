@@ -14,14 +14,14 @@ enum abstract SongRank(String) from String to String
 	{
 		if (percent >= 1)
 			return PERFECT;
-		
-        if (percent >= 0.8)
+
+		if (percent >= 0.8)
 			return EXCELLENT;
-		
-        if (percent >= 0.7)
+
+		if (percent >= 0.7)
 			return GREAT;
-		
-        if (percent >= 0.6)
+
+		if (percent >= 0.6)
 			return GOOD;
 
 		if (percent >= 0.5)
