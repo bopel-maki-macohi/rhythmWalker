@@ -373,7 +373,7 @@ class PlayState extends ConductorState
 		switch (event.id.toLowerCase())
 		{
 			case 'player-idle':
-				player.animation.play('idle');
+				playPlayerIdle();
 
 			case 'encapture-subjectbang':
 				if (song.id == 'encapture' && containment04_tubeSubject != null)
@@ -748,6 +748,11 @@ class PlayState extends ConductorState
 		}
 	}
 
+	function playPlayerIdle()
+	{
+		player.animation.play('idle' + ((player.flipX) ? 'R' : 'L'));
+	}
+
 	function makePlayer()
 	{
 		var file:String = 'bro-regular';
@@ -765,7 +770,8 @@ class PlayState extends ConductorState
 		}
 
 		var animFrames:Map<String, Dynamic> = [
-			'idle' => {frames: [0]},
+			'idleL' => {frames: [0]},
+			'idleR' => {frames: [0]},
 			'hurtL' => {frames: [1], fps: 2},
 			'hurtR' => {frames: [1], fps: 2},
 			'moveL' => {frames: [2, 3], fps: 6},
@@ -774,7 +780,12 @@ class PlayState extends ConductorState
 
 		switch (file)
 		{
-			case 'bro-chinatown-torn', 'bro-captured':
+			case 'bro-captured':
+				animFrames.get('idleR').flipX = true;
+				animFrames.get('hurtR').flipX = true;
+				animFrames.get('moveR').frames = [4, 5];
+
+			case 'bro-chinatown-torn':
 				animFrames.get('hurtR').flipX = true;
 				animFrames.get('moveR').frames = [4, 5];
 
@@ -800,7 +811,7 @@ class PlayState extends ConductorState
 			player.animation.add(thing, data.frames, data?.fps ?? 24, false, data.flipX);
 		}
 
-		player.animation.play('idle');
+		playPlayerIdle();
 
 		player.scale.set(2, 2);
 		player.updateHitbox();
@@ -809,7 +820,7 @@ class PlayState extends ConductorState
 		{
 			if (!inCutscene)
 			{
-				player.animation.play('idle');
+				playPlayerIdle();
 				playerStunned = false;
 			}
 		});
@@ -904,7 +915,7 @@ class PlayState extends ConductorState
 								},
 								onComplete: t ->
 								{
-									player.animation.play('idle');
+									playPlayerIdle();
 									inEndCutscene = inIntroCutscene = false;
 								}
 							});
@@ -928,7 +939,7 @@ class PlayState extends ConductorState
 		switch (song.id)
 		{
 			case 'train wreak':
-				player.animation.play('idle');
+				playPlayerIdle();
 
 				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
 				{
@@ -958,7 +969,7 @@ class PlayState extends ConductorState
 				return true;
 
 			case 'shift around':
-				player.animation.play('idle');
+				playPlayerIdle();
 
 				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
 				{
