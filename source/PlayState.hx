@@ -403,6 +403,7 @@ class PlayState extends ConductorState
 				sky.screenCenter(X);
 				stageBackLayer.add(sky);
 
+				// TODO: SCROLL FACTOR SHIT
 				for (piece in ['city', 'ground', 'smoke', 'trainSegment', 'trainGround',])
 				{
 					var pieceSpr = new TrainWreakPiece(piece);
