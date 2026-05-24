@@ -55,4 +55,19 @@ class Save
 
 		trace(game);
 	}
+
+	public static function saveSongScore(songID:String, score:Int, totalScore:Int)
+	{
+		var songScore:Int = songScores.get(songID) ?? 0;
+		var songRank:SongRank = songRanks.get(songID) ?? BAD;
+
+		if (score > songScore)
+		{
+			songScore = score;
+			songRank = SongRank.getRankFromPercent(score / totalScore);
+		}
+
+		songScores.set(songID, songScore);
+		songRanks.set(songID, songRank);
+	}
 }

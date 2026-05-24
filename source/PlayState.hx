@@ -40,6 +40,7 @@ class PlayState extends ConductorState
 	var songEvents:Array<FlxTimer> = [];
 
 	var scoreText:FlxText;
+	var totalScore:Int = 0;
 	var score:Int = 0;
 	var hits:Int = 0;
 
@@ -121,7 +122,10 @@ class PlayState extends ConductorState
 			addEvent(event);
 
 		if (FlxG.sound.music.length < 1)
+		{
+			skipping = true;
 			onSongEnd();
+		}
 
 		if (introCutscene())
 		{
@@ -216,9 +220,12 @@ class PlayState extends ConductorState
 		if (FlxG.keys.justPressed.ESCAPE)
 		{
 			seenEndCutscene = seenIntroCutscene = true;
+			skipping = true;
 			onSongEnd();
 		}
 	}
+
+	var skipping:Bool = false;
 
 	function onSongEnd()
 	{
@@ -232,6 +239,9 @@ class PlayState extends ConductorState
 			return;
 		}
 
+		if (!immortal)
+			Save.saveSongScore(song.id, score, totalScore);
+
 		trace('Yay we done');
 		FlxG.switchState(() -> new Freeplay());
 	}
@@ -242,8 +252,14 @@ class PlayState extends ConductorState
 
 		final canSpawnMonster = !inEndCutscene && data.beatMonsters.spawn;
 
-		if (!inCutscene && !playerStunned && (canSpawnMonster && data.beatMonsters.stepRate > 0))
-			score += 25;
+		if (!inCutscene && (canSpawnMonster && data.beatMonsters.stepRate > 0))
+		{
+			var scoreInc:Int = 25;
+
+			totalScore += scoreInc;
+			if (!playerStunned)
+				score += scoreInc;
+		}
 
 		if (canSpawnMonster && Math.floor(step % data.beatMonsters.stepRate) == 0)
 			spawnBeatMonster();
