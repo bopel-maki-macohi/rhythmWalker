@@ -21,6 +21,8 @@ class InitState extends FlxState
 		FlxG.sound.soundTray.volumeUpSound = Paths.getAudio('sfx/volume');
 		FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 
+		Save.init();
+
 		#if !web
 		proceed();
 		return;
