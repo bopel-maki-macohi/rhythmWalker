@@ -1,3 +1,7 @@
+# 0.2.3 - 5/23/2026
+
+- Added App Icon
+
 # 0.2.2 - 5/23/2026
 
 - New Song: Train Getaway
