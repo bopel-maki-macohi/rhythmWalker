@@ -555,7 +555,7 @@ class PlayState extends ConductorState
 					tube.setScale(2);
 
 					tube.y = FlxG.height - tube.height * 1.4 - 4;
-					tube.x = ((tube.width * 2.25) * (i)) + 32;
+					tube.x = ((tube.width * 2.75) * (i)) + 32;
 
 					stageBackLayer.add(tube);
 
