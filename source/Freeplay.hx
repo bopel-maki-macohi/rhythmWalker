@@ -130,8 +130,9 @@ class Freeplay extends ConductorState
 
 		var curSongScore:Int = Save.songScores.get(songID) ?? 0;
 		var curSongRank:SongRank = Save.songRanks.get(songID) ?? NONE;
+		var curSongRankPercent:Float = Save.songRankPercents.get(songID) ?? 0;
 
-		rankText.text = 'Score: ${curSongScore} | Rank: ${curSongRank}';
+		rankText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
 		rankText.screenCenter();
 		rankText.y = FlxG.height - rankText.height;
 	}
