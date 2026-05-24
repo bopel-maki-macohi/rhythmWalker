@@ -406,6 +406,9 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['encapture', defaultVariation]:
+				makeStage('container-04');
+
 			case ['train wreak', defaultVariation]:
 				makeStage('train-wreak');
 
@@ -491,6 +494,8 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
+			case 'container-04':
+
 			case 'train-wreak':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-wreak/sky'));
 				sky.scale.set(2, 2);
