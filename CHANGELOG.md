@@ -1,7 +1,6 @@
 # 0.2.5 - 5/24/2026
 
 - Added Score + Rank text to Freeplay!
-- The total score is now including in the Score Text
 - Added Song Ranks!
 - Added Saving!
 

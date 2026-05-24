@@ -140,7 +140,7 @@ class PlayState extends ConductorState
 
 		conductor.update(null);
 
-		scoreText.text = 'Score: $score / $totalScore | Hits Taken: $hits';
+		scoreText.text = 'Score: $score | Hits Taken: $hits';
 		scoreText.screenCenter(X);
 
 		playerCollision.x = player.getGraphicMidpoint().x - (playerCollision.width / 2);
