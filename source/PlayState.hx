@@ -220,7 +220,7 @@ class PlayState extends ConductorState
 		var songEvent = new FlxTimer();
 		songEvents.push(songEvent);
 
-		songEvent.start(event.time / 1000, function(t)
+		songEvent.start(Math.ffloor(event.time / 1000), function(t)
 		{
 			parseEvent(event);
 			songEvents.remove(songEvent);
@@ -233,9 +233,21 @@ class PlayState extends ConductorState
 
 		switch (event.id.toLowerCase())
 		{
+			case 'traingetaway-swapPeople':
+				if (song.id == 'train getaway')
+					FlxG.camera.flash(FlxColor.RED, conductor.stepLengthMs / 1000);
+
+			case 'traingetaway-reload':
+				if (song.id == 'train getaway')
+					FlxG.camera.flash(FlxColor.BLUE, conductor.stepLengthMs / 1000);
+
+			case 'traingetaway-gunJammeD':
+				if (song.id == 'train getaway')
+					FlxG.camera.flash(FlxColor.PURPLE, conductor.stepLengthMs / 1000);
+
 			case 'traingetaway-gun':
 				if (song.id == 'train getaway')
-					FlxG.camera.flash(FlxColor.WHITE, conductor.stepLengthMs);
+					FlxG.camera.flash(FlxColor.WHITE, conductor.stepLengthMs / 1000);
 
 			case 'camera-off', 'cam-off':
 				FlxG.camera.visible = false;
@@ -318,24 +330,28 @@ class PlayState extends ConductorState
 
 				addIncrementSeg(3, 7, []);
 				addSeg([4.500, 4.781, 5.062, 5.343, 5.625]);
-				addIncrementSeg(6, 7, [4]);
-				addIncrementSeg(9, 7, [4]);
-				addIncrementSeg(12, 7, [4]);
-				addIncrementSeg(15, 7, [4]);
-				addIncrementSeg(18, 7, [4]);
-				addIncrementSeg(21, 7, [4]);
-				addIncrementSeg(24, 7, [4], true);
+				addIncrementSeg(6, 7, [3]);
+				addIncrementSeg(9, 7, [3]);
+				addIncrementSeg(12, 7, [3]);
+				addIncrementSeg(15, 7, [3]);
+				addIncrementSeg(18, 7, [3]);
+				addIncrementSeg(21, 7, [3]);
+				addIncrementSeg(24, 7, [3], true);
 
-				addIncrementSeg(27, 7, [4]);
-				addIncrementSeg(30, 7, [4]);
-				addIncrementSeg(33, 7, [4]);
-
-				trace(fireSegs);
+				addIncrementSeg(27, 7, [3]);
+				addIncrementSeg(30, 7, [3]);
+				addIncrementSeg(33, 7, [3]);
 
 				for (time in fireSegs)
 					addEvent({
 						time: time * 1000,
 						id: 'traingetaway-gun'
+					});
+
+				for (time in jammedSegs)
+					addEvent({
+						time: time * 1000,
+						id: 'traingetaway-gunJammed'
 					});
 
 			case 'chinatown-bridge':
