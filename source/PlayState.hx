@@ -151,7 +151,7 @@ class PlayState extends ConductorState
 			player.velocity.x += playerSpeed * shiftThing;
 		}
 		else
-			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1);
+			player.velocity.x = FlxMath.lerp(player.velocity.x, 0, 0.1 * (player.scale.x / 4));
 
 		if (FlxG.keys.anyPressed([A, LEFT, D, RIGHT]) && !playerStunned)
 			player.animation.play('move');
@@ -177,6 +177,8 @@ class PlayState extends ConductorState
 
 	function onSongEnd()
 	{
+		FlxG.sound.music.stop();
+
 		inEndCutscene = true;
 
 		if (endCutscene())
