@@ -1,4 +1,4 @@
-# Unreleased
+# 0.2.2 - 5/23/2026
 
 - New Song: Train Getaway
 
