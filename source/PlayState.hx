@@ -501,7 +501,10 @@ class PlayState extends ConductorState
 						}
 
 						if (piece[0] == 'smoke')
+						{
 							pieceSprCENTER.blend = OVERLAY;
+							pieceSprCENTER.alpha = 0.5;
+						}
 					}
 
 					if (!onlyCenter.contains(piece[0]) && !isCrowd || piece[0] == 'crowds/randoms-right')
