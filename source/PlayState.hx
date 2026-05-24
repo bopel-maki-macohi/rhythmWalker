@@ -59,14 +59,14 @@ class PlayState extends ConductorState
 		stageBackLayer = new FlxSpriteGroup();
 		add(stageBackLayer);
 
-		generateStage();
-
 		makePlayer();
-
-		add(player);
 
 		player.screenCenter();
 		player.y = FlxG.height - player.height * 1.25;
+
+		generateStage();
+
+		add(player);
 
 		playerCollision = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
 		add(playerCollision);
@@ -365,6 +365,8 @@ class PlayState extends ConductorState
 				var train:StageSprite = new StageSprite('train-getaway/train');
 				train.screenCenter();
 				stageBackLayer.add(train);
+
+				player.y -= player.height * 1.1;
 
 			case 'chinatown-bridge':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
