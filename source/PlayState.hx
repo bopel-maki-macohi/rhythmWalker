@@ -375,7 +375,7 @@ class PlayState extends ConductorState
 
 	public var trainGetaway_shooter:TrainGetawayShooter;
 
-	public function @makeStage(?stage:String)
+	public function makeStage(?stage:String)
 	{
 		if (stageBackLayer == null)
 			return;
