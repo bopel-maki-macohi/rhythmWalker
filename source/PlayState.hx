@@ -354,6 +354,18 @@ class PlayState extends ConductorState
 						id: 'traingetaway-gunJammed'
 					});
 
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/train-getaway/sky'));
+				sky.scale.set(2, 4);
+				sky.updateHitbox();
+
+				sky.velocity.x = 256;
+				sky.screenCenter();
+				stageBackLayer.add(sky);
+
+				var train:StageSprite = new StageSprite('train-getaway/train');
+				train.screenCenter();
+				stageBackLayer.add(train);
+
 			case 'chinatown-bridge':
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
 				sky.scale.set(4, 4);
