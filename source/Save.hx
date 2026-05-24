@@ -71,7 +71,7 @@ class Save
 
 		if (score > songScore)
 		{
-			trace('NEW HIGHSCORE FOR $id: $score');
+			trace('NEW HIGHSCORE FOR "$id": $score');
 			trace(' | $score / $totalScore');
 
 			songScore = score;
