@@ -1,5 +1,6 @@
 # Unreleased
 
+- You now only go to the results screen when you have a new high score
 - Train Wreak ends a few seconds early now
 - Fixed Train Getaway sky going ZOOM when leaving
 - Fixed beat monsters being able to hit you while the camera is off or has an opacity less then 10%

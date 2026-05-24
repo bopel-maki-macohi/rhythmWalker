@@ -70,6 +70,8 @@ class Save
 		var songRank:SongRank = songRanks.get(id) ?? NONE;
 		var songRankPercent:Float = songRankPercents.get(id) ?? 0;
 
+		var newHS:Bool = false;
+
 		if (score > songScore)
 		{
 			trace('NEW HIGHSCORE FOR "$id": $score');
@@ -79,10 +81,14 @@ class Save
 
 			songRankPercent = FlxMath.roundDecimal(score / totalScore, 2);
 			songRank = SongRank.getRankFromPercent(songRankPercent);
+
+			newHS = true;
 		}
 
 		songScores.set(id, songScore);
 		songRanks.set(id, songRank);
 		songRankPercents.set(id, FlxMath.roundDecimal(songRankPercent, 2));
+
+		return newHS;
 	}
 }

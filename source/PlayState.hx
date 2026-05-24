@@ -163,7 +163,12 @@ class PlayState extends ConductorState
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (!immortal && !inCutscene && monster.overlaps(playerCollision) && !playerStunned && camGame.visible && camGame.alpha >= 0.1)
+			if (!immortal
+				&& !inCutscene
+				&& monster.overlaps(playerCollision)
+				&& !playerStunned
+				&& camGame.visible
+				&& camGame.alpha >= 0.1)
 			{
 				playerStunned = true;
 				if (player.flipX)
@@ -251,15 +256,16 @@ class PlayState extends ConductorState
 
 		final songCode = '${song.id}-${song.variation}';
 
-		if (!immortal && !skipping)
-			Save.saveSongScore(songCode, score, totalScore);
-
 		trace('Yay we done');
 
-		if (skipping)
-			FlxG.switchState(() -> new Freeplay());
-		else
-			FlxG.switchState(() -> new ResultsState(songCode));
+		if (!immortal && !skipping)
+			if (Save.saveSongScore(songCode, score, totalScore))
+			{
+				FlxG.switchState(() -> new ResultsState(songCode));
+				return;
+			}
+
+		FlxG.switchState(() -> new Freeplay());
 	}
 
 	override function onStepHit(step:Int, backward:Bool)
@@ -766,7 +772,8 @@ class PlayState extends ConductorState
 						{
 							if (Std.isOfType(sprite, StageSprite))
 							{
-								if (sprite == null) return;
+								if (sprite == null)
+									return;
 
 								if (sprite != trainWreak_shooter
 									&& (sprite.scale.x >= 2 && !cast(sprite, StageSprite).sprite.contains('randoms')))
