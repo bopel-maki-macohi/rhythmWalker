@@ -1,3 +1,7 @@
+# Unreleased
+
+- Event Times get float rounded
+
 # 0.2.1 - 5/23/2026
 
 - Updates during the transition in gameplay are disabled now
