@@ -1,5 +1,6 @@
 # 0.2.3 - 5/23/2026
 
+- Added Hurt Sound
 - Changed "Hits" text to "Hits Taken"
 - Added App Icon
 

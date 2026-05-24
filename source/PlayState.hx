@@ -126,6 +126,8 @@ class PlayState extends ConductorState
 				beatMonsters.remove(monster);
 				monster.destroy();
 
+				FlxG.sound.play(Paths.getAudio('sfx/game/hurt'));
+
 				hits++;
 			}
 
