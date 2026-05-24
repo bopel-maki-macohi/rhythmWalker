@@ -1,5 +1,7 @@
 package;
 
+import flixel.FlxObject;
+import flixel.FlxCamera;
 import stage.TrainWreakPiece;
 import stage.TrainGetawayShooter;
 import flixel.addons.display.FlxBackdrop;
@@ -36,6 +38,11 @@ class PlayState extends ConductorState
 	var score:Int = 0;
 	var hits:Int = 0;
 
+	var camGame:FlxCamera;
+	var camHUD:FlxCamera;
+
+	var camGameFollow:FlxObject;
+
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
 		super();
@@ -46,6 +53,18 @@ class PlayState extends ConductorState
 	override public function create()
 	{
 		super.create();
+
+		camGameFollow = new FlxObject(FlxG.width / 2, FlxG.height / 2);
+		add(camGameFollow);
+
+		camGame = new FlxCamera();
+		FlxG.cameras.add(camGame);
+
+		camGame.follow(camGameFollow, LOCKON, 0.04);
+
+		camHUD = new FlxCamera();
+		FlxG.cameras.add(camHUD, false);
+		camHUD.bgColor.alpha = 0;
 
 		scrollSpeed = song.scrollSpeed;
 
@@ -60,11 +79,13 @@ class PlayState extends ConductorState
 
 		stageBackLayer = new FlxSpriteGroup();
 		add(stageBackLayer);
+		stageBackLayer.camera = camGame;
 
 		makePlayer();
 
 		player.screenCenter();
 		player.y = FlxG.height - player.height * 1.25;
+		player.camera = camGame;
 
 		generateStage();
 
@@ -78,13 +99,16 @@ class PlayState extends ConductorState
 		add(playerCollision);
 		playerCollision.alpha = .25; // idk if i want it on i want it subtle
 		playerCollision.visible = false;
+		playerCollision.camera = camGame;
 
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
+		beatMonsters.camera = camGame;
 
 		scoreText = new FlxText(0, 0, 0, 'BOB', 16);
 		add(scoreText);
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		scoreText.camera = camHUD;
 
 		for (event in song.events)
 			addEvent(event);
@@ -401,22 +425,46 @@ class PlayState extends ConductorState
 				sky.scale.set(2, 2);
 				sky.velocity.x = 10;
 				sky.screenCenter(X);
-				sky.scrollFactor.set(.1, .1);
+				sky.scrollFactor.set(.25, .25);
 				stageBackLayer.add(sky);
+				sky.camera = camGame;
 
 				var pieceList:Array<Dynamic> = [
-					['city', 0.1],
-					['ground', 0.4],
-					['smoke', 0.45],
-					['trainSegment', 0.45],
-					['trainGround', 0.45],
+					['city', 0.5],
+					['ground', 0.75],
+					['smoke', 1],
+					['trainSegment', 1],
+					['trainGround', 1],
 				];
+
+				var onlyCenter:Array<String> = ['smoke', 'trainSegment', 'trainGround',];
 
 				for (piece in pieceList)
 				{
-					var pieceSpr = new TrainWreakPiece(piece[0], piece[1]);
-					stageBackLayer.add(pieceSpr);
+					if (!onlyCenter.contains(piece[0]))
+					{
+						var pieceSprLEFT = new TrainWreakPiece(piece[0], camGame, piece[1]);
+						stageBackLayer.add(pieceSprLEFT);
+						pieceSprLEFT.x -= pieceSprLEFT.width;
+					}
+
+					var pieceSprCENTER = new TrainWreakPiece(piece[0], camGame, piece[1]);
+					stageBackLayer.add(pieceSprCENTER);
+
+					if (!onlyCenter.contains(piece[0]))
+					{
+						var pieceSprRIGHT = new TrainWreakPiece(piece[0], camGame, piece[1]);
+						stageBackLayer.add(pieceSprRIGHT);
+						pieceSprRIGHT.x += pieceSprRIGHT.width;
+					}
 				}
+
+				var solidGround:StageSprite = new StageSprite(null);
+				solidGround.setCamera(camGame);
+				solidGround.makeGraphic(FlxG.width * 3, FlxG.height, FlxColor.fromString('#3b3e44'));
+				solidGround.screenCenter();
+				solidGround.y = FlxG.height;
+				stageBackLayer.add(solidGround);
 
 				player.scale.set(1, 1);
 				player.updateHitbox();
@@ -434,12 +482,14 @@ class PlayState extends ConductorState
 				sky.velocity.x = 256 * -5;
 				sky.screenCenter(X);
 				stageBackLayer.add(sky);
+				sky.camera = camGame;
 
 				var train:StageSprite = new StageSprite('train-getaway/train');
 				train.setScale(2);
 				train.screenCenter();
 				train.y = FlxG.height - train.height;
 				stageBackLayer.add(train);
+				train.camera = camGame;
 
 				player.scale.set(1, 1);
 				player.updateHitbox();
@@ -453,6 +503,7 @@ class PlayState extends ConductorState
 
 				trainGetaway_shooter = new TrainGetawayShooter();
 				stageBackLayer.add(trainGetaway_shooter);
+				trainGetaway_shooter.camera = camGame;
 
 				trainGetaway_shooter.screenCenter();
 				trainGetaway_shooter.x = trainGetaway_shooter.width * -5;
@@ -467,6 +518,7 @@ class PlayState extends ConductorState
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/chinatown-bridge/sky'));
 				sky.scale.set(4, 4);
 				sky.updateHitbox();
+				sky.camera = camGame;
 
 				sky.velocity.x = 2;
 				sky.screenCenter();
@@ -475,11 +527,13 @@ class PlayState extends ConductorState
 				var bridge:StageSprite = new StageSprite('chinatown-bridge/bridge');
 				bridge.screenCenter();
 				stageBackLayer.add(bridge);
+				bridge.camera = camGame;
 
 			case 'stage', 'understage':
 				var stage:StageSprite = new StageSprite(stage);
 				stage.screenCenter();
 				stageBackLayer.add(stage);
+				stage.camera = camGame;
 		}
 	}
 
@@ -542,6 +596,41 @@ class PlayState extends ConductorState
 
 		switch (song.id)
 		{
+			case 'train wreak':
+				camGameFollow.y -= FlxG.height * 2;
+				camGame.zoom = 0.5;
+				camGame.focusOn(camGameFollow.getPosition());
+
+				FlxTween.tween(camGameFollow, {y: FlxG.height / 2}, 6, {
+					ease: FlxEase.backInOut,
+				});
+
+				FlxTween.tween(camGame, {zoom: 1}, 6, {
+					startDelay: 5,
+					ease: FlxEase.backInOut,
+					onComplete: t ->
+					{
+						stageBackLayer.forEach(sprite ->
+						{
+							if (Std.isOfType(sprite, StageSprite))
+							{
+								if (sprite.x != 0 || sprite.y != 0)
+								{
+									stageBackLayer.remove(sprite);
+									sprite.destroy();
+								}
+							}
+						});
+					}
+				});
+
+				FlxTimer.wait(12, () ->
+				{
+					inIntroCutscene = false;
+				});
+
+				return true;
+
 			case 'scroll down chinatown':
 				player.animation.play('chinatown-bridge');
 				player.y -= player.height * 0.5;

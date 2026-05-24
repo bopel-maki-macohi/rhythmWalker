@@ -1,8 +1,10 @@
 package stage;
 
+import flixel.FlxCamera;
+
 class TrainWreakPiece extends StageSprite
 {
-	override public function new(piece:String, scrollfact:Float = 1)
+	override public function new(piece:String, cam:FlxCamera, scrollfactor:Float)
 	{
 		super('train-wreak/$piece', piece == 'smoke', 640, 360);
 
@@ -12,9 +14,10 @@ class TrainWreakPiece extends StageSprite
 			animation.play('idle');
 		}
 
-        this.scrollFactor.set(scrollfact, scrollfact);
-
 		setScale(2);
 		screenCenter();
+
+        setCamera(cam);
+        setScrollFactor(scrollfactor);
 	}
 }

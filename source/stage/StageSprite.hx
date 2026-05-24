@@ -1,5 +1,6 @@
 package stage;
 
+import flixel.FlxCamera;
 import flixel.FlxSprite;
 
 class StageSprite extends FlxSprite
@@ -8,9 +9,12 @@ class StageSprite extends FlxSprite
 	{
 		super();
 
-		loadGraphic(Paths.getImagePath('stages/$sprite'), animated, fw, fh);
+		if (sprite != null)
+		{
+			loadGraphic(Paths.getImagePath('stages/$sprite'), animated, fw, fh);
 
-		setScale(4);
+			setScale(4);
+		}
 	}
 
 	public function setScale(?x:Float, ?y:Float)
@@ -25,4 +29,14 @@ class StageSprite extends FlxSprite
 	}
 
 	public function dance() {}
+
+	public function setCamera(cam:FlxCamera)
+	{
+		camera = cam;
+	}
+
+	public function setScrollFactor(factor:Float)
+	{
+		scrollFactor.y = scrollFactor.x = factor;
+	}
 }
