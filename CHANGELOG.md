@@ -1,5 +1,6 @@
 # Unreleased
 
+- The Chinatown Torn skin of Bro now has his eye bruise darken when he's hurt
 - Fixed Freeplay Rank Text BG
 - You now only go to the results screen when you have a new high score
 - Train Wreak ends a few seconds early now
