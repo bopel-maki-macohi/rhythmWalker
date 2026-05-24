@@ -29,12 +29,14 @@ class Save
 
 	public static function load()
 	{
+		game ??= {};
+
 		game.songScores ??= [];
 		game.songRanks ??= [];
 
 		songScores = game.songScores;
 		songRanks = game.songRanks;
-		
+
 		trace(game);
 	}
 
