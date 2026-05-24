@@ -1,5 +1,7 @@
 # Unreleased
 
+- Fixed beat monsters being able to hit you while the camera is off or has an opacity less then 10%
+- Fixed camera-on, cam-on, camera-off, and cam-off song events (Usin the wrong camera lol!)
 - Fixed the lack of a transition into gameplay
 
 # 0.2.5 - 5/24/2026

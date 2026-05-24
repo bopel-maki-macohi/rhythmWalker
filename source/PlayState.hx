@@ -162,7 +162,7 @@ class PlayState extends ConductorState
 		{
 			monster.y += monster.height * (.2 * scrollSpeed);
 
-			if (!immortal && !inCutscene && monster.overlaps(playerCollision) && !playerStunned && FlxG.camera.visible && FlxG.camera.alpha > 0.1)
+			if (!immortal && !inCutscene && monster.overlaps(playerCollision) && !playerStunned && camGame.visible && camGame.alpha >= 0.1)
 			{
 				playerStunned = true;
 				if (player.flipX)
@@ -362,10 +362,10 @@ class PlayState extends ConductorState
 					trainGetaway_shooter.animation.play('shoot${FlxG.random.int(1, 2)}', true);
 
 			case 'camera-off', 'cam-off':
-				FlxG.camera.visible = false;
+				camGame.visible = false;
 
 			case 'camera-on', 'cam-on':
-				FlxG.camera.visible = true;
+				camGame.visible = true;
 
 			case 'stage-switch', 'stage-change':
 				if (event.data != null)
