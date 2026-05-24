@@ -1,5 +1,7 @@
 # 0.2.4 - 5/24/2026
 
+- New Song: Train Wreak
+
 - Changed Window Title to "Rhythm Walker"
 
 # 0.2.3 - 5/23/2026
