@@ -84,6 +84,8 @@ class DialogueScene extends ConductorState
 			dialogueFinished = true;
 		};
 
+		proceedInTimer = new FlxTimer();
+
 		startDialogue();
 	}
 
@@ -151,15 +153,11 @@ class DialogueScene extends ConductorState
 						characterRight.switchPortrait(event.data.right);
 				}
 			case 'proceedin':
-				if (event.data == null)
-					return;
-				if (proceedInTimer == null)
-					proceedInTimer = new FlxTimer();
-
-				proceedInTimer.start(Std.parseFloat(Std.string(event.data)), t ->
-				{
-					proceed();
-				});
+				if (event.data != null)
+					proceedInTimer.start(Std.parseFloat(Std.string(event.data)), t ->
+					{
+						proceed();
+					});
 		}
 	}
 
