@@ -65,6 +65,7 @@ class Freeplay extends ConductorState
 
 		var tipTextBG = new FlxSprite(0, 0).makeGraphic(Math.floor(tipText.width), Math.floor(tipText.height), FlxColor.BLACK);
 		tipTextBG.scrollFactor.set();
+		tipTextBG.screenCenter(X);
 
 		add(tipTextBG);
 		add(tipText);
