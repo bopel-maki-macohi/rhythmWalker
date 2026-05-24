@@ -67,7 +67,7 @@ class ResultsState extends ConductorState
 
 		windupText.size *= 2;
 		windupText.screenCenter();
-		windupText.x -= windupText.width / 2;
+		windupText.x -= windupText.width * 1.25;
 
 		var were:Bool = (songRank != BAD);
 
@@ -85,7 +85,7 @@ class ResultsState extends ConductorState
 
 		windupDone = true;
 
-		leaveTimer = new FlxTimer().start(5, t ->
+		leaveTimer = new FlxTimer().start(2, t ->
 		{
 			leave();
 		});
