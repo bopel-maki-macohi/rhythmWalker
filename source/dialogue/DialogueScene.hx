@@ -116,6 +116,9 @@ class DialogueScene extends ConductorState
 
 		proceedText.alpha = FlxMath.lerp(proceedText.alpha, ((dialogueFinished) ? 1 : 0), .1);
 
+		if (FlxG.keys.justPressed.ESCAPE)
+			leave();
+		
 		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
 			proceed();
 	}
