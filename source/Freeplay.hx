@@ -1,3 +1,4 @@
+import song.SongRank;
 import haxe.Json;
 import flixel.FlxSprite;
 import lime.utils.Assets;
@@ -66,8 +67,21 @@ class Freeplay extends ConductorState
 		add(tipTextBG);
 		add(tipText);
 
+		rankText = new FlxText(0, 0, 0, 'Score & Rank go here', 16);
+		rankText.alignment = CENTER;
+		rankText.scrollFactor.set();
+
+		var rankTextBG = new FlxSprite(0, 0).makeGraphic(Math.floor(rankText.width), Math.floor(rankText.height), FlxColor.BLACK);
+		rankTextBG.scrollFactor.set();
+		rankTextBG.y = FlxG.height - rankTextBG.height;
+
+		add(rankTextBG);
+		add(rankText);
+
 		changeSel(0);
 	}
+
+	var rankText:FlxText;
 
 	override function update(elapsed:Float)
 	{
@@ -111,5 +125,14 @@ class Freeplay extends ConductorState
 				camFollow.y = text.y;
 			}
 		}
+
+		var songID = '${songs[selected].song.toLowerCase()}-${songs[selected].variation ?? defaultVariation}';
+
+		var curSongScore:Int = Save.songScores.get(songID) ?? 0;
+		var curSongRank:SongRank = Save.songRanks.get(songID) ?? NONE;
+
+		rankText.text = 'Score: ${curSongScore} | Rank: ${curSongRank}';
+		rankText.screenCenter();
+		rankText.y = FlxG.height - rankText.height;
 	}
 }
