@@ -48,6 +48,8 @@ class DialogueScene extends ConductorState
 	var currentLine:Int = 0;
 	var dialogueFinished:Bool = false;
 
+	var proceedText:FlxText;
+
 	override function create()
 	{
 		super.create();
@@ -86,6 +88,9 @@ class DialogueScene extends ConductorState
 
 		proceedInTimer = new FlxTimer();
 
+		proceedText = new FlxText(0,0,0,'ENTER to proceed', 16);
+		add(proceedText);
+
 		startDialogue();
 	}
 
@@ -94,6 +99,8 @@ class DialogueScene extends ConductorState
 		super.update(elapsed);
 
 		dialogueText.screenCenter(X);
+
+		proceedText.visible = dialogueFinished;
 
 		if (FlxG.keys.justPressed.ENTER && dialogueFinished)
 			proceed();
