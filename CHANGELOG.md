@@ -5,6 +5,9 @@
 - New Song: Shift Around (Resolved)
 - New Song: First Steps (Resolved)
 
+- Added 32bit support
+    - Just disables freeplay waveform mass-caching
+
 - Freeplay Update!
     - It's now displayed if you have or haven't played a song through the song text color changing and the text having "(Unplayed)" at the end
     - The song texts have been moved to the right

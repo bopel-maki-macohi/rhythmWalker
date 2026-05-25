@@ -195,7 +195,27 @@ class Freeplay extends ConductorState
 				remove(wave);
 				wave.active = false;
 				wave.visible = false;
+
+				if (Main._32bit)
+				{
+					curWaveforms.remove(wave);
+					curWaveformsID.remove(waveID);
+					wave.destroy();
+					wave = null;
+				}
 			});
+
+			if (Main._32bit)
+			{
+				for (id => waveform in audioVizCache)
+				{
+					audioVizCache.remove(id);
+					waveform.destroy();
+					waveform = null;
+				}
+
+				audioVizCache.clear();
+			}
 
 			DialogueScene.seenIntroCutscene = false;
 			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
@@ -299,6 +319,19 @@ class Freeplay extends ConductorState
 		}
 		else
 			bgAudio.loadEmbedded(audioCache.get(songCode), true);
+
+		if (Main._32bit)
+		{
+			runOnWaveforms((wave, waveID) ->
+			{
+				curWaveforms.remove(wave);
+				curWaveformsID.remove(waveID);
+				remove(wave);
+				wave.destroy();
+			});
+
+			makeWaveform(entries[selectedEntry]);
+		}
 
 		bgAudio.play();
 
@@ -462,15 +495,18 @@ class Freeplay extends ConductorState
 
 			texts.add(tXt);
 
-			if (curWaveforms[i] == null)
+			if (!Main._32bit && curWaveforms[i] == null)
 				makeWaveform(song, i);
 		}
 
 		changeSel(entries.length);
 	}
 
-	function makeWaveform(song:FreeplaySongData, i:Int) @:privateAccess
+	function makeWaveform(song:FreeplaySongData, ?i:Null<Int>) @:privateAccess
 	{
+		if (i == null)
+			i = curWaveforms.length;
+
 		var viz:String = '${song.song.toLowerCase()}-${(song.variation ?? defaultVariation).toString().toLowerCase()}';
 
 		if (curWaveformsID.contains(viz))
