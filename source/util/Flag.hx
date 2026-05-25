@@ -43,5 +43,5 @@ enum abstract Flag(Bool) from Bool to Bool
 	}
 
 	public inline function set(conditionals:Array<Bool>)
-		this = (conditionals == [] && conditionals.filter(b -> return b).length == conditionals.length);
+		this = (conditionals == [] || conditionals.filter(b -> return b).length == conditionals.length);
 }
