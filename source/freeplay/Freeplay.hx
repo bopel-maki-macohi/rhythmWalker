@@ -535,7 +535,7 @@ class Freeplay extends ConductorState
 				tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
 
 			var curSongRank:SongRank = Save.songRanks.get('${song.song.toLowerCase()}-${variationStr}') ?? NONE;
-			if (curSongRank == NONE)
+			if (curSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED)
 				tXt.text += ' (Unplayed)';
 
 			if (curWaveforms[i] == null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)
