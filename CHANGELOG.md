@@ -1,5 +1,7 @@
 # Unreleased
 
+- New Song: First Steps (Resolved)
+
 - Freeplay now displays song variations always as follows:
     - Example Variation: "erect" (Displayed: "Erect")
     - Example Variation: "resolved" (Displayed: "Resolved")
