@@ -1,3 +1,4 @@
+import freeplay.Freeplay;
 import lime.app.Application;
 import lime.utils.Assets;
 import haxe.Json;

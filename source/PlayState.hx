@@ -1,5 +1,6 @@
 package;
 
+import freeplay.Freeplay;
 import util.CustomShader;
 import flixel.util.FlxGradient;
 import util.RWSprite;

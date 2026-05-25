@@ -1,3 +1,4 @@
+import freeplay.Freeplay;
 import flixel.util.FlxTimer;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
