@@ -502,7 +502,7 @@ class FlxWaveform extends FlxSprite
      * @param samples The number of samples to visualize.
      * @return Float `waveformDuration` value
      * 
-     * @since Rhythm Walker 0.3.0
+     * @since 2.2.0
      */
     inline public function getDurationFromSamples(samples:Int):Float
     {
