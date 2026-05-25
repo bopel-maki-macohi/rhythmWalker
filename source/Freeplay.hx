@@ -15,7 +15,7 @@ using StringTools;
 
 class Freeplay extends ConductorState
 {
-	var songs:Array<SongFreeplayData> = [];
+	public static var songs:Array<SongFreeplayData> = [];
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
 
@@ -31,8 +31,6 @@ class Freeplay extends ConductorState
 	override function create()
 	{
 		super.create();
-
-		songs = Json.parse(Assets.getText(Paths.json('game/songs/list'))).songs;
 
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);

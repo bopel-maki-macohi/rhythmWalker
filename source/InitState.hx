@@ -1,3 +1,6 @@
+import lime.app.Application;
+import lime.utils.Assets;
+import haxe.Json;
 import flixel.text.FlxText;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
@@ -21,6 +24,16 @@ class InitState extends FlxState
 		FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
 
 		Save.init();
+
+		var songList = Paths.json('game/songs/list');
+
+		if (Assets.exists(songList))
+			Freeplay.songs = Json.parse(Assets.getText(songList)).songs;
+		else
+		{
+			FlxG.stage.window.alert('SONG LIST IS MISSING, GAME WILL DIE NOW.');
+			FlxG.stage.window.close();
+		}
 
 		#if !web
 		proceed();
