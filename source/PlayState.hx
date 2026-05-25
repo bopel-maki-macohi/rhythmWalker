@@ -68,6 +68,9 @@ class PlayState extends ConductorState
 		}
 	};
 
+	var stageBackLayer:FlxSpriteGroup;
+	var stageFrontLayer:FlxSpriteGroup;
+
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
 		super(null, null);
@@ -122,6 +125,10 @@ class PlayState extends ConductorState
 		beatMonsterSpawner.camera = camGame;
 		beatMonsterSpawner.alpha = 0;
 
+		stageFrontLayer = new FlxSpriteGroup();
+		add(stageFrontLayer);
+		stageFrontLayer.camera = camGame;
+
 		scoreText = new FlxText(0, 0, 0, 'BOB', 16);
 		add(scoreText);
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
@@ -172,41 +179,45 @@ class PlayState extends ConductorState
 				playerVelocityDamping();
 		}
 
-		for (monster in beatMonsters)
+		if (beatMonsters != null)
 		{
-			monster.y += monster.height * (.2 * scrollSpeed);
+			beatMonsters.y = camGame.viewY;
 
-			if (!immortal
-				&& !inCutscene
-				&& monster.overlaps(playerCollision)
-				&& !playerStunned
-				&& camGame.visible
-				&& camGame.alpha >= 0.1)
+			for (monster in beatMonsters)
 			{
-				playerStunned = true;
-				if (player.flipX)
-					player.animation.play('hurtR');
-				else
-					player.animation.play('hurtL');
-				player.velocity.x = 0;
+				monster.y += monster.height * (.2 * scrollSpeed);
 
-				beatMonsters.remove(monster);
-				monster.destroy();
+				if (!immortal && !inCutscene && monster.overlaps(playerCollision) && !playerStunned && camGame.visible && camGame.alpha >= 0.1)
+				{
+					playerStunned = true;
+					if (player.flipX)
+						player.animation.play('hurtR');
+					else
+						player.animation.play('hurtL');
+					player.velocity.x = 0;
 
-				FlxG.sound.play(Paths.getAudio('game/hurt'));
+					beatMonsters.remove(monster);
+					monster.destroy();
 
-				hits++;
-			}
+					FlxG.sound.play(Paths.getAudio('game/hurt'));
 
-			if (monster.y > FlxG.height + monster.height)
-			{
-				beatMonsters.remove(monster);
-				monster.destroy();
+					hits++;
+				}
+
+				if (monster.y > FlxG.height + monster.height)
+				{
+					beatMonsters.remove(monster);
+					monster.destroy();
+				}
 			}
 		}
 
 		if (beatMonsterSpawner != null)
+		{
+			beatMonsterSpawner.y = camGame.viewY;
+
 			beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
+		}
 	}
 
 	function managePlayer()
@@ -332,6 +343,18 @@ class PlayState extends ConductorState
 			}
 		});
 
+		stageFrontLayer.forEach(sprite ->
+		{
+			if (Std.isOfType(sprite, StageSprite))
+			{
+				var stageSprite = cast(sprite, StageSprite);
+				if (stageSprite == null)
+					return;
+
+				stageSprite.dance();
+			}
+		});
+
 		if (trainGetaway_sky != null && FlxG.sound.music.playing)
 		{
 			trainGetaway_sky.velocity.x -= trainGetaway_i;
@@ -445,8 +468,6 @@ class PlayState extends ConductorState
 		}
 	}
 
-	var stageBackLayer:FlxSpriteGroup;
-
 	function generateStage()
 	{
 		switch ([song.id, song.variation])
@@ -534,7 +555,7 @@ class PlayState extends ConductorState
 
 	function makeStage(?stage:String)
 	{
-		if (stageBackLayer == null)
+		if (stageBackLayer == null || stageFrontLayer == null)
 			return;
 
 		for (sprite in stageBackLayer.members)
@@ -545,8 +566,61 @@ class PlayState extends ConductorState
 
 		stageBackLayer.clear();
 
+		for (sprite in stageFrontLayer.members)
+		{
+			stageFrontLayer.members.remove(sprite);
+			sprite.destroy();
+		}
+
+		stageFrontLayer.clear();
+
 		switch (stage.toLowerCase())
 		{
+			case 'crash landing':
+				var charShader = new CustomShader('dropshadow');
+
+				charShader.setFloat('hue', -9.0);
+				charShader.setFloat('saturation', -15.0);
+				charShader.setFloat('brightness', -22.0);
+				charShader.setFloat('contrast', 0.0);
+
+				player.shader = charShader;
+				beatMonsters.shader = charShader;
+
+				var sky = new FlxSprite().makeGraphic(1, 1, 0x0d0712);
+				sky.scale.set(FlxG.width, FlxG.height);
+				sky.updateHitbox();
+				sky.screenCenter();
+				sky.scrollFactor.set(0, 0);
+				stageBackLayer.add(sky);
+
+				var mountains = new StageSprite('$stage/mountains');
+				var hills = new StageSprite('$stage/hills');
+				var ground = new StageSprite('$stage/ground');
+				var frontHills = new StageSprite('$stage/frontHills');
+
+				mountains.setScrollFactor(0.25);
+				hills.setScrollFactor(0.75);
+				ground.setScrollFactor(1);
+				frontHills.setScrollFactor(1.25);
+
+				for (spr in [mountains, hills, ground, frontHills])
+				{
+					spr.setCamera(camGame);
+					spr.setScale(2);
+
+					if (spr != frontHills)
+						stageBackLayer.add(spr);
+				}
+				stageFrontLayer.add(frontHills);
+
+				player.scale.set(1.5, 1.5);
+				player.updateHitbox();
+				player.screenCenter();
+				player.y = FlxG.height - player.height * 1.3;
+
+				data.beatMonsters.scale = 0.75;
+
 			case 'stage-withered':
 				var bgShader = new CustomShader('dropshadow');
 				var charShader = new CustomShader('dropshadow');
@@ -909,6 +983,21 @@ class PlayState extends ConductorState
 
 		switch ([song.id, song.variation])
 		{
+			case ['lost media', defaultVariation]:
+				camGameFollow.y -= FlxG.height * 2;
+				camGame.focusOn(camGameFollow.getPosition());
+
+				FlxTween.tween(camGameFollow, {y: FlxG.height / 2}, 1.5, {
+					ease: FlxEase.backInOut,
+				});
+
+				FlxTimer.wait(1.75, () ->
+				{
+					inIntroCutscene = false;
+				});
+
+				return true;
+
 			case ['train wreak', defaultVariation]:
 				camGameFollow.y -= FlxG.height * 2;
 				camGame.zoom = 0.5;

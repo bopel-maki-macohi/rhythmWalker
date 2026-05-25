@@ -18,7 +18,15 @@
     ],
     "events": [
         {
-            "time": 36000,
+            "time": 0,
+            "id": "beatmonsters-stop"
+        },
+        {
+            "time": 1847,
+            "id": "beatmonsters-resume"
+        },
+        {
+            "time": 34010,
             "id": "beatmonsters-stop"
         }
     ]
