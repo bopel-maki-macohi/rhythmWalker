@@ -96,8 +96,6 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
-		filter('all');
-
 		changeSel(0);
 		changeVolume(volumeList.length);
 	}
@@ -149,7 +147,7 @@ class Freeplay extends ConductorState
 		if (selectedEntry > entries.length - 1)
 			selectedEntry = 0;
 
-		if (selectedEntry != prevSel)
+		if (selectedEntry != prevSel || amount == 0)
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
@@ -237,7 +235,7 @@ class Freeplay extends ConductorState
 
 		btmSegBG.setPosition(0, btmSegText.y);
 
-		if (selectedVolume != prevVol)
+		if (selectedVolume != prevVol || amount == 0)
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 			filter(volumeList[selectedVolume]);
