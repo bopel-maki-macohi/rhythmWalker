@@ -17,7 +17,7 @@ enum abstract Flag(Bool) from Bool to Bool
 	public static final PLAY_IMMORTAL = new Flag('PLAY_IMMORTAL', [DefineMacro.isDefined('immortal') || DefineMacro.isDefined('IMMORTAL')]);
 
 	public static final FREEPLAY_BGAUDIO = new Flag('FREEPLAY_BGAUDIO', [!PLATFORM_LINUX, !DefineMacro.isDefined('DISABLE_FREEPLAY_BGAUDIO')]);
-	public static final FREEPLAY_VISUALIZER = new Flag('FREEPLAY_VISUALIZER', [!PLATFORM_LINUX, !DefineMacro.isDefined('DISABLE_FREEPLAY_VISUALIZER')]);
+	public static final FREEPLAY_VISUALIZER = new Flag('FREEPLAY_VISUALIZER', [!PLATFORM_WEB, !PLATFORM_LINUX, !DefineMacro.isDefined('DISABLE_FREEPLAY_VISUALIZER')]);
 	public static final FREEPLAY_VISUALIZER_MULTICACHE = new Flag('FREEPLAY_VISUALIZER_MULTICACHE', [FREEPLAY_VISUALIZER, !PLATFORM_LINUX, !IS_32BIT,]);
 
 	public static final STARTINGSTATE_DIALOGUE = new Flag('STARTINGSTATE_DIALOGUE', [DefineMacro.isDefined('DIALOGUE')]);
