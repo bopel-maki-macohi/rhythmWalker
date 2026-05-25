@@ -1,5 +1,6 @@
 package flixel.addons.display.waveform;
 
+import flixel.util.FlxSignal;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.waveform.FlxWaveformBuffer;
@@ -359,6 +360,13 @@ class FlxWaveform extends FlxSprite
 	}
 
 	/**
+	 * Dispatches when data on loaded and removes all signals as soon as that happens
+	 * 
+	 * @since RhythmWalker 0.3.0
+	 */
+	public var onDataLoad:FlxSignal = new FlxSignal();
+
+	/**
 	 * Loads the audio buffer data neccessary for processing the 
 	 * waveform from a `FlxWaveformBuffer`.
 	 * 
@@ -390,6 +398,17 @@ class FlxWaveform extends FlxSprite
 			waveformDuration = 5000;
 
 		_drawDataDirty = true;
+
+		if (onDataLoad == null)
+		{
+			onDataLoad = new FlxSignal();
+            FlxG.log.add('[FlxWaveform] Re-initalized `onDataLoad`');
+		}
+		else
+		{
+			onDataLoad.dispatch();
+			onDataLoad.removeAll();
+		}
 	}
 
 	/**

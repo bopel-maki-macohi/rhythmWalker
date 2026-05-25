@@ -180,11 +180,17 @@ class Freeplay extends ConductorState
 		add(bgAudioViz);
 
 		if (audioVizCache.exists(entries[selectedEntry].song))
+		{
 			bgAudioViz.loadDataFromFlxWaveformBuffer(audioVizCache.get(entries[selectedEntry].song));
+		}
 		else
 		{
 			bgAudioViz.loadDataFromFlxSound(bgAudio);
-			audioVizCache.set(entries[selectedEntry].song, bgAudioViz.waveformBuffer);
+
+			bgAudioViz.onDataLoad.add(function()
+			{
+				audioVizCache.set(entries[selectedEntry].song, bgAudioViz.waveformBuffer);
+			});
 		}
 
 		bgAudioViz.waveformOrientation = VERTICAL;
