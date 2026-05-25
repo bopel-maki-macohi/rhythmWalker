@@ -1,5 +1,6 @@
 # 0.3.2 - 5/2026
 
+- Fixed Dialogue Loading
 - Added Scroll Down Chinatown (Resolved) dialogue
 - Added Bro Mental Skin
 - Update Bro Captured, Chinatown Torn & Chinatown Wanted Skin
