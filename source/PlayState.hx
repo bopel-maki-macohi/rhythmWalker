@@ -132,17 +132,6 @@ class PlayState extends ConductorState
 			onSongEnd();
 		}
 
-		if (!DialogueScene.seenIntroCutscene)
-		{
-			camGame.visible = camHUD.visible = false;
-			transIn = transOut = null;
-
-			FlxG.switchState(() -> new DialogueScene(this.song));
-
-			FlxG.sound.music.stop();
-			return;
-		}
-
 		if (introCutscene())
 		{
 			inIntroCutscene = true;

@@ -3,12 +3,14 @@ import lime.app.Application;
 import flixel.FlxG;
 import song.SongRank;
 
+using StringTools;
+
 typedef SaveData =
 {
 	?songScores:Map<String, Int>,
 	?songRanks:Map<String, SongRank>,
 	?songRankPercents:Map<String, Float>,
-};
+}
 
 class Save
 {

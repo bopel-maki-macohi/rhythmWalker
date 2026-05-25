@@ -1,3 +1,4 @@
+import song.Song;
 import dialogue.DialogueScene;
 import song.SongRank;
 import haxe.Json;
@@ -36,6 +37,23 @@ class Freeplay extends ConductorState
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
 
+		songs.sort((a, b) ->
+		{
+			switch ([a.variation, b.variation])
+			{
+				case [defaultVariation, resolved], [null, resolved]:
+					return -1;
+
+				case [resolved, defaultVariation], [resolved, null]:
+					return 1;
+
+				default:
+					trace([a.variation, b.variation]);
+			}
+
+			return 0;
+		});
+
 		for (i => song in songs)
 		{
 			if (song.variation == null)
@@ -44,7 +62,7 @@ class Freeplay extends ConductorState
 			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', 32);
 
 			if (song.variation != defaultVariation)
-				tXt.text += ' (${song.variation})';
+				tXt.text += ' (${song.variation.toString().substr(0, 1).toUpperCase()}${song.variation.toString().substr(1).toLowerCase()})';
 
 			tXt.screenCenter(X);
 
@@ -100,8 +118,9 @@ class Freeplay extends ConductorState
 			FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
 
 			var song:SongFreeplayData = songs[selected];
+
 			DialogueScene.seenIntroCutscene = false;
-			FlxG.switchState(() -> new PlayState(song.song, song.variation));
+			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
 		}
 	}
 

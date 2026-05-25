@@ -1,5 +1,10 @@
 # Unreleased
 
+- Freeplay now displays song variations always as follows:
+    - Example Variation: "erect" (Displayed: "Erect")
+    - Example Variation: "resolved" (Displayed: "Resolved")
+- Fixed flicker of the song playing when trying to see if there is dialogue
+
 # 0.2.6 - 5/24/2026
 
 - New Song: Encapture
