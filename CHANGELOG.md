@@ -3,7 +3,7 @@
 - New Song: Shift Around (Resolved)
 - New Song: First Steps (Resolved)
 
-- All assets been compressed via `oxipng`
+- All image assets been compressed via `oxipng`
 - Skipping now turns of all cutscenes properly
 - Fixed Transition not playing when an intro cutscene plays
 - Added Red Gradient at the top of the screen that is to help when beat monsters spawn
