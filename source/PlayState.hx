@@ -599,10 +599,10 @@ class PlayState extends ConductorState
 				var ground = new StageSprite('$stage/ground');
 				var frontHills = new StageSprite('$stage/frontHills');
 
-				mountains.setScrollFactor(0.25);
-				hills.setScrollFactor(0.75);
-				ground.setScrollFactor(1);
-				frontHills.setScrollFactor(1.25);
+				mountains.setScrollFactor(0.1);
+				hills.setScrollFactor(0.25);
+				ground.setScrollFactor(0.75);
+				frontHills.setScrollFactor(0.9);
 
 				for (spr in [mountains, hills, ground, frontHills])
 				{
