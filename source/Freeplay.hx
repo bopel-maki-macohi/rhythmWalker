@@ -16,17 +16,14 @@ using StringTools;
 class Freeplay extends ConductorState
 {
 	public static var songs:Array<SongFreeplayData> = [];
+	
+	public static var tips:Array<String> = ['No tips'];
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
 
 	var selected = 0;
 
 	var camFollow:FlxObject;
-
-	var tips:Array<String> = [
-		for (line in Assets.getText(Paths.getPath('tips.txt')).split('\n'))
-			if (line.trim().length > 0) line.trim()
-	];
 
 	override function create()
 	{

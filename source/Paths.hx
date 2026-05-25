@@ -15,6 +15,9 @@ class Paths
 	public static inline function json(path:String)
 		return getPath('$path.json');
 
+	public static inline function txt(path:String)
+		return getPath('$path.txt');
+
 	public static inline function frag(path:String)
 		return getPath('shaders/$path.frag');
 

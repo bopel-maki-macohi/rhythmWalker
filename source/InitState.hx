@@ -11,6 +11,8 @@ import flixel.FlxG;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.FlxState;
 
+using StringTools;
+
 class InitState extends FlxState
 {
 	override function create()
@@ -25,15 +27,7 @@ class InitState extends FlxState
 
 		Save.init();
 
-		var songList = Paths.json('game/songs/list');
-
-		if (Assets.exists(songList))
-			Freeplay.songs = Json.parse(Assets.getText(songList)).songs;
-		else
-		{
-			FlxG.stage.window.alert('SONG LIST IS MISSING, GAME WILL DIE NOW.');
-			FlxG.stage.window.close();
-		}
+		loadAssets();
 
 		#if !web
 		proceed();
@@ -66,6 +60,30 @@ class InitState extends FlxState
 		#end
 
 		FlxG.switchState(() -> new Freeplay());
+	}
+
+	function loadAssets()
+	{
+		var songList = Paths.json('game/songs/list');
+		var tipsList = Paths.txt('game/tips');
+
+		if (Assets.exists(songList))
+		{
+			Freeplay.songs = Json.parse(Assets.getText(songList)).songs;
+		}
+		else
+		{
+			FlxG.stage.window.alert('SONG LIST IS MISSING, GAME WILL DIE NOW.');
+			FlxG.stage.window.close();
+		}
+
+		if (Assets.exists(tipsList))
+		{
+			Freeplay.tips = [
+				for (line in Assets.getText(tipsList).split('\n'))
+					if (line.trim().length > 0) line.trim()
+			];
+		}
 	}
 
 	function getDefaultTransition():TransitionData
