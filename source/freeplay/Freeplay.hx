@@ -495,7 +495,7 @@ class Freeplay extends ConductorState
 
 			texts.add(tXt);
 
-			if (!Main._32bit && curWaveforms[i] == null)
+			if (curWaveforms[i] == null && !Main._32bit)
 				makeWaveform(song, i);
 		}
 

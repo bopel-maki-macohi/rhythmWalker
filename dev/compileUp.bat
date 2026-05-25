@@ -1,6 +1,6 @@
 lime build html5
 lime build windows
-lime build windows -32 -D32bit
+lime build windows -32 -D_32bit
 
 cd export/64bit/release/html5/bin
 wsl 7z a web-64bit.zip *

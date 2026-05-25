@@ -30,6 +30,11 @@ class InitState extends FlxState
 
 		loadAssets();
 
+		#if _32bit
+		Main._32bit = true;
+		trace('32bit');
+		#end
+
 		#if !web
 		proceed();
 		return;
