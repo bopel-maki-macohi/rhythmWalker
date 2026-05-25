@@ -93,7 +93,7 @@ class Freeplay extends ConductorState
 		add(topSegBG);
 		add(topSegText);
 
-		btmSegText = new FlxText(0, 0, 0, '', 16);
+		btmSegText = new FlxText(0, 0, 0, '', 32);
 		btmSegText.alignment = CENTER;
 		btmSegText.scrollFactor.set();
 
@@ -348,7 +348,7 @@ class Freeplay extends ConductorState
 		if (selectedVolume > volumeList.length - 1)
 			selectedVolume = 0;
 
-		btmSegText.text = 'Volume:\n< ${volumeList[selectedVolume]?.toUpperCase()} >';
+		btmSegText.text = 'Volume: ${volumeList[selectedVolume]?.toUpperCase()}';
 		btmSegText.screenCenter(X);
 		btmSegText.y = FlxG.height - btmSegText.height;
 
