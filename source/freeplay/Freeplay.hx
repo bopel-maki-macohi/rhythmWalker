@@ -197,7 +197,7 @@ class Freeplay extends ConductorState
 				wave.active = false;
 				wave.visible = false;
 
-				if (!Flag.FREEPLAY_MULTICACHE)
+				if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 				{
 					curWaveforms.remove(wave);
 					curWaveformsID.remove(waveID);
@@ -206,7 +206,7 @@ class Freeplay extends ConductorState
 				}
 			});
 
-			if (Flag.FREEPLAY_MULTICACHE)
+			if (Flag.FREEPLAY_VISUALIZER_MULTICACHE && Flag.FREEPLAY_VISUALIZER)
 			{
 				for (id => waveform in audioVizCache)
 				{
@@ -321,7 +321,7 @@ class Freeplay extends ConductorState
 		else
 			bgAudio.loadEmbedded(audioCache.get(songCode), true);
 
-		if (!Flag.FREEPLAY_MULTICACHE)
+		if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 		{
 			runOnWaveforms((wave, waveID) ->
 			{
@@ -496,7 +496,7 @@ class Freeplay extends ConductorState
 
 			texts.add(tXt);
 
-			if (curWaveforms[i] == null && Flag.FREEPLAY_MULTICACHE)
+			if (curWaveforms[i] == null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 				makeWaveform(song, i);
 		}
 
@@ -505,6 +505,8 @@ class Freeplay extends ConductorState
 
 	function makeWaveform(song:FreeplaySongData, ?i:Null<Int>) @:privateAccess
 	{
+		if (!Flag.FREEPLAY_VISUALIZER) return;
+
 		if (i == null)
 			i = curWaveforms.length;
 
