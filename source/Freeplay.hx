@@ -37,23 +37,6 @@ class Freeplay extends ConductorState
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
 
-		songs.sort((a, b) ->
-		{
-			switch ([a.variation, b.variation])
-			{
-				case [defaultVariation, resolved], [null, resolved]:
-					return -1;
-
-				case [resolved, defaultVariation], [resolved, null]:
-					return 1;
-
-				default:
-					trace([a.variation, b.variation]);
-			}
-
-			return 0;
-		});
-
 		for (i => song in songs)
 		{
 			if (song.variation == null)
