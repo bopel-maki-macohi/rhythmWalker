@@ -135,6 +135,7 @@ class FunkinChartConverter
 		for (thing in chart)
 		{
 			var len:Null<Float> = thing?.l ?? 0.0;
+            len += 1;
 
 			var tO = 0.0;
 
