@@ -594,17 +594,19 @@ class PlayState extends ConductorState
 				sky.scrollFactor.set(0, 0);
 				stageBackLayer.add(sky);
 
+				var ship = new StageSprite('$stage/ship');
 				var mountains = new StageSprite('$stage/mountains');
 				var hills = new StageSprite('$stage/hills');
 				var ground = new StageSprite('$stage/ground');
 				var frontHills = new StageSprite('$stage/frontHills');
 
+				ship.setScrollFactor(0.05);
 				mountains.setScrollFactor(0.1);
 				hills.setScrollFactor(0.25);
 				ground.setScrollFactor(0.75);
 				frontHills.setScrollFactor(0.9);
 
-				for (spr in [mountains, hills, ground, frontHills])
+				for (spr in [ship, mountains, hills, ground, frontHills])
 				{
 					spr.setCamera(camGame);
 					spr.setScale(2);
@@ -613,6 +615,20 @@ class PlayState extends ConductorState
 						stageBackLayer.add(spr);
 				}
 				stageFrontLayer.add(frontHills);
+
+				ship.setScale(1);
+				ship.alpha = .5;
+
+				ship.x += FlxG.width * 2;
+				ship.y += -FlxG.height * 2;
+
+				FlxTween.tween(ship, {x: -FlxG.width * 2, y: FlxG.height * 2}, 6, {
+					onComplete: t ->
+					{
+						stageBackLayer.remove(ship);
+						ship.destroy();
+					}
+				});
 
 				player.scale.set(1.5, 1.5);
 				player.updateHitbox();
