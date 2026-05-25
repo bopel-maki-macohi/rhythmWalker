@@ -1,0 +1,24 @@
+{
+    "characters": {
+        "left": "c137-angry",
+        "right": "bob-chinatownWanted-confused"
+    },
+    "lines": [
+        {
+            "text": "HEY YOU.",
+            "speaker": 1
+        },
+        {
+            "text": "?",
+            "speaker": 2
+        },
+        {
+            "text": "YOU'RE NOT ALLOWED HERE!",
+            "speaker": 2
+        },
+        {
+            "text": "I'M GONNA FUCKING KILL YOU!",
+            "speaker": 2
+        }
+    ]
+}
