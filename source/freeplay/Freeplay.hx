@@ -175,6 +175,23 @@ class Freeplay extends ConductorState
 		bgAudioViz.screenCenter(Y);
 	}
 
+	override function onFocusLost()
+	{
+		super.onFocusLost();
+
+		bgAudio.pause();
+	}
+
+	override function onFocus()
+	{
+		super.onFocus();
+
+		bgAudio.resume();
+		trace(bgAudio.time);
+
+		bgAudioViz.waveformTime = bgAudio.time;
+	}
+
 	function changeSel(amount:Int)
 	{
 		var prevSel = selectedEntry;
