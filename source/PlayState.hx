@@ -911,6 +911,7 @@ class PlayState extends ConductorState
 						if (animName == 'chinatown-bridge-lookup')
 						{
 							spawnBeatMonster();
+							beatMonsterSpawner.alpha += .5;
 
 							FlxTween.tween(player, {x: player.x - 128}, .4, {
 								ease: FlxEase.sineOut,
