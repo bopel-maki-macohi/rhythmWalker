@@ -2,6 +2,7 @@
 
 - New Song: Mental
 
+- [WEB] Song Score and Rank display are disabled
 - [WEB] Visualizers are disabled now
 - [WEB] Fixed Crashes loading waveforms
 - You now get score from beat monsters just being alive

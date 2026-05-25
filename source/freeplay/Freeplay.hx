@@ -400,7 +400,27 @@ class Freeplay extends ConductorState
 			}
 		}
 
-		topSegText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)\n\n' + 'Random Tip:\n$randomTip';
+		topSegText.text = '';
+
+		if (Flag.FREEPLAY_DISPLAY_SONG_SCORE)
+		{
+			topSegText.text += 'Score: ${curSongScore}';
+
+			if (Flag.FREEPLAY_DISPLAY_SONG_RANK)
+				topSegText.text += ' | ';
+		}
+
+		if (Flag.FREEPLAY_DISPLAY_SONG_RANK)
+			topSegText.text += 'Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
+
+		if (Flag.FREEPLAY_DISPLAY_TIP)
+		{
+			if (Flag.FREEPLAY_DISPLAY_SONG_SCORE || Flag.FREEPLAY_DISPLAY_SONG_RANK)
+				topSegText.text += '\n\n';
+
+			topSegText.text += 'Random Tip:\n$randomTip';
+		}
+
 		topSegText.updateHitbox();
 		topSegText.screenCenter(X);
 
