@@ -1,4 +1,4 @@
-# Unreleased
+# 0.3.0 - 5/25/2026
 
 - New Song: Scroll Down Chinatown (Resolved)
 - New Song: Lost Media
