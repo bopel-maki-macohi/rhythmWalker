@@ -167,8 +167,6 @@ class Freeplay extends ConductorState
 
 		if (bgAudioViz != null)
 		{
-			bgAudioViz.screenCenter(Y);
-
 			if (bgAudioViz.waveformBuffer != null)
 			{
 				bgAudioViz.waveformTime += elapsed * 1000;
@@ -205,6 +203,7 @@ class Freeplay extends ConductorState
 		{
 			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height), FlxColor.WHITE, FlxColor.TRANSPARENT);
 			bgAudioViz.scrollFactor.set();
+			bgAudioViz.y = topSegBG.height;
 
 			bgAudioViz.loadDataFromFlxSound(bgAudio);
 
@@ -213,8 +212,6 @@ class Freeplay extends ConductorState
 			bgAudioViz.waveformTime = 0;
 
 			bgAudioViz.alpha = 0;
-
-			bgAudioViz.y = topSegBG.height;
 
 			bgAudioViz.waveformBuffer.autoDestroy = false;
 
