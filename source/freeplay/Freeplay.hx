@@ -103,10 +103,12 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
-		filter('all');
 
 		changeSel(0);
 		changeVolume(volumeList.length);
+		filter('all');
+
+		changeAudio();
 	}
 
 	override function update(elapsed:Float)
@@ -150,13 +152,18 @@ class Freeplay extends ConductorState
 			if (bgAudio.volume > FlxG.sound.volume)
 				bgAudio.volume = FlxG.sound.volume;
 
-		if (bgAudioViz?.waveformBuffer != null)
+		if (bgAudioViz != null)
 		{
-			bgAudioViz.waveformTime += elapsed * 1000;
+			bgAudioViz.screenCenter(Y);
 
-			if (bgAudio != null)
-				if (bgAudioViz.waveformTime > bgAudio.length)
-					bgAudioViz.waveformTime = 0;
+			if (bgAudioViz.waveformBuffer != null)
+			{
+				bgAudioViz.waveformTime += elapsed * 1000;
+
+				if (bgAudio != null)
+					if (bgAudioViz.waveformTime > bgAudio.length)
+						bgAudioViz.waveformTime = 0;
+			}
 		}
 	}
 
@@ -176,8 +183,9 @@ class Freeplay extends ConductorState
 
 		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
 			return;
-		
-		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE, FlxColor.TRANSPARENT);
+
+		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height - 32), FlxColor.WHITE,
+			FlxColor.TRANSPARENT);
 		bgAudioViz.scrollFactor.set();
 
 		add(bgAudioViz);
@@ -199,8 +207,6 @@ class Freeplay extends ConductorState
 		bgAudioViz.waveformOrientation = VERTICAL;
 		bgAudioViz.waveformDuration = 125;
 		bgAudioViz.waveformTime = 0;
-
-		bgAudioViz.screenCenter(Y);
 
 		bgAudioViz.alpha = 0;
 
@@ -235,7 +241,11 @@ class Freeplay extends ConductorState
 	function loadSongAudio()
 	{
 		bgAudio.stop();
-		bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry].variation), true);
+
+		if (entries[selectedEntry] == null)
+			return;
+
+		bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
 		bgAudio.play();
 
 		reloadVisualizer();
@@ -253,26 +263,6 @@ class Freeplay extends ConductorState
 			selectedEntry = entries.length - 1;
 		if (selectedEntry > entries.length - 1)
 			selectedEntry = 0;
-
-		if (selectedEntry != prevSel || amount == 0)
-		{
-			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
-
-			if (!bgAudio.playing)
-				loadSongAudio();
-			else
-			{
-				if (bgAudioVizFade != null)
-					bgAudioVizFade.cancel();
-
-				bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
-
-				bgAudio.fadeOut(.25, 0, t ->
-				{
-					loadSongAudio();
-				});
-			}
-		}
 
 		for (i => text in texts.members)
 		{
@@ -309,13 +299,39 @@ class Freeplay extends ConductorState
 			trace(e);
 		}
 
-		topSegText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)\n' + 'Random Tip: $randomTip';
+		topSegText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)\n' + 'Random Tip:\n$randomTip';
+		topSegText.updateHitbox();
 		topSegText.screenCenter(X);
 
 		topSegBG.scale.set(FlxG.width, topSegText.height);
 		topSegBG.updateHitbox();
 
 		topSegBG.setPosition(0, topSegText.y);
+
+		if (selectedEntry != prevSel || amount == 0)
+		{
+			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+
+			changeAudio();
+		}
+	}
+
+	function changeAudio()
+	{
+		if (!bgAudio.playing)
+			loadSongAudio();
+		else
+		{
+			if (bgAudioVizFade != null)
+				bgAudioVizFade.cancel();
+
+			bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
+
+			bgAudio.fadeOut(.25, 0, t ->
+			{
+				loadSongAudio();
+			});
+		}
 	}
 
 	function changeVolume(amount:Int)
@@ -341,7 +357,9 @@ class Freeplay extends ConductorState
 		if (selectedVolume != prevVol || amount == 0)
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+
 			filter(volumeList[selectedVolume]);
+			changeAudio();
 		}
 	}
 
