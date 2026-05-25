@@ -21,19 +21,29 @@ class Freeplay extends ConductorState
 
 	public static var tips:Array<String> = ['No tips'];
 
+	public static var volumeList(get, never):Array<String>;
+
+	static function get_volumeList():Array<String>
+	{
+		return [for (song in songs) if (''.trim().length > 0) ''];
+	}
+
 	var randomTip:String = '';
 
 	var entries:Array<SongFreeplayData> = [];
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
 
-	var selecteVolume = '';
+	var selectedVolume = 0;
 	var selectedEntry = 0;
 
 	var camFollow:FlxObject;
 
 	var topSegBG:FlxSprite;
 	var topSegText:FlxText;
+
+	var btmSegBG:FlxSprite;
+	var btmSegText:FlxText;
 
 	override function create()
 	{
@@ -44,7 +54,7 @@ class Freeplay extends ConductorState
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
 
-		filter(all);
+		filter('all');
 
 		camFollow = new FlxObject();
 		add(camFollow);
@@ -63,7 +73,18 @@ class Freeplay extends ConductorState
 		add(topSegBG);
 		add(topSegText);
 
+		btmSegText = new FlxText(0, 0, 0, '', 16);
+		btmSegText.alignment = CENTER;
+		btmSegText.scrollFactor.set();
+
+		btmSegBG = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+		btmSegBG.scrollFactor.set();
+
+		add(btmSegBG);
+		add(btmSegText);
+
 		changeSel(0);
+		changeVolume(0);
 	}
 
 	override function update(elapsed:Float)
@@ -74,6 +95,11 @@ class Freeplay extends ConductorState
 			changeSel(-1);
 		if (FlxG.keys.anyJustPressed([S, DOWN]))
 			changeSel(1);
+
+		if (FlxG.keys.anyJustPressed([A, LEFT]))
+			changeVolume(-1);
+		if (FlxG.keys.anyJustPressed([D, RIGHT]))
+			changeVolume(1);
 
 		if (FlxG.keys.justPressed.ENTER)
 		{
@@ -93,8 +119,8 @@ class Freeplay extends ConductorState
 		selectedEntry += amount;
 
 		if (selectedEntry < 0)
-			selectedEntry = songs.length - 1;
-		if (selectedEntry > songs.length - 1)
+			selectedEntry = entries.length - 1;
+		if (selectedEntry > entries.length - 1)
 			selectedEntry = 0;
 
 		if (selectedEntry != prevSel)
@@ -144,14 +170,38 @@ class Freeplay extends ConductorState
 		topSegBG.setPosition(0, topSegText.y);
 	}
 
-	function filter(f:FreeplayFilter)
+	function changeVolume(amount:Int)
+	{
+		var prevVol = selectedVolume;
+
+		selectedVolume += amount;
+
+		if (selectedVolume < 0)
+			selectedVolume = songs.length - 1;
+		if (selectedVolume > songs.length - 1)
+			selectedVolume = 0;
+
+		if (selectedVolume != prevVol)
+			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+
+		btmSegText.text = 'Volume:\n< ${volumeList[selectedVolume]} >';
+		btmSegText.screenCenter(X);
+		btmSegText.y = FlxG.height - btmSegText.height;
+
+		btmSegBG.scale.set(FlxG.width, btmSegText.height);
+		btmSegBG.updateHitbox();
+
+		btmSegBG.setPosition(0, btmSegText.y);
+	}
+
+	function filter(f:String)
 	{
 		entries = [];
 
 		switch (f)
 		{
 			// case all:
-				// entries = songs;
+			// entries = songs;
 
 			default:
 				entries = songs.filter(s -> return FlxG.random.bool());
