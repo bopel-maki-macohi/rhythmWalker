@@ -887,19 +887,24 @@ class PlayState extends ConductorState
 		var dimensionsSprite:Array<Int> = [64, 64];
 		var dimensionsHitbox:Array<Int> = [32, 32];
 
-		switch (song.id)
+		switch ([song.id, song.variation])
 		{
-			case 'lost media':
+			case ['scroll down chinatown', resolved]:
+				data.player.skin = 'bro-chinatown-wanted';
+
+			case ['lost media', defaultVariation]:
 				data.player.skin = 'jez-regular';
 
-			case 'encapture':
+			case ['encapture', defaultVariation]:
 				data.player.skin = 'bro-captured';
 
-			case 'train wreak':
+			case ['train wreak', defaultVariation]:
 				data.player.skin = 'bro-chinatown-torn';
 
-			case 'scroll down chinatown', 'train getaway':
+			case ['scroll down chinatown', defaultVariation], ['train getaway', defaultVariation]:
 				data.player.skin = 'bro-chinatown';
+
+				default:
 		}
 
 		var animFrames:Map<String, Dynamic> = [
