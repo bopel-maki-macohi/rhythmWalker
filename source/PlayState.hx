@@ -463,6 +463,9 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['lost media', defaultVariation]:
+				makeStage('train-wreak');
+
 			case ['first steps', resolved], ['shift around', resolved]:
 				makeStage('stage-withered');
 

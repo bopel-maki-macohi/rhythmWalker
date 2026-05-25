@@ -1,0 +1,25 @@
+{
+    "id": "lost media",
+    "variation": "default",
+    "scrollSpeed": 3,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 260
+        },
+        {
+            "t": 11078,
+            "bpm": 300
+        },
+        {
+            "t": 20677,
+            "bpm": 180
+        }
+    ],
+    "events": [
+        {
+            "time": 36000,
+            "id": "beatmonsters-stop"
+        }
+    ]
+}
