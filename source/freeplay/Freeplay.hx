@@ -415,7 +415,8 @@ class Freeplay extends ConductorState
 			if (song.variation != defaultVariation)
 				tXt.text += ' (${song.variation.toString().substr(0, 1).toUpperCase()}${song.variation.toString().substr(1).toLowerCase()})';
 
-			tXt.screenCenter(X);
+			tXt.alignment = RIGHT;
+			tXt.x = FlxG.width - tXt.width;
 
 			texts.add(tXt);
 		}
