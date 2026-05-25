@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.addons.display.waveform.FlxWaveformBuffer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.addons.display.waveform.FlxWaveform;
@@ -36,6 +37,8 @@ class Freeplay extends ConductorState
 
 		return list;
 	}
+
+	public static var audioVizCache:Map<String, FlxWaveformBuffer> = [];
 
 	var randomTip:String = '';
 
@@ -176,7 +179,16 @@ class Freeplay extends ConductorState
 
 		add(bgAudioViz);
 
-		bgAudioViz.loadDataFromFlxSound(bgAudio);
+		if (audioVizCache.exists(entries[selectedEntry].song))
+		{
+			bgAudioViz.loadDataFromFlxWaveformBuffer(audioVizCache.get(entries[selectedEntry].song));
+		}
+		else
+		{
+			bgAudioViz.loadDataFromFlxSound(bgAudio);
+			audioVizCache.set(entries[selectedEntry].song, bgAudioViz.waveformBuffer);
+		}
+
 		bgAudioViz.waveformOrientation = VERTICAL;
 		bgAudioViz.waveformDuration = 125;
 		bgAudioViz.waveformTime = 0;
