@@ -1,5 +1,6 @@
 package freeplay;
 
+import openfl.media.Sound;
 import flixel.addons.display.waveform.FlxWaveformBuffer;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -38,6 +39,7 @@ class Freeplay extends ConductorState
 		return list;
 	}
 
+	public static var audioCache:Map<String, Sound> = [];
 	public static var audioVizCache:Map<String, FlxWaveform> = [];
 
 	var randomTip:String = '';
@@ -240,14 +242,19 @@ class Freeplay extends ConductorState
 		}
 	}
 
-	function loadSongAudio()
+	function loadSongAudio() @:privateAccess
 	{
 		bgAudio.stop();
 
 		if (entries[selectedEntry] == null)
 			return;
 
-		bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true, false, null, false);
+		if (!audioCache.exists(entries[selectedEntry].song))
+			bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
+		else
+			bgAudio.loadEmbedded(audioCache.get(entries[selectedEntry].song), true);
+		audioCache.set(entries[selectedEntry].song, bgAudio._sound);
+
 		bgAudio.play();
 
 		reloadVisualizer();
