@@ -17,8 +17,10 @@
     },
     {
       "name": "flixel-waveform",
-      "type": "haxelib",
-      "version": null
+      "type": "git",
+      "dir": null,
+      "ref": "f27588df638494dfdf87e448b3c156f549015ed6",
+      "url": "https://github.com/ACrazyTown/flixel-waveform"
     },
     {
       "name": "flxrhythmconductor",
