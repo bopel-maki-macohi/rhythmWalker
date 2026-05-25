@@ -6,8 +6,9 @@
 - New Song: First Steps (Resolved)
 
 - Freeplay Update!
+    - It's now displayed if you have or haven't played a song through the song text color changing and the text having "(Unplayed)" at the end
     - The song texts have been moved to the right
-    - Added Visualizer to the left side of the screen
+    - Added Visualizer of the current song to the left side of the screen
     - The song you have selected now plays in the bg
     - Added Filters!
     - Split into 2 segments now

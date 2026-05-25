@@ -306,17 +306,6 @@ class Freeplay extends ConductorState
 		if (selectedEntry > entries.length - 1)
 			selectedEntry = 0;
 
-		for (i => text in texts.members)
-		{
-			text.color = FlxColor.WHITE;
-
-			if (i == selectedEntry)
-			{
-				text.color = FlxColor.YELLOW;
-				camFollow.y = text.y;
-			}
-		}
-
 		var curSongScore:Int = Save.songScores.get(songCode) ?? 0;
 		var curSongRank:SongRank = Save.songRanks.get(songCode) ?? NONE;
 		var curSongRankPercent:Float = 0;
@@ -337,6 +326,17 @@ class Freeplay extends ConductorState
 			else
 			#end
 			trace(e);
+		}
+
+		for (i => text in texts.members)
+		{
+			text.color = (curSongRank == NONE) ? FlxColor.RED : FlxColor.WHITE;
+
+			if (i == selectedEntry)
+			{
+				text.color = (curSongRank == NONE) ? FlxColor.ORANGE : FlxColor.YELLOW;
+				camFollow.y = text.y;
+			}
 		}
 
 		topSegText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)\n\n' + 'Random Tip:\n$randomTip';
@@ -434,8 +434,13 @@ class Freeplay extends ConductorState
 
 			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', 32);
 
+
 			if (song.variation != defaultVariation)
 				tXt.text += ' (${song.variation.toString().substr(0, 1).toUpperCase()}${song.variation.toString().substr(1).toLowerCase()})';
+
+			var curSongRank:SongRank = Save.songRanks.get('${song.song.toLowerCase()}-${song.variation?.toString().toLowerCase()}') ?? NONE;
+			if (curSongRank == NONE)
+				tXt.text += ' (Unplayed)';
 
 			tXt.alignment = RIGHT;
 			tXt.x = FlxG.width - tXt.width;
