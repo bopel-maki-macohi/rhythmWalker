@@ -18,7 +18,7 @@ class Song
 	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)
 	{
 		this.id = nid.toLowerCase();
-		this.variation = nvariation.clone();
+		this.variation = new SongVariation(nvariation.toString().toLowerCase());
 
 		if (loadFile)
 			this.loadFile();

@@ -836,9 +836,9 @@ class PlayState extends ConductorState
 
 		seenIntroCutscene = true;
 
-		switch (song.id)
+		switch ([song.id, song.variation])
 		{
-			case 'train wreak':
+			case ['train wreak', defaultVariation]:
 				camGameFollow.y -= FlxG.height * 2;
 				camGame.zoom = 0.5;
 				camGame.focusOn(camGameFollow.getPosition());
@@ -878,7 +878,7 @@ class PlayState extends ConductorState
 
 				return true;
 
-			case 'scroll down chinatown':
+			case ['scroll down chinatown', defaultVariation]:
 				player.animation.play('chinatown-bridge');
 				player.y -= player.height * 0.5;
 
@@ -916,8 +916,9 @@ class PlayState extends ConductorState
 				});
 
 				return true;
-		}
 
+			default:
+		}
 		return false;
 	}
 
@@ -928,9 +929,9 @@ class PlayState extends ConductorState
 
 		seenEndCutscene = true;
 
-		switch (song.id)
+		switch ([song.id, song.variation])
 		{
-			case 'train wreak':
+			case ['train wreak', defaultVariation]:
 				playPlayerIdle();
 
 				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
@@ -960,7 +961,7 @@ class PlayState extends ConductorState
 
 				return true;
 
-			case 'shift around':
+			case ['shift around', defaultVariation]:
 				playPlayerIdle();
 
 				new FlxTimer().start(1 / FlxG.updateFramerate, t ->
@@ -986,6 +987,8 @@ class PlayState extends ConductorState
 				FlxTimer.wait(4, onSongEnd);
 
 				return true;
+
+			default:
 		}
 
 		return false;

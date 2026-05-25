@@ -4,10 +4,6 @@
             "song": "First Steps"
         },
         {
-            "song": "First Steps",
-            "variation": "Resolved"
-        },
-        {
             "song": "Shift Around"
         },
         {
@@ -21,6 +17,14 @@
         },
         {
             "song": "Encapture"
+        },
+        {
+            "song": "First Steps",
+            "variation": "Resolved"
+        },
+        {
+            "song": "Shift Around",
+            "variation": "Resolved"
         }
     ]
 }

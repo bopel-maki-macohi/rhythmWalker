@@ -1,5 +1,6 @@
 # Unreleased
 
+- New Song: Shift Around (Resolved)
 - New Song: First Steps (Resolved)
 
 - Freeplay now displays song variations always as follows:
