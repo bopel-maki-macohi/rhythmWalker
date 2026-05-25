@@ -132,7 +132,7 @@ class Freeplay extends ConductorState
 			}
 		}
 
-		var songID = '${songs[selected].song.toLowerCase()}-${songs[selected].variation ?? defaultVariation}';
+		var songID = '${songs[selected].song.toLowerCase()}-${(songs[selected].variation ?? defaultVariation).toString().toLowerCase()}';
 
 		var curSongScore:Int = Save.songScores.get(songID) ?? 0;
 		var curSongRank:SongRank = Save.songRanks.get(songID) ?? NONE;
