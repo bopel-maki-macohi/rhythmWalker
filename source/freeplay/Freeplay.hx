@@ -230,6 +230,11 @@ class Freeplay extends ConductorState
 			bgAudio.fadeTween.cancel();
 
 		bgAudio.volume = FlxG.sound.volume;
+
+		runOnWaveforms((wave, waveID) ->
+		{
+			wave.alpha = FlxG.sound.volume;
+		});
 	}
 
 	function fadeinVisualizer()
