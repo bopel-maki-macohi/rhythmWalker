@@ -141,13 +141,10 @@ class PlayState extends ConductorState
 			onSongEnd();
 		}
 
-		if (introCutscene())
-		{
-			inIntroCutscene = true;
-			return;
-		}
-
 		transitionIn();
+
+		if (introCutscene())
+			inIntroCutscene = true;
 	}
 
 	override function update(elapsed:Float)
