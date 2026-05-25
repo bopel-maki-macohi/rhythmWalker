@@ -143,7 +143,7 @@ class PlayState extends ConductorState
 
 		transitionIn();
 
-		if (introCutscene() && !skipping)
+		if (introCutscene())
 			inIntroCutscene = true;
 	}
 
