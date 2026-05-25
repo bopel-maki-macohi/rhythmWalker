@@ -904,7 +904,7 @@ class PlayState extends ConductorState
 			case ['scroll down chinatown', defaultVariation], ['train getaway', defaultVariation]:
 				data.player.skin = 'bro-chinatown';
 
-				default:
+			default:
 		}
 
 		var animFrames:Map<String, Dynamic> = [
@@ -918,6 +918,11 @@ class PlayState extends ConductorState
 
 		switch (data.player.skin)
 		{
+			case 'bro-chinatown-wanted':
+				animFrames.get('idleL').frames = animFrames.get('idleR').frames = [0, 1];
+				animFrames.get('hurtL').frames = animFrames.get('hurtR').frames = [2, 3];
+				animFrames.get('moveL').frames = animFrames.get('moveR').frames = [4, 5];
+
 			case 'jez-regular':
 				dimensionsSprite = [96, 112];
 				data.player.maxVelocityBase = 250;
