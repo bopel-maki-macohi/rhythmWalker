@@ -1,3 +1,4 @@
+import util.Flag;
 import freeplay.Freeplay;
 import lime.app.Application;
 import lime.utils.Assets;
@@ -32,10 +33,8 @@ class InitState extends FlxState
 
 		FlxG.stage.window.title = 'Rhythm Walker (v${FlxG.stage.application.meta.get('version')})';
 
-		#if _32bit
-		Main._32bit = true;
-		trace('32bit');
-		#end
+		for (id => flag in Flag.list)
+			trace('Flag "${id}" : $flag');
 
 		#if !web
 		proceed();

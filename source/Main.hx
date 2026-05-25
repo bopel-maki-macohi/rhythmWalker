@@ -5,8 +5,6 @@ import openfl.display.Sprite;
 
 class Main extends Sprite
 {
-	public static var _32bit:Bool = false;
-
 	public function new()
 	{
 		super();
