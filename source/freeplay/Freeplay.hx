@@ -158,6 +158,14 @@ class Freeplay extends ConductorState
 		changeSel(0);
 		filter('all');
 
+		if (transIn == null)
+			finishTransIn();
+	}
+
+	override function finishTransIn()
+	{
+		super.finishTransIn();
+
 		if (Flag.FREEPLAY_BGAUDIO)
 			changeBGAudio();
 	}
