@@ -121,7 +121,7 @@ class Freeplay extends ConductorState
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
 
-			var song:SongFreeplayData = songs[selectedEntry];
+			var song:SongFreeplayData = entries[selectedEntry];
 
 			if (bgAudio.playing)
 				bgAudio.fadeOut(.25, 0, t ->
