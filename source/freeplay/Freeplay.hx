@@ -38,7 +38,7 @@ class Freeplay extends ConductorState
 		return list;
 	}
 
-	public static var audioVizCache:Map<String, FlxWaveformBuffer> = [];
+	public static var audioVizCache:Map<String, FlxWaveform> = [];
 
 	var randomTip:String = '';
 
@@ -102,7 +102,6 @@ class Freeplay extends ConductorState
 
 		add(btmSegBG);
 		add(btmSegText);
-
 
 		changeSel(0);
 		changeVolume(volumeList.length);
@@ -184,39 +183,39 @@ class Freeplay extends ConductorState
 		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
 			return;
 
-		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height), FlxColor.WHITE,
-			FlxColor.TRANSPARENT);
-		bgAudioViz.scrollFactor.set();
-
-		add(bgAudioViz);
-
 		if (audioVizCache.exists(entries[selectedEntry].song) && audioVizCache.get(entries[selectedEntry].song) != null)
 		{
-			bgAudioViz.loadDataFromFlxWaveformBuffer(audioVizCache.get(entries[selectedEntry].song));
+			bgAudioViz = audioVizCache.get(entries[selectedEntry].song);
 		}
 		else
 		{
+			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height), FlxColor.WHITE, FlxColor.TRANSPARENT);
+			bgAudioViz.scrollFactor.set();
+
 			bgAudioViz.loadDataFromFlxSound(bgAudio);
+
+			bgAudioViz.waveformOrientation = VERTICAL;
+			bgAudioViz.waveformDuration = 125;
+			bgAudioViz.waveformTime = 0;
+
+			bgAudioViz.alpha = 0;
+
+			bgAudioViz.y = topSegBG.height;
+
+			bgAudioViz.waveformBuffer.autoDestroy = false;
 
 			bgAudioViz.onDataLoad.add(function()
 			{
-				bgAudioViz.waveformBuffer.autoDestroy = false;
-				audioVizCache.set(entries[selectedEntry].song, bgAudioViz.waveformBuffer);
+				audioVizCache.set(entries[selectedEntry].song, bgAudioViz);
 			});
 		}
 
-		bgAudioViz.waveformOrientation = VERTICAL;
-		bgAudioViz.waveformDuration = 125;
-		bgAudioViz.waveformTime = 0;
-
-		bgAudioViz.alpha = 0;
+		add(bgAudioViz);
 
 		if (bgAudioVizFade != null)
 			bgAudioVizFade.cancel();
 
 		bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
-
-		bgAudioViz.y = topSegBG.height;
 	}
 
 	override function onFocusLost()
