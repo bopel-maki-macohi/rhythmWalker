@@ -33,7 +33,6 @@ class PlayState extends ConductorState
 	var immortal:Bool = #if immortal true #else false #end;
 
 	var player:FlxSprite;
-	var playerSpeed:Float = 10;
 	var playerStunned:Bool = false;
 	var playerCollision:FlxSprite;
 
@@ -55,6 +54,19 @@ class PlayState extends ConductorState
 	var camGameFollow:FlxObject;
 
 	var beatMonsterSpawner:FlxSprite;
+
+	var data = {
+		player: {
+			skin: 'bro-regular',
+			maxVelocityBase: 200,
+			speed: 20,
+		},
+		beatMonsters: {
+			spawn: true,
+			stepRate: 4,
+			scale: 1.0
+		}
+	};
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
@@ -99,22 +111,6 @@ class PlayState extends ConductorState
 		stageBackLayer.camera = camGame;
 
 		makePlayer();
-
-		player.screenCenter();
-		player.y = FlxG.height - player.height * 1.25;
-		player.camera = camGame;
-
-		add(player);
-
-		// just realized this did not get scaled with the player and now im in a situation,
-		// cause I already got used to how it was before.
-		// shit.
-
-		playerCollision = new FlxSprite().makeGraphic(32, 32, FlxColor.RED);
-		add(playerCollision);
-		playerCollision.alpha = .25; // idk if i want it on i want it subtle
-		playerCollision.visible = false;
-		playerCollision.camera = camGame;
 
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
@@ -216,7 +212,7 @@ class PlayState extends ConductorState
 	function managePlayer()
 	{
 		var shiftThing:Float = 1;
-		player.maxVelocity.x = 200 * scrollSpeed;
+		player.maxVelocity.x = data.player.maxVelocityBase * scrollSpeed;
 
 		if (FlxG.keys.pressed.SHIFT)
 			shiftThing *= 2;
@@ -224,7 +220,7 @@ class PlayState extends ConductorState
 		if (FlxG.keys.anyPressed([A, LEFT]))
 		{
 			player.flipX = false;
-			player.velocity.x -= playerSpeed * shiftThing;
+			player.velocity.x -= data.player.speed * shiftThing;
 
 			if (!playerStunned)
 				player.animation.play('moveL');
@@ -232,7 +228,7 @@ class PlayState extends ConductorState
 		else if (FlxG.keys.anyPressed([D, RIGHT]))
 		{
 			player.flipX = true;
-			player.velocity.x += playerSpeed * shiftThing;
+			player.velocity.x += data.player.speed * shiftThing;
 
 			if (!playerStunned)
 				player.animation.play('moveR');
@@ -359,14 +355,6 @@ class PlayState extends ConductorState
 		beatMonsterSpawner.alpha += .1;
 	}
 
-	var data = {
-		beatMonsters: {
-			spawn: true,
-			stepRate: 4,
-			scale: 1.0
-		}
-	};
-
 	function addEvent(event:SongEventData)
 	{
 		var songEvent = new FlxTimer();
@@ -464,7 +452,7 @@ class PlayState extends ConductorState
 		switch ([song.id, song.variation])
 		{
 			case ['lost media', defaultVariation]:
-				makeStage('train-wreak');
+				makeStage('crash landing');
 
 			case ['first steps', resolved], ['shift around', resolved]:
 				makeStage('stage-withered');
@@ -803,18 +791,24 @@ class PlayState extends ConductorState
 
 	function makePlayer()
 	{
-		var file:String = 'bro-regular';
+		data.player.skin = 'bro-regular';
+
+		var dimensionsSprite:Array<Int> = [64, 64];
+		var dimensionsHitbox:Array<Int> = [32, 32];
 
 		switch (song.id)
 		{
+			case 'lost media':
+				data.player.skin = 'jez-regular';
+
 			case 'encapture':
-				file = 'bro-captured';
+				data.player.skin = 'bro-captured';
 
 			case 'train wreak':
-				file = 'bro-chinatown-torn';
+				data.player.skin = 'bro-chinatown-torn';
 
 			case 'scroll down chinatown', 'train getaway':
-				file = 'bro-chinatown';
+				data.player.skin = 'bro-chinatown';
 		}
 
 		var animFrames:Map<String, Dynamic> = [
@@ -826,8 +820,13 @@ class PlayState extends ConductorState
 			'moveR' => {frames: [2, 3], fps: 6},
 		];
 
-		switch (file)
+		switch (data.player.skin)
 		{
+			case 'jez-regular':
+				dimensionsSprite = [96, 112];
+				data.player.maxVelocityBase = 250;
+				data.player.speed = 30;
+
 			case 'bro-captured':
 				animFrames.get('idleR').flipX = true;
 				animFrames.get('hurtR').flipX = true;
@@ -851,7 +850,7 @@ class PlayState extends ConductorState
 		}
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
-		player = new FlxSprite().loadGraphic(Paths.getImagePath('game/players/$file'), true, 64, 64);
+		player = new FlxSprite().loadGraphic(Paths.getImagePath('game/players/${data.player.skin}'), true, dimensionsSprite[0], dimensionsSprite[1]);
 
 		for (thing => data in animFrames)
 		{
@@ -872,6 +871,22 @@ class PlayState extends ConductorState
 				playerStunned = false;
 			}
 		});
+
+		player.screenCenter();
+		player.y = FlxG.height - player.height * 1.25;
+		player.camera = camGame;
+
+		// just realized this did not get scaled with the player and now im in a situation,
+		// cause I already got used to how it was before.
+		// shit.
+
+		playerCollision = new FlxSprite().makeGraphic(dimensionsHitbox[0], dimensionsHitbox[1], FlxColor.RED);
+		playerCollision.alpha = .25; // idk if i want it on i want it subtle
+		playerCollision.visible = false;
+		playerCollision.camera = camGame;
+
+		add(player);
+		add(playerCollision);
 	}
 
 	var inIntroCutscene:Bool = false;
