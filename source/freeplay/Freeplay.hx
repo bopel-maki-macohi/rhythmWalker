@@ -122,11 +122,20 @@ class Freeplay extends ConductorState
 
 			var song:SongFreeplayData = songs[selectedEntry];
 
+			if (bgAudio.playing)
+				bgAudio.fadeOut(.25, 0, t ->
+				{
+					bgAudio.stop();
+					bgAudio.destroy();
+					bgAudio = null;
+				});
+
 			DialogueScene.seenIntroCutscene = false;
 			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
 		}
 
-		bgAudio.volume = FlxG.sound.volume;
+		if (bgAudio != null)
+			bgAudio.volume = FlxG.sound.volume;
 	}
 
 	function changeSel(amount:Int)
