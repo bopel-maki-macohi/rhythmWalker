@@ -439,6 +439,9 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['first steps', resolved], ['shift around', resolved]:
+				makeStage('stage-withered');
+
 			case ['encapture', defaultVariation]:
 				makeStage('containment-04');
 
@@ -729,7 +732,7 @@ class PlayState extends ConductorState
 				stageBackLayer.add(bridge);
 				bridge.camera = camGame;
 
-			case 'stage', 'understage':
+			case 'stage', 'understage', 'stage-withered':
 				var backdrop:StageSprite = new StageSprite(stage);
 				backdrop.screenCenter();
 				stageBackLayer.add(backdrop);
