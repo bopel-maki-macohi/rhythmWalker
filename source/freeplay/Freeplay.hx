@@ -221,7 +221,7 @@ class Freeplay extends ConductorState
 			function newShit()
 			{
 				bgAudio.stop();
-				bgAudio.loadEmbedded(Paths.getSong(songs[selectedEntry].song, songs[selectedEntry].variation), true);
+				bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry].variation), true);
 				bgAudio.play();
 
 				reloadVisualizer();
