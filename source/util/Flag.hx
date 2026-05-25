@@ -10,6 +10,7 @@ enum abstract Flag(Bool) from Bool to Bool
 
 	public static final PLATFORM_LINUX = new Flag('PLATFORM_LINUX', [DefineMacro.isDefined('linux')]);
 
+	public static final FREEPLAY_BGAUDIO = new Flag('FREEPLAY_BGAUDIO', [!PLATFORM_LINUX, !DefineMacro.isDefined('DISABLE_FREEPLAY_BGAUDIO')]);
 	public static final FREEPLAY_VISUALIZER = new Flag('FREEPLAY_VISUALIZER', [!PLATFORM_LINUX, !DefineMacro.isDefined('DISABLE_FREEPLAY_VISUALIZER')]);
 	public static final FREEPLAY_VISUALIZER_MULTICACHE = new Flag('FREEPLAY_VISUALIZER_MULTICACHE', [FREEPLAY_VISUALIZER, !PLATFORM_LINUX, !IS_32BIT,]);
 

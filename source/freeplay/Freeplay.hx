@@ -158,7 +158,8 @@ class Freeplay extends ConductorState
 		changeSel(0);
 		filter('all');
 
-		changeAudio();
+		if (Flag.FREEPLAY_BGAUDIO)
+			changeBGAudio();
 	}
 
 	override function update(elapsed:Float)
@@ -399,11 +400,12 @@ class Freeplay extends ConductorState
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
-			changeAudio();
+			if (Flag.FREEPLAY_BGAUDIO)
+				changeBGAudio();
 		}
 	}
 
-	function changeAudio()
+	function changeBGAudio()
 	{
 		if (!bgAudio.playing)
 			loadSongAudio();
@@ -447,7 +449,9 @@ class Freeplay extends ConductorState
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
 			filter(filterList[selectedVolume]);
-			changeAudio();
+
+			if (Flag.FREEPLAY_BGAUDIO)
+				changeBGAudio();
 		}
 	}
 
@@ -505,7 +509,8 @@ class Freeplay extends ConductorState
 
 	function makeWaveform(song:FreeplaySongData, ?i:Null<Int>) @:privateAccess
 	{
-		if (!Flag.FREEPLAY_VISUALIZER) return;
+		if (!Flag.FREEPLAY_VISUALIZER)
+			return;
 
 		if (i == null)
 			i = curWaveforms.length;
