@@ -190,7 +190,7 @@ class Freeplay extends ConductorState
 
 		add(bgAudioViz);
 
-		if (audioVizCache.exists(entries[selectedEntry].song))
+		if (audioVizCache.exists(entries[selectedEntry].song) && audioVizCache.get(entries[selectedEntry].song) != null)
 		{
 			bgAudioViz.loadDataFromFlxWaveformBuffer(audioVizCache.get(entries[selectedEntry].song));
 		}
@@ -200,6 +200,7 @@ class Freeplay extends ConductorState
 
 			bgAudioViz.onDataLoad.add(function()
 			{
+				bgAudioViz.waveformBuffer.autoDestroy = false;
 				audioVizCache.set(entries[selectedEntry].song, bgAudioViz.waveformBuffer);
 			});
 		}
