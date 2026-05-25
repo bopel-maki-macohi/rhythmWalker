@@ -199,6 +199,7 @@ class Freeplay extends ConductorState
 			if (bgAudio.volume > FlxG.sound.volume)
 				bgAudio.volume = FlxG.sound.volume;
 
+		FlxG.watch.addQuick('songCode', songCode);
 		runOnWaveforms((wave, waveID) ->
 		{
 			if (wave == null)
@@ -208,7 +209,7 @@ class Freeplay extends ConductorState
 
 			FlxG.watch.addQuick('waveform-${wave.ID}', waveID);
 
-			if (selectedEntry != wave.ID)
+			if (waveID != songCode)
 			{
 				wave.active = false;
 				return;
@@ -238,10 +239,10 @@ class Freeplay extends ConductorState
 
 		runOnWaveforms((wave, waveID) ->
 		{
-			wave.waveformTime = 0;
-
-			if (wave.ID == selectedEntry)
+			if (waveID == songCode)
 			{
+				wave.waveformTime = bgAudio.time;
+
 				FlxTween.cancelTweensOf(wave);
 				FlxTween.tween(wave, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
 			}
@@ -429,25 +430,6 @@ class Freeplay extends ConductorState
 			texts.clear();
 		}
 
-		runOnWaveforms((wave, waveID) ->
-		{
-			var entryShit:Array<FreeplaySongData> = entries.filter(s ->
-			{
-				return '${s.song.toLowerCase()}-${(s.variation ?? defaultVariation).toString().toLowerCase()}' == waveID;
-			});
-
-			FlxG.watch.removeQuick('waveform-${wave.ID}');
-			remove(wave);
-			if (entryShit.length < 1)
-			{
-				wave.destroy();
-				wave.ID = -1;
-				wave.waveformTime = 0;
-			}
-		});
-		curWaveforms = [];
-		curWaveformsID = [];
-
 		for (i => song in entries)
 		{
 			if (song.variation == null)
@@ -469,7 +451,8 @@ class Freeplay extends ConductorState
 
 			texts.add(tXt);
 
-			makeWaveform(song, i);
+			if (curWaveforms[i] == null)
+				makeWaveform(song, i);
 		}
 
 		changeSel(entries.length);
@@ -525,7 +508,7 @@ class Freeplay extends ConductorState
 
 			bgAudioViz.waveformOrientation = VERTICAL;
 			bgAudioViz.waveformDuration = 125;
-			bgAudioViz.waveformTime = 0;
+			bgAudioViz.waveformTime = bgAudio.time;
 
 			bgAudioViz.alpha = 0;
 
