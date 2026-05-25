@@ -1,5 +1,7 @@
 package freeplay;
 
+import flixel.sound.FlxSound;
+import util.BarVisualizer;
 import song.Song;
 import dialogue.DialogueScene;
 import song.SongRank;
@@ -50,11 +52,19 @@ class Freeplay extends ConductorState
 	var btmSegBG:FlxSprite;
 	var btmSegText:FlxText;
 
+	var bgAudio:FlxSound;
+	var songViz:BarVisualizer;
+
 	override function create()
 	{
 		super.create();
 
 		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
+
+		bgAudio = new FlxSound();
+
+		songViz = new BarVisualizer(null);
+		add(songViz);
 
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
@@ -115,6 +125,8 @@ class Freeplay extends ConductorState
 			DialogueScene.seenIntroCutscene = false;
 			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
 		}
+
+		bgAudio.volume = FlxG.sound.volume;
 	}
 
 	function changeSel(amount:Int)
@@ -129,7 +141,28 @@ class Freeplay extends ConductorState
 			selectedEntry = 0;
 
 		if (selectedEntry != prevSel)
+		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+
+			function newShit()
+			{
+				bgAudio.loadEmbedded(Paths.getSong(songs[selectedEntry].song, songs[selectedEntry].variation));
+				bgAudio.play();
+
+				@:privateAccess
+				songViz.set(cast bgAudio._channel.__alSource, 16);
+
+				bgAudio.fadeIn(.25, 0, 1);
+			}
+
+			if (bgAudio.playing)
+				bgAudio.fadeOut(.25, 0, t ->
+				{
+					newShit();
+				});
+			else
+				newShit();
+		}
 
 		for (i => text in texts.members)
 		{
