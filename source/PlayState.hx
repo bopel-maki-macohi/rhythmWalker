@@ -1,5 +1,6 @@
 package;
 
+import util.CustomShader;
 import flixel.util.FlxGradient;
 import util.RWSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -103,8 +104,6 @@ class PlayState extends ConductorState
 		player.y = FlxG.height - player.height * 1.25;
 		player.camera = camGame;
 
-		generateStage();
-
 		add(player);
 
 		// just realized this did not get scaled with the player and now im in a situation,
@@ -131,6 +130,10 @@ class PlayState extends ConductorState
 		add(scoreText);
 		scoreText.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		scoreText.camera = camHUD;
+
+		generateStage();
+
+		beatMonsterSpawner.shader = beatMonsters.shader;
 
 		for (event in song.events)
 			addEvent(event);
@@ -349,6 +352,8 @@ class PlayState extends ConductorState
 		beatMonster.x = player.getGraphicMidpoint().x - (beatMonster.width / 2);
 		beatMonster.y = beatMonster.height * -2;
 
+		beatMonster.shader = beatMonsters.shader;
+
 		beatMonsters.add(beatMonster);
 
 		beatMonsterSpawner.alpha += .1;
@@ -551,6 +556,35 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
+			case 'stage-withered':
+				var bgShader = new CustomShader('dropshadow');
+				var charShader = new CustomShader('dropshadow');
+				var monsterShader = new CustomShader('dropshadow');
+
+				var backdrop:StageSprite = new StageSprite(stage);
+				backdrop.screenCenter();
+				stageBackLayer.add(backdrop);
+				backdrop.setCamera(camGame);
+
+				bgShader.setFloat('hue', -24.0);
+				bgShader.setFloat('saturation', -24.0);
+				bgShader.setFloat('brightness', -36.0);
+				bgShader.setFloat('contrast', 0.0);
+
+				charShader.setFloat('hue', -3.0);
+				charShader.setFloat('saturation', 7.0);
+				charShader.setFloat('brightness', -75.0);
+				charShader.setFloat('contrast', 0.0);
+
+				monsterShader.setFloat('hue', -43.0);
+				monsterShader.setFloat('saturation', -51.0);
+				monsterShader.setFloat('brightness', -73.0);
+				monsterShader.setFloat('contrast', 0.0);
+
+				backdrop.shader = bgShader;
+				player.shader = charShader;
+				beatMonsters.shader = monsterShader;
+
 			case 'containment-04':
 				var backdrop:StageSprite = new StageSprite('$stage/backdrop');
 				backdrop.setScale(2);
@@ -751,7 +785,7 @@ class PlayState extends ConductorState
 				stageBackLayer.add(bridge);
 				bridge.camera = camGame;
 
-			case 'stage', 'understage', 'stage-withered':
+			case 'stage', 'understage':
 				var backdrop:StageSprite = new StageSprite(stage);
 				backdrop.screenCenter();
 				stageBackLayer.add(backdrop);

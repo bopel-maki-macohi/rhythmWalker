@@ -14,4 +14,10 @@ class Paths
 
 	public static inline function json(path:String)
 		return getPath('$path.json');
+
+	public static inline function frag(path:String)
+		return getPath('shaders/$path.frag');
+
+	public static inline function vert(path:String)
+		return getPath('shaders/$path.vert');
 }
