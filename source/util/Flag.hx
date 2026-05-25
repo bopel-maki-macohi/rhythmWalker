@@ -16,9 +16,12 @@ enum abstract Flag(Bool) from Bool to Bool
 
 	public function new(id:String, conditionals:Array<Bool>)
 	{
-		this = conditionals.filter(b -> return b).length == conditionals.length;
+		set(conditionals);
 
 		if (!list.exists(id))
 			list.set(id, this);
 	}
+
+	public inline function set(conditionals:Array<Bool>)
+		this = conditionals.filter(b -> return b).length == conditionals.length;
 }
