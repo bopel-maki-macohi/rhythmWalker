@@ -957,6 +957,9 @@ class PlayState extends ConductorState
 				animFrames.get('hurtL').frames = animFrames.get('hurtR').frames = [2, 3];
 				animFrames.get('moveL').frames = animFrames.get('moveR').frames = [4, 5];
 
+				animFrames.get('idleL').fps = animFrames.get('idleR').fps = 4;
+				animFrames.get('hurtL').fps = animFrames.get('hurtR').fps = 4;
+
 			case 'jez-regular':
 				dimensionsSprite = [96, 112];
 				data.player.maxVelocityBase = 250;
