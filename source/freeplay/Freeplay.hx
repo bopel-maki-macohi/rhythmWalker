@@ -151,6 +151,7 @@ class Freeplay extends ConductorState
 		runOnWaveforms((wave, waveID) ->
 		{
 			wave.visible = true;
+			wave.alpha = 0;
 			add(wave);
 		});
 
