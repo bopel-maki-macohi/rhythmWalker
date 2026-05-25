@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.addons.display.waveform.FlxWaveform;
 import flixel.sound.FlxSound;
 import song.Song;
 import dialogue.DialogueScene;
@@ -52,6 +53,7 @@ class Freeplay extends ConductorState
 	var btmSegText:FlxText;
 
 	var bgAudio:FlxSound;
+	var bgAudioViz:FlxWaveform;
 
 	override function create()
 	{
@@ -134,9 +136,15 @@ class Freeplay extends ConductorState
 		}
 
 		if (bgAudio != null)
-		{
 			if (bgAudio.volume > FlxG.sound.volume)
 				bgAudio.volume = FlxG.sound.volume;
+
+		if (bgAudioViz?.waveformBuffer != null)
+		{
+			bgAudioViz.waveformTime += elapsed * 1000;
+
+			if (bgAudioViz.waveformTime > bgAudio.length)
+				bgAudioViz.waveformTime = 0;
 		}
 	}
 
@@ -146,6 +154,25 @@ class Freeplay extends ConductorState
 			bgAudio.fadeTween.cancel();
 
 		bgAudio.volume = FlxG.sound.volume;
+	}
+
+	function reloadVisualizer()
+	{
+		if (bgAudioViz != null)
+			bgAudioViz.destroy();
+		remove(bgAudioViz);
+
+		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), FlxG.height, FlxColor.WHITE, FlxColor.TRANSPARENT);
+		bgAudioViz.scrollFactor.set();
+
+		add(bgAudioViz);
+
+		bgAudioViz.loadDataFromFlxSound(bgAudio);
+		bgAudioViz.waveformOrientation = VERTICAL;
+		bgAudioViz.waveformDuration = 1000;
+		bgAudioViz.waveformTime = 0;
+
+		bgAudioViz.screenCenter(Y);
 	}
 
 	function changeSel(amount:Int)
@@ -168,6 +195,8 @@ class Freeplay extends ConductorState
 				bgAudio.stop();
 				bgAudio.loadEmbedded(Paths.getSong(songs[selectedEntry].song, songs[selectedEntry].variation), true);
 				bgAudio.play();
+
+				reloadVisualizer();
 
 				bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
 			}
