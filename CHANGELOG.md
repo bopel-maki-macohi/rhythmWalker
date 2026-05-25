@@ -1,4 +1,4 @@
-# Unreleased
+# 0.3.1 - 5/25/2026
 
 - New Song: Mental
 
