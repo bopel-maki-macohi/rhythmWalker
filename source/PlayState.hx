@@ -61,6 +61,8 @@ class PlayState extends ConductorState
 		super(null, null);
 
 		this.song = new Song(song, variation ?? defaultVariation);
+
+		FlxG.log.add(song);
 	}
 
 	override function create()
@@ -91,8 +93,6 @@ class PlayState extends ConductorState
 		FlxRhythmConductorUtil.loadMeta(conductor, FlxRhythmConductorUtil.parseTimeChanges(song.bpmChanges));
 
 		trace('song len: ${FlxG.sound.music.length / 1000}s');
-		trace('estimated song steps: ${FlxG.sound.music.length / conductor.stepLengthMs}');
-		trace('estimated song beats: ${FlxG.sound.music.length / conductor.beatLengthMs}');
 
 		stageBackLayer = new FlxSpriteGroup();
 		add(stageBackLayer);
@@ -197,7 +197,7 @@ class PlayState extends ConductorState
 				beatMonsters.remove(monster);
 				monster.destroy();
 
-				FlxG.sound.play(Paths.getAudio('sfx/game/hurt'));
+				FlxG.sound.play(Paths.getAudio('game/hurt'));
 
 				hits++;
 			}
@@ -607,7 +607,7 @@ class PlayState extends ConductorState
 					if (i == tubes - 1)
 					{
 						containment04_tubeSubject = tube;
-						containment04_tubeSubject.loadGraphic(Paths.getImagePath('stages/$stage/subject'), true, 128, 128);
+						containment04_tubeSubject.loadGraphic(Paths.getImagePath('game/stages/$stage/subject'), true, 128, 128);
 						containment04_tubeSubject.addAnim('idle', [0, 1], 2, true);
 						containment04_tubeSubject.addAnim('bang', [2, 3], 6, false);
 						containment04_tubeSubject.animation.play('idle');
@@ -615,7 +615,7 @@ class PlayState extends ConductorState
 				}
 
 			case 'train-wreak':
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/$stage/sky'));
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
 				sky.scale.set(2, 2);
 				sky.velocity.x = 10;
 				sky.screenCenter(X);
@@ -733,7 +733,7 @@ class PlayState extends ConductorState
 				persistentUpdate = true;
 
 			case 'train-getaway':
-				trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('stages/$stage/sky'));
+				trainGetaway_sky = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
 				trainGetaway_sky.scale.set(2, 2);
 				trainGetaway_sky.velocity.x = 256 * -5;
 				trainGetaway_sky.screenCenter(X);
@@ -771,7 +771,7 @@ class PlayState extends ConductorState
 			case 'chinatown-bridge':
 				persistentUpdate = true;
 
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('stages/$stage/sky'));
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
 				sky.scale.set(4, 4);
 				sky.updateHitbox();
 				sky.camera = camGame;
@@ -848,7 +848,7 @@ class PlayState extends ConductorState
 		}
 
 		// player = new FlxSprite().makeGraphic(64, 128, FlxColor.WHITE);
-		player = new FlxSprite().loadGraphic(Paths.getImagePath('player/$file'), true, 64, 64);
+		player = new FlxSprite().loadGraphic(Paths.getImagePath('game/players/$file'), true, 64, 64);
 
 		for (thing => data in animFrames)
 		{
@@ -995,12 +995,12 @@ class PlayState extends ConductorState
 
 				FlxTween.tween(camGame, {zoom: 1.1}, 4, {ease: FlxEase.quintOut});
 
-				FlxG.sound.play(Paths.getAudio('sfx/game/cutscenes/fuse'));
+				FlxG.sound.play(Paths.getAudio('game/cutscenes/fuse'));
 
 				FlxTimer.wait(1, () ->
 				{
 					camGame.flash(FlxColor.ORANGE, 10);
-					FlxG.sound.play(Paths.getAudio('sfx/game/cutscenes/explosion'));
+					FlxG.sound.play(Paths.getAudio('game/cutscenes/explosion'));
 
 					forEach(basic ->
 					{

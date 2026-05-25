@@ -26,7 +26,7 @@ class DialogueScene extends ConductorState
 
 		seenIntroCutscene = true;
 
-		var path = Paths.json('dialogue/dialogue/${song.id}-${song.variation ?? defaultVariation}');
+		var path = Paths.json('dialogue/${song.id}-${song.variation ?? defaultVariation}');
 		trace(path);
 
 		if (!Assets.exists(path))
@@ -83,7 +83,7 @@ class DialogueScene extends ConductorState
 		dialogueText = new FlxTypeText(0, 0, 0, 'Lorem Ipsum Dolor Sit Amet', 32);
 		add(dialogueText);
 
-		dialogueText.sounds = [FlxG.sound.load(Paths.getAudio('sfx/game/cutscenes/dialogueText')),];
+		dialogueText.sounds = [FlxG.sound.load(Paths.getAudio('game/cutscenes/dialogueText')),];
 		dialogueText.finishSounds = true;
 
 		dialogueText.screenCenter();
@@ -172,7 +172,7 @@ class DialogueScene extends ConductorState
 		{
 			case 'playsound':
 				if (event.data != null)
-					FlxG.sound.play(Paths.getAudio('sfx/game/cutscenes/${event.data}'));
+					FlxG.sound.play(Paths.getAudio('game/cutscenes/${event.data}'));
 			case 'characterswitch':
 				if (event.data != null)
 				{

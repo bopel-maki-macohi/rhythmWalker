@@ -32,7 +32,7 @@ class Freeplay extends ConductorState
 	{
 		super.create();
 
-		songs = Json.parse(Assets.getText(Paths.json('songs/list'))).songs;
+		songs = Json.parse(Assets.getText(Paths.json('game/songs/list'))).songs;
 
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);

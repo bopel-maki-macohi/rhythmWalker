@@ -35,7 +35,7 @@ class ResultsState extends ConductorState
 		windupText.alignment = CENTER;
 		windupText.screenCenter();
 
-		FlxG.sound.play(Paths.getAudio('results/results'));
+		FlxG.sound.play(Paths.getAudio('game/results/results'));
 
 		FlxTween.num(0, songScore, 4, {
 			ease: FlxEase.quintInOut,
@@ -54,7 +54,7 @@ class ResultsState extends ConductorState
 			windupScore = v;
 
 			if (Math.floor(windupScore) != prev)
-				FlxG.sound.play(Paths.getAudio('results/resultsTick'), 0.2);
+				FlxG.sound.play(Paths.getAudio('game/results/resultsTick'), 0.2);
 
 			windupText.text = 'Score:\n${Math.floor(windupScore)}';
 			windupText.screenCenter();
@@ -63,7 +63,7 @@ class ResultsState extends ConductorState
 
 	function onWindupDone()
 	{
-		FlxG.sound.play(Paths.getAudio('results/resultsTickDone'));
+		FlxG.sound.play(Paths.getAudio('game/results/resultsTickDone'));
 
 		windupText.size *= 2;
 		windupText.screenCenter();
@@ -71,13 +71,13 @@ class ResultsState extends ConductorState
 
 		var were:Bool = (songRank != BAD);
 
-		var didWere = new FlxSprite(0, 0, Paths.getImagePath('results/${(were) ? 'were' : 'did'}'));
+		var didWere = new FlxSprite(0, 0, Paths.getImagePath('game/results/${(were) ? 'were' : 'did'}'));
 		add(didWere);
 		didWere.scale.set(2, 2);
 		didWere.updateHitbox();
 		didWere.screenCenter();
 
-		var rank = new FlxSprite(0, 0, Paths.getImagePath('results/ranks/$songRank'));
+		var rank = new FlxSprite(0, 0, Paths.getImagePath('game/results/ranks/$songRank'));
 		add(rank);
 		rank.scale.set(2, 2);
 		rank.updateHitbox();

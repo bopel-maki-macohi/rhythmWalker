@@ -8,6 +8,8 @@ import openfl.net.FileReference;
 import haxe.Json;
 import lime.utils.Assets;
 
+using StringTools;
+
 class Song
 {
 	public var id(default, null):String;
@@ -18,7 +20,10 @@ class Song
 	public function new(nid:String, nvariation:SongVariation = defaultVariation, ?loadFile:Bool = true)
 	{
 		this.id = nid.toLowerCase();
-		this.variation = new SongVariation(nvariation.toString().toLowerCase());
+		this.variation = new SongVariation(nvariation?.toString()?.toLowerCase() ?? defaultVariation);
+
+		if (variation.toString()?.trim()?.length < 1 || variation == null)
+			variation = defaultVariation;
 
 		if (loadFile)
 			this.loadFile();
@@ -35,15 +40,15 @@ class Song
 
 	public function loadFile()
 	{
-		var path:String = Paths.json('songs/$id/$variation');
-
-		if (!Assets.exists(path))
-			return;
+		var path:String = Paths.json('game/songs/$id/$variation');
 
 		try
 		{
 			var json:SongData = Json.parse(Assets.getText(path));
 			loadData(json);
+
+			if (data == null)
+				throw 'Null JSON Data';
 		}
 		catch (e)
 		{
@@ -83,5 +88,10 @@ class Song
 	{
 		var fileref:FileReference = new FileReference();
 		fileref.save(Json.stringify(data, '\t'), '$variation.json');
+	}
+
+	public function toString():String
+	{
+		return 'Song($id-$variation)';
 	}
 }

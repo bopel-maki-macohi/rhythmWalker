@@ -3,6 +3,7 @@
 - New Song: Shift Around (Resolved)
 - New Song: First Steps (Resolved)
 
+- Changed file organization
 - All Audio files have been compressed via [OptiVorbis](https://optivorbis.github.io/OptiVorbis/)
 - All image assets have been compressed via [oxipng](https://github.com/oxipng/oxipng)
 - Skipping now turns of all cutscenes properly
