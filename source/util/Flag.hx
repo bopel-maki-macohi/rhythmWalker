@@ -24,7 +24,6 @@ enum abstract Flag(Bool) from Bool to Bool
 	public static final FREEPLAY_DISPLAY_SONG_PLAYED = new Flag('FREEPLAY_DISPLAY_TIP', [!PLATFORM_WEB, FREEPLAY_DISPLAY_SONG_RANK]);
 
 	public static final FREEPLAY_VISUALIZER = new Flag('FREEPLAY_VISUALIZER', [
-		!PLATFORM_WEB,
 		!PLATFORM_LINUX,
 		!DefineMacro.isDefined('DISABLE_FREEPLAY_VISUALIZER')
 	]);

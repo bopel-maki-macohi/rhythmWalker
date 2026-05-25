@@ -362,12 +362,24 @@ class FlxWaveform extends FlxSprite
         loadDataFromFlxWaveformBuffer(FlxWaveformBuffer.fromLimeAudioBuffer(buffer));
     }
 
+
 	/**
-	 * Dispatches when data on loaded and removes all signals as soon as that happens
+	 * Dispatches when `waveformBuffer` is set and is not null.
 	 * 
-	 * @since RhythmWalker 0.3.0
+	 * Removes all added functions when dispatched
+	 * 
+	 * @since 2.2.0
 	 */
-	public var onDataLoad:FlxSignal = new FlxSignal();
+	public var onWaveformBufferSet:FlxSignal = new FlxSignal();
+
+	/**
+	 * Dispatches when `waveformBuffer` is set and is null.
+	 * 
+	 * Removes all added functions when dispatched
+	 * 
+	 * @since Rhythm Walker 0.3.0
+	 */
+	public var onWaveformBufferSetNull:FlxSignal = new FlxSignal();
 
    /**
      * Loads the audio buffer data neccessary for processing the 
@@ -385,8 +397,6 @@ class FlxWaveform extends FlxSprite
         waveformBuffer = buffer;
         if (waveformBuffer == null)
         {
-            // This is for debugging when the game crashes
-            trace('[FlxWaveform] Invalid buffer');
             FlxG.log.error("[FlxWaveform] Invalid buffer");
             return;
         }
@@ -403,17 +413,28 @@ class FlxWaveform extends FlxSprite
             waveformDuration = 5000;
 
         _drawDataDirty = true;
-		
+
         if (waveformBuffer != null)
-            if (onDataLoad == null)
+			if (onWaveformBufferSet == null)
             {
-                onDataLoad = new FlxSignal();
-                FlxG.log.add('[FlxWaveform] Re-initalized `onDataLoad`');
+				onWaveformBufferSet = new FlxSignal();
+                FlxG.log.add('[FlxWaveform] Re-initalized `onWaveformBufferSet`');
             }
             else
             {
-                onDataLoad.dispatch();
-                onDataLoad.removeAll();
+				onWaveformBufferSet.dispatch();
+				onWaveformBufferSet.removeAll();
+            }
+        else
+			if (onWaveformBufferSetNull == null)
+            {
+				onWaveformBufferSetNull = new FlxSignal();
+                FlxG.log.add('[FlxWaveform] Re-initalized `onWaveformBufferSetNull`');
+            }
+            else
+            {
+				onWaveformBufferSetNull.dispatch();
+				onWaveformBufferSetNull.removeAll();
             }
     }
 
@@ -481,7 +502,7 @@ class FlxWaveform extends FlxSprite
      * @param samples The number of samples to visualize.
      * @return Float `waveformDuration` value
      * 
-     * @since 2.2.0
+     * @since Rhythm Walker 0.3.0
      */
     inline public function getDurationFromSamples(samples:Int):Float
     {
@@ -1113,8 +1134,11 @@ class FlxWaveform extends FlxSprite
     
     @:noCompletion function set_waveformDuration(value:Float):Float
     {
+        if (waveformBuffer == null) return 0;
+
         if (waveformDuration != value)
         {
+
             if (value < 0)
             {
                 FlxG.log.error("[FlxWaveform] waveformDuration cannot be less than 0!");

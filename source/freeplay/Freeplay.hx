@@ -608,15 +608,16 @@ class Freeplay extends ConductorState
 
 			bgAudioViz.loadDataFromFlxSound(audio);
 
-			bgAudioViz.alpha = 0;
-
-			bgAudioViz.waveformBuffer.autoDestroy = false;
+			if (bgAudioViz.waveformBuffer != null)
+				bgAudioViz.waveformBuffer.autoDestroy = false;
 			bgAudioViz.waveformDuration = 125;
 
 			bgAudioViz.waveformOrientation = VERTICAL;
 			bgAudioViz.waveformTime = bgAudio.time;
 
-			bgAudioViz.onDataLoad.add(function()
+			bgAudioViz.alpha = 0;
+
+			bgAudioViz.onWaveformBufferSet.add(function()
 			{
 				audioVizCache.set(viz, bgAudioViz);
 			});
