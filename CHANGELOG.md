@@ -5,6 +5,7 @@
 - New Song: First Steps (Resolved)
 
 - Freeplay Update!
+    - The song you have selected now plays in the bg
     - Added Filtering depending on volume
     - Split into 2 segments now
         - Bottom segment is what filter / volume is currently selected
