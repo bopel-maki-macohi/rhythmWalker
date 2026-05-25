@@ -330,11 +330,13 @@ class Freeplay extends ConductorState
 
 		for (i => text in texts.members)
 		{
-			text.color = (curSongRank == NONE) ? FlxColor.RED : FlxColor.WHITE;
+			var textSongRank:SongRank = Save.songRanks.get('${entries[i].song.toLowerCase()}-${(entries[i].variation ?? defaultVariation).toString().toLowerCase()}') ?? NONE;
+
+			text.color = (textSongRank == NONE) ? FlxColor.RED : FlxColor.WHITE;
 
 			if (i == selectedEntry)
 			{
-				text.color = (curSongRank == NONE) ? FlxColor.ORANGE : FlxColor.YELLOW;
+				text.color = (textSongRank == NONE) ? FlxColor.ORANGE : FlxColor.YELLOW;
 				camFollow.y = text.y;
 			}
 		}
@@ -434,11 +436,12 @@ class Freeplay extends ConductorState
 
 			var tXt:FlxText = new FlxText(0, i * 64, 0, '${song.song}', 32);
 
+			var variationStr = song.variation.toString().toLowerCase();
 
 			if (song.variation != defaultVariation)
-				tXt.text += ' (${song.variation.toString().substr(0, 1).toUpperCase()}${song.variation.toString().substr(1).toLowerCase()})';
+				tXt.text += ' (${variationStr.substr(0, 1).toUpperCase()}${variationStr.substr(1)})';
 
-			var curSongRank:SongRank = Save.songRanks.get('${song.song.toLowerCase()}-${song.variation?.toString().toLowerCase()}') ?? NONE;
+			var curSongRank:SongRank = Save.songRanks.get('${song.song.toLowerCase()}-${variationStr}') ?? NONE;
 			if (curSongRank == NONE)
 				tXt.text += ' (Unplayed)';
 
