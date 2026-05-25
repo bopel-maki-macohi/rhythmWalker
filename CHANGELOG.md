@@ -2,6 +2,7 @@
 
 - New Song: Mental
 
+- When saving a song score, the rank will be set to BAD if it's NONE
 - [WEB] Song Score and Rank display are disabled
 - [WEB] Visualizers are disabled now
 - [WEB] Fixed Crashes loading waveforms

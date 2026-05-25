@@ -105,6 +105,9 @@ class Save
 			newHS = true;
 		}
 
+		if (songRank == NONE)
+			songRank = BAD;
+
 		songScores.set(id, songScore);
 		songRanks.set(id, songRank);
 		songRankPercents.set(id, FlxMath.roundDecimal(songRankPercent, 2));
