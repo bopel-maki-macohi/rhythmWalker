@@ -59,6 +59,8 @@ class Freeplay extends ConductorState
 	{
 		super.create();
 
+		persistentUpdate = true;
+
 		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
 
 		bgAudio = new FlxSound();
@@ -169,7 +171,7 @@ class Freeplay extends ConductorState
 
 		bgAudioViz.loadDataFromFlxSound(bgAudio);
 		bgAudioViz.waveformOrientation = VERTICAL;
-		bgAudioViz.waveformDuration = 1000;
+		bgAudioViz.waveformDuration = 125;
 		bgAudioViz.waveformTime = 0;
 
 		bgAudioViz.screenCenter(Y);
@@ -187,7 +189,7 @@ class Freeplay extends ConductorState
 		super.onFocus();
 
 		bgAudio.resume();
-		trace(bgAudio.time);
+		// trace(bgAudio.time);
 
 		bgAudioViz.waveformTime = bgAudio.time;
 	}
