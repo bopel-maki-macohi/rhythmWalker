@@ -161,6 +161,8 @@ class Freeplay extends ConductorState
 
 		if (Flag.FREEPLAY_BGAUDIO)
 			changeBGAudio();
+
+		fadeinVisualizer();
 	}
 
 	override function update(elapsed:Float)
