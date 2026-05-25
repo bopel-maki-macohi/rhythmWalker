@@ -398,6 +398,9 @@ class Freeplay extends ConductorState
 				text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED) ? FlxColor.ORANGE : FlxColor.YELLOW;
 				camFollow.y = text.y;
 			}
+
+			if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE && curWaveforms[0] == null)
+				text.screenCenter(X);
 		}
 
 		topSegText.text = '';
@@ -535,7 +538,10 @@ class Freeplay extends ConductorState
 			if (curSongRank == NONE)
 				tXt.text += ' (Unplayed)';
 
-			if (Flag.FREEPLAY_VISUALIZER)
+			if (curWaveforms[i] == null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)
+				makeWaveform(song, i);
+
+			if (Flag.FREEPLAY_VISUALIZER && (curWaveforms[i] != null && Flag.FREEPLAY_VISUALIZER_MULTICACHE))
 			{
 				tXt.alignment = RIGHT;
 				tXt.x = FlxG.width - tXt.width;
@@ -546,9 +552,6 @@ class Freeplay extends ConductorState
 			}
 
 			texts.add(tXt);
-
-			if (curWaveforms[i] == null && Flag.FREEPLAY_VISUALIZER_MULTICACHE)
-				makeWaveform(song, i);
 		}
 
 		changeSel(entries.length);
