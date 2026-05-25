@@ -62,6 +62,8 @@ class Freeplay extends ConductorState
 		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
 
 		bgAudio = new FlxSound();
+		FlxG.sound.onVolumeChange.add(onVolumeChange);
+		onVolumeChange(FlxG.sound.volume);
 
 		songViz = new BarVisualizer(null);
 		add(songViz);
@@ -125,6 +127,8 @@ class Freeplay extends ConductorState
 			if (bgAudio.playing)
 				bgAudio.fadeOut(.25, 0, t ->
 				{
+					FlxG.sound.onVolumeChange.remove(onVolumeChange);
+
 					bgAudio.stop();
 					bgAudio.destroy();
 					bgAudio = null;
@@ -135,7 +139,18 @@ class Freeplay extends ConductorState
 		}
 
 		if (bgAudio != null)
-			bgAudio.volume = FlxG.sound.volume;
+		{
+			if (bgAudio.volume > FlxG.sound.volume)
+				bgAudio.volume = FlxG.sound.volume;
+		}
+	}
+
+	function onVolumeChange(vol:Float) @:privateAccess
+	{
+		if (bgAudio.fadeTween.active)
+			bgAudio.fadeTween.cancel();
+
+		bgAudio.volume = FlxG.sound.volume;
 	}
 
 	function changeSel(amount:Int)
@@ -155,22 +170,20 @@ class Freeplay extends ConductorState
 
 			function newShit()
 			{
+				bgAudio.stop();
 				bgAudio.loadEmbedded(Paths.getSong(songs[selectedEntry].song, songs[selectedEntry].variation));
 				bgAudio.play();
 
 				@:privateAccess
 				songViz.set(cast bgAudio._channel.__alSource, 16);
 
-				bgAudio.fadeIn(.25, 0, 1);
+				bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
 			}
 
-			if (bgAudio.playing)
-				bgAudio.fadeOut(.25, 0, t ->
-				{
-					newShit();
-				});
-			else
+			bgAudio.fadeOut(.25, 0, t ->
+			{
 				newShit();
+			});
 		}
 
 		for (i => text in texts.members)
