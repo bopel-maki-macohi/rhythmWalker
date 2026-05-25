@@ -133,6 +133,9 @@ class Freeplay extends ConductorState
 					bgAudio = null;
 				});
 
+			bgAudioViz.destroy();
+			bgAudioViz = null;
+
 			DialogueScene.seenIntroCutscene = false;
 			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
 		}
@@ -145,8 +148,9 @@ class Freeplay extends ConductorState
 		{
 			bgAudioViz.waveformTime += elapsed * 1000;
 
-			if (bgAudioViz.waveformTime > bgAudio.length)
-				bgAudioViz.waveformTime = 0;
+			if (bgAudio != null)
+				if (bgAudioViz.waveformTime > bgAudio.length)
+					bgAudioViz.waveformTime = 0;
 		}
 	}
 
@@ -181,17 +185,22 @@ class Freeplay extends ConductorState
 	{
 		super.onFocusLost();
 
-		bgAudio.pause();
+		if (bgAudio != null)
+			bgAudio.pause();
 	}
 
 	override function onFocus()
 	{
 		super.onFocus();
 
-		bgAudio.resume();
-		// trace(bgAudio.time);
+		if (bgAudio != null)
+		{
+			bgAudio.resume();
+			// trace(bgAudio.time);
 
-		bgAudioViz.waveformTime = bgAudio.time;
+			if (bgAudioViz != null)
+				bgAudioViz.waveformTime = bgAudio.time;
+		}
 	}
 
 	function changeSel(amount:Int)

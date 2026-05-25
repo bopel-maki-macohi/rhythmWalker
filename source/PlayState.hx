@@ -473,6 +473,9 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['scroll down chinatown', resolved]:
+				makeStage('chinatown');
+
 			case ['lost media', defaultVariation]:
 				makeStage('crash landing');
 
@@ -577,6 +580,37 @@ class PlayState extends ConductorState
 
 		switch (stage.toLowerCase())
 		{
+			case 'chinatown':
+
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/town/sky'));
+				sky.scale.set(2, 2);
+				sky.updateHitbox();
+				sky.camera = camGame;
+
+				sky.velocity.x = 2;
+				sky.screenCenter();
+				stageBackLayer.add(sky);
+
+				var buildings = new StageSprite('chinatown/town/buildings');
+				buildings.setScale(2);
+				buildings.screenCenter();
+				stageBackLayer.add(buildings);
+
+				var backRedThings = new StageSprite('chinatown/town/backRedThings');
+				backRedThings.setScale(2);
+				backRedThings.screenCenter();
+				stageBackLayer.add(backRedThings);
+
+				var ground = new StageSprite('chinatown/town/ground');
+				ground.setScale(2);
+				ground.screenCenter();
+				stageBackLayer.add(ground);
+
+				var frontRedThings = new StageSprite('chinatown/town/frontRedThings');
+				frontRedThings.setScale(2);
+				frontRedThings.screenCenter();
+				stageBackLayer.add(frontRedThings);
+
 			case 'crash landing':
 				var charShader = new CustomShader('dropshadow');
 
@@ -853,7 +887,7 @@ class PlayState extends ConductorState
 			case 'chinatown-bridge':
 				persistentUpdate = true;
 
-				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/$stage/sky'));
+				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/bridge/sky'));
 				sky.scale.set(4, 4);
 				sky.updateHitbox();
 				sky.camera = camGame;
@@ -862,7 +896,7 @@ class PlayState extends ConductorState
 				sky.screenCenter();
 				stageBackLayer.add(sky);
 
-				var bridge:StageSprite = new StageSprite('$stage/bridge');
+				var bridge:StageSprite = new StageSprite('chinatown/bridge/bridge');
 				bridge.screenCenter();
 				stageBackLayer.add(bridge);
 				bridge.camera = camGame;
