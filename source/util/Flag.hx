@@ -21,6 +21,7 @@ enum abstract Flag(Bool) from Bool to Bool
 	public static final FREEPLAY_DISPLAY_TIP = new Flag('FREEPLAY_DISPLAY_TIP', []);
 	public static final FREEPLAY_DISPLAY_SONG_SCORE = new Flag('FREEPLAY_DISPLAY_SONG_SCORE', [!PLATFORM_WEB]);
 	public static final FREEPLAY_DISPLAY_SONG_RANK = new Flag('FREEPLAY_DISPLAY_SONG_RANK', [!PLATFORM_WEB]);
+	public static final FREEPLAY_DISPLAY_SONG_PLAYED = new Flag('FREEPLAY_DISPLAY_TIP', [!PLATFORM_WEB, FREEPLAY_DISPLAY_SONG_RANK]);
 
 	public static final FREEPLAY_VISUALIZER = new Flag('FREEPLAY_VISUALIZER', [
 		!PLATFORM_WEB,

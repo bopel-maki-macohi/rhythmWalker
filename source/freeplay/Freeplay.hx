@@ -391,11 +391,11 @@ class Freeplay extends ConductorState
 		{
 			var textSongRank:SongRank = Save.songRanks.get('${entries[i].song.toLowerCase()}-${(entries[i].variation ?? defaultVariation).toString().toLowerCase()}') ?? NONE;
 
-			text.color = (textSongRank == NONE) ? FlxColor.RED : FlxColor.WHITE;
+			text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED) ? FlxColor.RED : FlxColor.WHITE;
 
 			if (i == selectedEntry)
 			{
-				text.color = (textSongRank == NONE) ? FlxColor.ORANGE : FlxColor.YELLOW;
+				text.color = (textSongRank == NONE && Flag.FREEPLAY_DISPLAY_SONG_PLAYED) ? FlxColor.ORANGE : FlxColor.YELLOW;
 				camFollow.y = text.y;
 			}
 		}
