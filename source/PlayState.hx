@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxGradient;
 import util.RWSprite;
 import flixel.addons.transition.FlxTransitionableState;
 import dialogue.DialogueScene;
@@ -51,6 +52,8 @@ class PlayState extends ConductorState
 	var camHUD:FlxCamera;
 
 	var camGameFollow:FlxObject;
+
+	var beatMonsterSpawner:FlxSprite;
 
 	override public function new(song:String, ?variation:SongVariation = defaultVariation)
 	{
@@ -117,6 +120,12 @@ class PlayState extends ConductorState
 		beatMonsters = new FlxSpriteGroup();
 		add(beatMonsters);
 		beatMonsters.camera = camGame;
+
+		beatMonsterSpawner = FlxGradient.createGradientFlxSprite(Math.floor(FlxG.width * 1.1), Math.floor(FlxG.height * 0.2),
+			[FlxColor.RED, FlxColor.TRANSPARENT]);
+		add(beatMonsterSpawner);
+		beatMonsterSpawner.camera = camGame;
+		beatMonsterSpawner.alpha = 0;
 
 		scoreText = new FlxText(0, 0, 0, 'BOB', 16);
 		add(scoreText);
@@ -199,6 +208,9 @@ class PlayState extends ConductorState
 				monster.destroy();
 			}
 		}
+
+		if (beatMonsterSpawner != null)
+			beatMonsterSpawner.alpha = FlxMath.lerp(beatMonsterSpawner.alpha, (canSpawnMonster) ? 0.2 : 0, .1);
 	}
 
 	function managePlayer()
@@ -281,11 +293,16 @@ class PlayState extends ConductorState
 		FlxG.switchState(() -> new Freeplay());
 	}
 
+	public var canSpawnMonster(get, never):Bool;
+
+	function get_canSpawnMonster():Bool
+	{
+		return !inEndCutscene && data.beatMonsters.spawn;
+	}
+
 	override function onStepHit(step:Int, backward:Bool)
 	{
 		super.onStepHit(step, backward);
-
-		final canSpawnMonster = !inEndCutscene && data.beatMonsters.spawn;
 
 		if (!inCutscene && (canSpawnMonster && data.beatMonsters.stepRate > 0))
 		{
@@ -333,6 +350,8 @@ class PlayState extends ConductorState
 		beatMonster.y = beatMonster.height * -2;
 
 		beatMonsters.add(beatMonster);
+
+		beatMonsterSpawner.alpha += .1;
 	}
 
 	var data = {

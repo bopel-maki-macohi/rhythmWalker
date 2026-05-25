@@ -3,6 +3,7 @@
 - New Song: Shift Around (Resolved)
 - New Song: First Steps (Resolved)
 
+- Added Red Gradient at the top of the screen that is to help when beat monsters spawn
 - Freeplay now displays song variations always as follows:
     - Example Variation: "erect" (Displayed: "Erect")
     - Example Variation: "resolved" (Displayed: "Resolved")
