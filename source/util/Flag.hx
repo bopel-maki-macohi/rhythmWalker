@@ -7,6 +7,7 @@ enum abstract Flag(Bool) from Bool to Bool
 	public static var list:Map<String, Flag> = [];
 
 	public static final IS_32BIT = new Flag('IS_32BIT', [DefineMacro.isDefined('_32bit'),]);
+	public static final IS_DEBUG = new Flag('IS_DEBUG', [DefineMacro.isDefined('debug'),]);
 
 	public static final PLATFORM_LINUX = new Flag('PLATFORM_LINUX', [DefineMacro.isDefined('linux')]);
 

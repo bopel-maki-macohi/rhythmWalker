@@ -1,3 +1,4 @@
+import util.WindowUtil;
 import util.Flag;
 import freeplay.Freeplay;
 import lime.app.Application;
@@ -31,7 +32,10 @@ class InitState extends FlxState
 
 		loadAssets();
 
-		FlxG.stage.window.title = 'Rhythm Walker (v${FlxG.stage.application.meta.get('version')})';
+		WindowUtil.resetTitle(true);
+
+		if (Flag.IS_DEBUG)
+			WindowUtil.appendToTitle('(Debug)');
 
 		for (id => flag in Flag.list)
 			trace('Flag "${id}" : $flag');
