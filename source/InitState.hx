@@ -39,11 +39,12 @@ class InitState extends FlxState
 
 		for (id => flag in Flag.list)
 			trace('Flag "${id}" : $flag');
-
-		#if !web
-		proceed();
-		return;
-		#end
+		
+		if (Flag.PLATFORM_WEB)
+		{
+			proceed();
+			return;
+		}
 
 		var clickForSync:FlxText = new FlxText(0, 0, 0, 'Click Here (Or anywhere!)', 16);
 		add(clickForSync);
@@ -60,15 +61,17 @@ class InitState extends FlxState
 
 	function proceed()
 	{
-		#if DIALOGUE
-		FlxG.switchState(() -> new dialogue.DialogueScene(new song.Song('encapture')));
-		return;
-		#end
+		if (Flag.STARTINGSTATE_DIALOGUE)
+		{
+			FlxG.switchState(() -> new dialogue.DialogueScene(new song.Song('encapture')));
+			return;
+		}
 
-		#if RESULTS
-		FlxG.switchState(() -> new ResultsState('train wreak-default'));
-		return;
-		#end
+		if (Flag.STARTINGSTATE_RESULTS)
+		{
+			FlxG.switchState(() -> new ResultsState('train wreak-default'));
+			return;
+		}
 
 		FlxG.switchState(() -> new Freeplay());
 	}

@@ -376,14 +376,12 @@ class Freeplay extends ConductorState
 		}
 		catch (e)
 		{
-			#if hl
-			if (e.toString().contains('assert'))
+			if (e.toString().contains('assert') && Flag.PLATFORM_HASHLINK)
 			{
 				trace('ITS FUCKING ASSERT AGAIN.');
 			}
 			else
-			#end
-			trace(e);
+				trace(e);
 		}
 
 		for (i => text in texts.members)

@@ -1,3 +1,4 @@
+import util.Flag;
 import flixel.math.FlxMath;
 import lime.app.Application;
 import flixel.FlxG;
@@ -46,11 +47,12 @@ class Save
 		game.songRanks ??= [];
 		game.songRankPercents ??= [];
 
-		#if !clear
-		songScores = game.songScores;
-		songRanks = game.songRanks;
-		songRankPercents = game.songRankPercents;
-		#end
+		if (!Flag.SAVE_CLEAR)
+		{
+			songScores = game.songScores;
+			songRanks = game.songRanks;
+			songRankPercents = game.songRankPercents;
+		}
 
 		trace(game);
 	}
@@ -80,14 +82,12 @@ class Save
 		}
 		catch (e)
 		{
-			#if hl
-			if (e.toString().contains('assert'))
+			if (e.toString().contains('assert') && Flag.PLATFORM_HASHLINK)
 			{
 				trace('ITS FUCKING ASSERT AGAIN.');
 			}
 			else
-			#end
-			trace(e);
+				trace(e);
 		}
 
 		var newHS:Bool = false;

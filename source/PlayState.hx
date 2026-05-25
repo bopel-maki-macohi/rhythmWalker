@@ -32,7 +32,7 @@ using StringTools;
 
 class PlayState extends ConductorState
 {
-	var immortal:Bool = #if immortal true #else false #end;
+	var immortal:Bool = Flag.PLAY_IMMORTAL;
 
 	var player:FlxSprite;
 	var playerStunned:Bool = false;
