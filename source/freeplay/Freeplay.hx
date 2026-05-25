@@ -177,7 +177,7 @@ class Freeplay extends ConductorState
 		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
 			return;
 		
-		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), FlxG.height, FlxColor.WHITE, FlxColor.TRANSPARENT);
+		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE, FlxColor.TRANSPARENT);
 		bgAudioViz.scrollFactor.set();
 
 		add(bgAudioViz);
