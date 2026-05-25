@@ -1,5 +1,7 @@
 package freeplay;
 
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.addons.display.waveform.FlxWaveform;
 import flixel.sound.FlxSound;
 import song.Song;
@@ -54,6 +56,7 @@ class Freeplay extends ConductorState
 
 	var bgAudio:FlxSound;
 	var bgAudioViz:FlxWaveform;
+	var bgAudioVizFade:FlxTween;
 
 	override function create()
 	{
@@ -179,6 +182,9 @@ class Freeplay extends ConductorState
 		bgAudioViz.waveformTime = 0;
 
 		bgAudioViz.screenCenter(Y);
+
+		bgAudioViz.alpha = 0;
+		bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
 	}
 
 	override function onFocusLost()
@@ -232,10 +238,14 @@ class Freeplay extends ConductorState
 			if (!bgAudio.playing)
 				loadSongAudio();
 			else
+			{
+				if (bgAudioVizFade == null)
+					bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
 				bgAudio.fadeOut(.25, 0, t ->
 				{
 					loadSongAudio();
 				});
+			}
 		}
 
 		for (i => text in texts.members)
