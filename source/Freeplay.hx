@@ -134,7 +134,25 @@ class Freeplay extends ConductorState
 
 		var curSongScore:Int = Save.songScores.get(songID) ?? 0;
 		var curSongRank:SongRank = Save.songRanks.get(songID) ?? NONE;
-		var curSongRankPercent:Float = Save.songRankPercents.get(songID) ?? 0;
+		var curSongRankPercent:Float = 0;
+		try
+		{
+			if (Std.string(Save.songRankPercents.get(songID)) == 'null')
+				curSongRankPercent = 0;
+			else
+				curSongRankPercent = Save.songRankPercents.get(songID) ?? 0;
+		}
+		catch (e)
+		{
+			#if hl
+			if (e.toString().contains('assert'))
+			{
+				trace('ITS FUCKING ASSERT AGAIN.');
+			}
+			else
+			#end
+			trace(e);
+		}
 
 		rankText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
 		rankText.screenCenter();
