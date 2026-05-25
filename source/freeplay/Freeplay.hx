@@ -39,20 +39,19 @@ class Freeplay extends ConductorState
 	{
 		var list:Array<String> = [];
 
-		var filterCounts:Map<String, Int> = [];
-
 		for (filter in songList?.filters)
 		{
 			if (!list.contains(filter.toLowerCase()))
 			{
-				list.push(filter.toLowerCase());
-				filterCounts.set(filter.toLowerCase(), 1);
-			}
-			else
-			{
-				filterCounts.set(filter.toLowerCase(), filterCounts.get(filter.toLowerCase()) + 1);
+				if (songs.filter(s -> return s.filters.contains(filter.toLowerCase())).length > 0)
+					list.push(filter.toLowerCase());
 			}
 		}
+
+		for (song in songs)
+			for (filter in song?.filters)
+				if (!list.contains(filter.toLowerCase()))
+					list.push(filter.toLowerCase());
 
 		list.insert(0, 'all');
 
