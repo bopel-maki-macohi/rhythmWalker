@@ -29,8 +29,8 @@
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
-	<set name="BUILD_DIR" value="export/release" />
-	<set name="BUILD_DIR" value="export/debug" if="debug" />
+	<set name="BUILD_DIR" value="export/64bit/release" />
+	<set name="BUILD_DIR" value="export/64bit/debug" if="debug" />
 
 	<set name="BUILD_DIR" value="export/32bit/release" if="_32bit"/>
 	<set name="BUILD_DIR" value="export/32bit/debug" if="_32bit debug" />

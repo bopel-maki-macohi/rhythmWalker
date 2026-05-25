@@ -40,7 +40,7 @@ class InitState extends FlxState
 		for (id => flag in Flag.list)
 			trace('Flag "${id}" : $flag');
 		
-		if (Flag.PLATFORM_WEB)
+		if (!Flag.PLATFORM_WEB)
 		{
 			proceed();
 			return;
