@@ -18,6 +18,7 @@
         - Bottom segment is what filter / volume is currently selected
         - Top segment is your score, rank, and the random tip
 
+- The window title has the version now
 - Changed file organization
 - All Audio files have been compressed via [OptiVorbis](https://optivorbis.github.io/OptiVorbis/)
 - All image assets have been compressed via [oxipng](https://github.com/oxipng/oxipng)

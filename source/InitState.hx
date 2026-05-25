@@ -30,6 +30,8 @@ class InitState extends FlxState
 
 		loadAssets();
 
+		FlxG.stage.window.title = 'Rhythm Walker (v${FlxG.stage.application.meta.get('version')})';
+
 		#if _32bit
 		Main._32bit = true;
 		trace('32bit');
