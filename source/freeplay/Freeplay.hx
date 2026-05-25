@@ -193,33 +193,6 @@ class Freeplay extends ConductorState
 					bgAudio = null;
 				});
 
-			runOnWaveforms((wave, waveID) ->
-			{
-				remove(wave);
-				wave.active = false;
-				wave.visible = false;
-
-				if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
-				{
-					curWaveforms.remove(wave);
-					curWaveformsID.remove(waveID);
-					wave.destroy();
-					wave = null;
-				}
-			});
-
-			if (Flag.FREEPLAY_VISUALIZER_MULTICACHE && Flag.FREEPLAY_VISUALIZER)
-			{
-				for (id => waveform in audioVizCache)
-				{
-					audioVizCache.remove(id);
-					waveform.destroy();
-					waveform = null;
-				}
-
-				audioVizCache.clear();
-			}
-
 			DialogueScene.seenIntroCutscene = false;
 			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
 		}
@@ -251,6 +224,38 @@ class Freeplay extends ConductorState
 				if (wave.waveformTime > bgAudio.length)
 					wave.waveformTime = 0;
 		});
+	}
+
+	override function finishTransIn()
+	{
+		super.finishTransIn();
+
+		runOnWaveforms((wave, waveID) ->
+		{
+			remove(wave);
+			wave.active = false;
+			wave.visible = false;
+
+			if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
+			{
+				curWaveforms.remove(wave);
+				curWaveformsID.remove(waveID);
+				wave.destroy();
+				wave = null;
+			}
+		});
+
+		if (Flag.FREEPLAY_VISUALIZER_MULTICACHE && Flag.FREEPLAY_VISUALIZER)
+		{
+			for (id => waveform in audioVizCache)
+			{
+				audioVizCache.remove(id);
+				waveform.destroy();
+				waveform = null;
+			}
+
+			audioVizCache.clear();
+		}
 	}
 
 	function onVolumeChange(vol:Float) @:privateAccess
