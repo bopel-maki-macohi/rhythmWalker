@@ -451,6 +451,9 @@ class PlayState extends ConductorState
 				if (event.data != null)
 					makeStage(Std.string(event.data));
 
+			case 'beatmonsters-spawnmonster':
+				spawnBeatMonster();
+
 			case 'beatmonsters-stop':
 				data.beatMonsters.spawn = false;
 
