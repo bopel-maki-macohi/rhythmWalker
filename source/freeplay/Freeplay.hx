@@ -150,7 +150,6 @@ class Freeplay extends ConductorState
 
 		runOnWaveforms((wave, waveID) ->
 		{
-			wave.visible = true;
 			wave.alpha = 0;
 			add(wave);
 		});
@@ -161,8 +160,6 @@ class Freeplay extends ConductorState
 
 		if (Flag.FREEPLAY_BGAUDIO)
 			changeBGAudio();
-
-		fadeinVisualizer();
 	}
 
 	override function update(elapsed:Float)
@@ -228,15 +225,14 @@ class Freeplay extends ConductorState
 		});
 	}
 
-	override function finishTransIn()
+	override function finishTransOut()
 	{
-		super.finishTransIn();
+		super.finishTransOut();
 
 		runOnWaveforms((wave, waveID) ->
 		{
 			remove(wave);
 			wave.active = false;
-			wave.visible = false;
 
 			if (!Flag.FREEPLAY_VISUALIZER_MULTICACHE)
 			{
@@ -416,7 +412,14 @@ class Freeplay extends ConductorState
 	function changeBGAudio()
 	{
 		if (!bgAudio.playing)
+		{
+			runOnWaveforms((wave, waveID) ->
+			{
+				wave.alpha = 0;
+			});
+
 			loadSongAudio();
+		}
 		else
 		{
 			runOnWaveforms((wave, waveID) ->
