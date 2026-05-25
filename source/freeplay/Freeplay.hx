@@ -96,6 +96,8 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
+		filter('all');
+
 		changeSel(0);
 		changeVolume(volumeList.length);
 	}
