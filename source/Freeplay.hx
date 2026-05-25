@@ -16,8 +16,10 @@ using StringTools;
 class Freeplay extends ConductorState
 {
 	public static var songs:Array<SongFreeplayData> = [];
-	
+
 	public static var tips:Array<String> = ['No tips'];
+
+	var randomTip:String = '';
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
 
@@ -25,9 +27,14 @@ class Freeplay extends ConductorState
 
 	var camFollow:FlxObject;
 
+	var topSegBG:FlxSprite;
+	var topSegText:FlxText;
+
 	override function create()
 	{
 		super.create();
+
+		randomTip = tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n');
 
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
@@ -54,33 +61,18 @@ class Freeplay extends ConductorState
 
 		FlxG.camera.follow(camFollow, LOCKON, .1);
 
-		var tipText:FlxText = new FlxText(0, 0, 0, 'Random Tip:\n' + tips[FlxG.random.int(0, tips.length - 1)].replace('\\n', '\n'), 16);
-		tipText.alignment = CENTER;
-		tipText.screenCenter(X);
-		tipText.scrollFactor.set();
+		topSegText = new FlxText(0, 0, 0, 'Score & Rank go here', 16);
+		topSegText.alignment = CENTER;
+		topSegText.scrollFactor.set();
 
-		var tipTextBG = new FlxSprite(0, 0).makeGraphic(Math.floor(tipText.width), Math.floor(tipText.height), FlxColor.BLACK);
-		tipTextBG.scrollFactor.set();
-		tipTextBG.screenCenter(X);
+		topSegBG = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+		topSegBG.scrollFactor.set();
 
-		add(tipTextBG);
-		add(tipText);
-
-		rankText = new FlxText(0, 0, 0, 'Score & Rank go here', 16);
-		rankText.alignment = CENTER;
-		rankText.scrollFactor.set();
-
-		rankTextBG = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
-		rankTextBG.scrollFactor.set();
-
-		add(rankTextBG);
-		add(rankText);
+		add(topSegBG);
+		add(topSegText);
 
 		changeSel(0);
 	}
-
-	var rankText:FlxText;
-	var rankTextBG:FlxSprite;
 
 	override function update(elapsed:Float)
 	{
@@ -151,13 +143,12 @@ class Freeplay extends ConductorState
 			trace(e);
 		}
 
-		rankText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)';
-		rankText.screenCenter();
-		rankText.y = FlxG.height - rankText.height;
+		topSegText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)\n' + 'Random Tip: $randomTip';
+		topSegText.screenCenter(X);
 
-		rankTextBG.scale.set(FlxG.width, rankText.height);
-		rankTextBG.updateHitbox();
+		topSegBG.scale.set(FlxG.width, topSegText.height);
+		topSegBG.updateHitbox();
 
-		rankTextBG.setPosition(0, rankText.y,);
+		topSegBG.setPosition(0, topSegText.y);
 	}
 }
