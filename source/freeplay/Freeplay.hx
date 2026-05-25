@@ -1,7 +1,6 @@
 package freeplay;
 
 import flixel.sound.FlxSound;
-import util.BarVisualizer;
 import song.Song;
 import dialogue.DialogueScene;
 import song.SongRank;
@@ -53,7 +52,6 @@ class Freeplay extends ConductorState
 	var btmSegText:FlxText;
 
 	var bgAudio:FlxSound;
-	var songViz:BarVisualizer;
 
 	override function create()
 	{
@@ -64,9 +62,6 @@ class Freeplay extends ConductorState
 		bgAudio = new FlxSound();
 		FlxG.sound.onVolumeChange.add(onVolumeChange);
 		onVolumeChange(FlxG.sound.volume);
-
-		songViz = new BarVisualizer(null);
-		add(songViz);
 
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
@@ -173,9 +168,6 @@ class Freeplay extends ConductorState
 				bgAudio.stop();
 				bgAudio.loadEmbedded(Paths.getSong(songs[selectedEntry].song, songs[selectedEntry].variation), true);
 				bgAudio.play();
-
-				@:privateAccess
-				songViz.set(cast bgAudio._channel.__alSource, 16);
 
 				bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
 			}

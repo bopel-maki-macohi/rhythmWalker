@@ -42,9 +42,6 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="flxrhythmconductor" />
 
-	<haxelib name="funkin.vis" />
-	<haxelib name="grig.audio" />
-
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<!--Remove the legacy health system-->
