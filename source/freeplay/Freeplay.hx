@@ -184,7 +184,7 @@ class Freeplay extends ConductorState
 		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
 			return;
 
-		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height - 32), FlxColor.WHITE,
+		bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height), FlxColor.WHITE,
 			FlxColor.TRANSPARENT);
 		bgAudioViz.scrollFactor.set();
 
@@ -215,6 +215,8 @@ class Freeplay extends ConductorState
 			bgAudioVizFade.cancel();
 
 		bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
+
+		bgAudioViz.y = topSegBG.height;
 	}
 
 	override function onFocusLost()
