@@ -63,6 +63,18 @@ class Freeplay extends ConductorState
 	var bgAudioViz:FlxWaveform;
 	var bgAudioVizFade:FlxTween;
 
+	public var songCode(get, never):String;
+
+	function get_songCode():String
+	{
+		var sng = entries[selectedEntry];
+
+		if (sng == null)
+			return null;
+
+		return '${sng.song.toLowerCase()}-${(sng.variation ?? defaultVariation).toString().toLowerCase()}';
+	}
+
 	override function create()
 	{
 		super.create();
@@ -105,8 +117,8 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
-		changeSel(0);
 		changeVolume(volumeList.length);
+		changeSel(0);
 		filter('all');
 
 		changeAudio();
@@ -185,9 +197,9 @@ class Freeplay extends ConductorState
 		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
 			return;
 
-		if (audioVizCache.exists(entries[selectedEntry].song) && audioVizCache.get(entries[selectedEntry].song) != null)
+		if (audioVizCache.exists(songCode) && audioVizCache.get(songCode) != null)
 		{
-			bgAudioViz = audioVizCache.get(entries[selectedEntry].song);
+			bgAudioViz = audioVizCache.get(songCode);
 		}
 		else
 		{
@@ -208,7 +220,7 @@ class Freeplay extends ConductorState
 
 			bgAudioViz.onDataLoad.add(function()
 			{
-				audioVizCache.set(entries[selectedEntry].song, bgAudioViz);
+				audioVizCache.set(songCode, bgAudioViz);
 			});
 		}
 
@@ -249,11 +261,13 @@ class Freeplay extends ConductorState
 		if (entries[selectedEntry] == null)
 			return;
 
-		if (!audioCache.exists(entries[selectedEntry].song))
+		if (!audioCache.exists(songCode))
 			bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
 		else
+		{
 			bgAudio.loadEmbedded(audioCache.get(entries[selectedEntry].song), true);
-		audioCache.set(entries[selectedEntry].song, bgAudio._sound);
+			audioCache.set(songCode, bgAudio._sound);
+		}
 
 		bgAudio.play();
 
@@ -284,17 +298,15 @@ class Freeplay extends ConductorState
 			}
 		}
 
-		var songID = '${songs[selectedEntry].song.toLowerCase()}-${(songs[selectedEntry].variation ?? defaultVariation).toString().toLowerCase()}';
-
-		var curSongScore:Int = Save.songScores.get(songID) ?? 0;
-		var curSongRank:SongRank = Save.songRanks.get(songID) ?? NONE;
+		var curSongScore:Int = Save.songScores.get(songCode) ?? 0;
+		var curSongRank:SongRank = Save.songRanks.get(songCode) ?? NONE;
 		var curSongRankPercent:Float = 0;
 		try
 		{
-			if (Std.string(Save.songRankPercents.get(songID)) == 'null')
+			if (Std.string(Save.songRankPercents.get(songCode)) == 'null')
 				curSongRankPercent = 0;
 			else
-				curSongRankPercent = Save.songRankPercents.get(songID) ?? 0;
+				curSongRankPercent = Save.songRankPercents.get(songCode) ?? 0;
 		}
 		catch (e)
 		{
