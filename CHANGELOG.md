@@ -4,6 +4,12 @@
 - New Song: Shift Around (Resolved)
 - New Song: First Steps (Resolved)
 
+- Freeplay Update!
+    - Added Filtering depending on volume
+    - Split into 2 segments now
+        - Bottom segment is what filter / volume is currently selected
+        - Top segment is your score, rank, and the random tip
+
 - Changed file organization
 - All Audio files have been compressed via [OptiVorbis](https://optivorbis.github.io/OptiVorbis/)
 - All image assets have been compressed via [oxipng](https://github.com/oxipng/oxipng)

@@ -1,32 +1,41 @@
 {
     "songs": [
         {
-            "song": "First Steps"
+            "song": "First Steps",
+            "volume": "volume1"
         },
         {
-            "song": "Shift Around"
+            "song": "Shift Around",
+            "volume": "volume1"
         },
         {
-            "song": "Scroll Down Chinatown"
+            "song": "Scroll Down Chinatown",
+            "volume": "volume1"
         },
         {
-            "song": "Train Getaway"
+            "song": "Train Getaway",
+            "volume": "volume2"
         },
         {
-            "song": "Train Wreak"
+            "song": "Train Wreak",
+            "volume": "volume2"
         },
         {
-            "song": "Encapture"
+            "song": "Encapture",
+            "volume": "volume2"
         },
         {
-            "song": "Lost Media"
+            "song": "Lost Media",
+            "volume": "volume3"
         },
         {
             "song": "First Steps",
+            "volume": "volume3",
             "variation": "Resolved"
         },
         {
             "song": "Shift Around",
+            "volume": "volume3",
             "variation": "Resolved"
         }
     ]

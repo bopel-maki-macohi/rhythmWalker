@@ -9,7 +9,6 @@ import lime.utils.Assets;
 import flixel.FlxObject;
 import flixel.util.FlxColor;
 import flixel.FlxG;
-import song.SongFreeplayData;
 import flixel.text.FlxText;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 
@@ -25,7 +24,13 @@ class Freeplay extends ConductorState
 
 	static function get_volumeList():Array<String>
 	{
-		return [for (song in songs) if (''.trim().length > 0) ''];
+		var list:Array<String> = ['all'];
+
+		for (song in songs)
+			if (song.volume?.trim()?.length > 0 && !list.contains(song.volume.toUpperCase()))
+				list.push(song.volume.toUpperCase());
+
+		return list;
 	}
 
 	var randomTip:String = '';
@@ -54,8 +59,6 @@ class Freeplay extends ConductorState
 		texts = new FlxTypedSpriteGroup<FlxText>();
 		add(texts);
 
-		filter('all');
-
 		camFollow = new FlxObject();
 		add(camFollow);
 
@@ -83,8 +86,10 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
+		filter('all');
+
 		changeSel(0);
-		changeVolume(0);
+		changeVolume(volumeList.length);
 	}
 
 	override function update(elapsed:Float)
@@ -177,14 +182,11 @@ class Freeplay extends ConductorState
 		selectedVolume += amount;
 
 		if (selectedVolume < 0)
-			selectedVolume = songs.length - 1;
-		if (selectedVolume > songs.length - 1)
+			selectedVolume = volumeList.length - 1;
+		if (selectedVolume > volumeList.length - 1)
 			selectedVolume = 0;
 
-		if (selectedVolume != prevVol)
-			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
-
-		btmSegText.text = 'Volume:\n< ${volumeList[selectedVolume]} >';
+		btmSegText.text = 'Volume:\n< ${volumeList[selectedVolume]?.toUpperCase()} >';
 		btmSegText.screenCenter(X);
 		btmSegText.y = FlxG.height - btmSegText.height;
 
@@ -192,6 +194,12 @@ class Freeplay extends ConductorState
 		btmSegBG.updateHitbox();
 
 		btmSegBG.setPosition(0, btmSegText.y);
+
+		if (selectedVolume != prevVol)
+		{
+			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
+			filter(volumeList[selectedVolume]);
+		}
 	}
 
 	function filter(f:String)
@@ -200,20 +208,23 @@ class Freeplay extends ConductorState
 
 		switch (f)
 		{
-			// case all:
-			// entries = songs;
+			case 'all':
+				entries = songs;
 
 			default:
-				entries = songs.filter(s -> return FlxG.random.bool());
+				entries = songs.filter(s -> return s.volume.toLowerCase() == f.toLowerCase());
 		}
 
-		for (text in texts)
+		if (texts.members.length > 0)
 		{
-			texts.remove(text);
-			text.destroy();
-		}
+			for (text in texts)
+			{
+				texts.remove(text);
+				text.destroy();
+			}
 
-		texts.clear();
+			texts.clear();
+		}
 
 		for (i => song in entries)
 		{
@@ -229,5 +240,7 @@ class Freeplay extends ConductorState
 
 			texts.add(tXt);
 		}
+
+		changeSel(entries.length);
 	}
 }
