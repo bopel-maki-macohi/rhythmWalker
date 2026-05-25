@@ -1,5 +1,6 @@
 package util;
 
+import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
@@ -14,9 +15,9 @@ import lime.media.AudioSource;
  */
 class BarVisualizer extends FlxGroup
 {
-	var grpBars:FlxTypedGroup<FlxSprite>;
-	var peakLines:FlxTypedGroup<FlxSprite>;
-	var analyzer:SpectralAnalyzer;
+	public var grpBars:FlxSpriteGroup;
+	public var peakLines:FlxSpriteGroup;
+	public var analyzer:SpectralAnalyzer;
 
 	public function new(audioSource:AudioSource, barCount:Int = 16)
 	{
@@ -32,10 +33,21 @@ class BarVisualizer extends FlxGroup
 
 		analyzer = new SpectralAnalyzer(audioSource, barCount, 0.1, 10);
 
-		grpBars = new FlxTypedGroup<FlxSprite>();
-		add(grpBars);
-		peakLines = new FlxTypedGroup<FlxSprite>();
-		add(peakLines);
+		if (grpBars == null)
+		{
+			grpBars = new FlxSpriteGroup();
+			add(grpBars);
+		}
+		else
+			grpBars.clear();
+		
+		if (peakLines == null)
+		{
+			peakLines = new FlxSpriteGroup();
+			add(peakLines);
+		}
+		else
+			peakLines.clear();
 
 		for (i in 0...barCount)
 		{
@@ -45,6 +57,9 @@ class BarVisualizer extends FlxGroup
 			spr = new FlxSprite((i / barCount) * FlxG.width, 0).makeGraphic(Std.int((1 / barCount) * FlxG.width) - 4, 1, 0xaaff0000);
 			peakLines.add(spr);
 		}
+
+		grpBars.screenCenter();
+		peakLines.screenCenter();
 	}
 
 	@:generic

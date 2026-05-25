@@ -147,7 +147,7 @@ class Freeplay extends ConductorState
 
 	function onVolumeChange(vol:Float) @:privateAccess
 	{
-		if (bgAudio.fadeTween.active)
+		if (bgAudio.fadeTween?.active)
 			bgAudio.fadeTween.cancel();
 
 		bgAudio.volume = FlxG.sound.volume;
