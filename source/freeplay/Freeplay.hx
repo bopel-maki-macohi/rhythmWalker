@@ -61,10 +61,10 @@ class Freeplay extends ConductorState
 	public static var audioCache:Map<String, Sound> = [];
 	public static var audioVizCache:Map<String, FlxWaveform> = [];
 
-	var curWaveforms:Array<FlxWaveform> = [];
-	var curWaveformsID:Array<String> = [];
+	public static var curWaveforms:Array<FlxWaveform> = [];
+	public static var curWaveformsID:Array<String> = [];
 
-	function runOnWaveforms(func:FlxWaveform->String->Void)
+	public static function runOnWaveforms(func:FlxWaveform->String->Void)
 	{
 		if (func != null)
 			for (wf in curWaveforms)
@@ -147,6 +147,12 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
+		runOnWaveforms((wave, waveID) ->
+		{
+			wave.visible = true;
+			add(wave);
+		});
+
 		changeVolume(filterList.length);
 		changeSel(0);
 		filter('all');
@@ -187,8 +193,8 @@ class Freeplay extends ConductorState
 			runOnWaveforms((wave, waveID) ->
 			{
 				remove(wave);
-				wave.destroy();
-				wave = null;
+				wave.active = false;
+				wave.visible = false;
 			});
 
 			DialogueScene.seenIntroCutscene = false;
