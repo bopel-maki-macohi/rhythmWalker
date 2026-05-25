@@ -1,5 +1,6 @@
 # Unreleased
 
+- You now get score from beat monsters just being alive
 - Songs can add custom freeplay filters now without it having to be in the filters songlist field
 - Freeplay Filters now only appear if a song has it
 
