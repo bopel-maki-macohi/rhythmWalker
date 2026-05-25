@@ -56,6 +56,13 @@
             ]
         },
         {
+            "song": "Mental",
+            "filters": [
+                "volume3",
+                "day3"
+            ]
+        },
+        {
             "song": "First Steps",
             "filters": [
                 "volume3",

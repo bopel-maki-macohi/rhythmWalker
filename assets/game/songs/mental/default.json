@@ -1,0 +1,22 @@
+{
+    "id": "first steps",
+    "variation": "default",
+    "scrollSpeed": 4,
+    "bpmChanges": [
+        {
+            "t": 0,
+            "bpm": 70
+        }
+    ],
+    "events": [
+        {
+            "time": 0,
+            "id": "beatmonsters-rate",
+            "data": 2
+        },
+        {
+            "time": 37714,
+            "id": "beatmonsters-stop"
+        }
+    ]
+}
