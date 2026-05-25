@@ -1,5 +1,6 @@
 package;
 
+import util.Flag;
 import freeplay.Freeplay;
 import util.CustomShader;
 import flixel.util.FlxGradient;
@@ -581,7 +582,6 @@ class PlayState extends ConductorState
 		switch (stage.toLowerCase())
 		{
 			case 'chinatown':
-
 				var sky:FlxBackdrop = new FlxBackdrop(Paths.getImagePath('game/stages/chinatown/town/sky'));
 				sky.scale.set(2, 2);
 				sky.updateHitbox();
@@ -612,15 +612,18 @@ class PlayState extends ConductorState
 				stageBackLayer.add(frontRedThings);
 
 			case 'crash landing':
-				var charShader = new CustomShader('dropshadow');
+				if (Flag.PLAY_SHADERS)
+				{
+					var charShader = new CustomShader('dropshadow');
 
-				charShader.setFloat('hue', -9.0);
-				charShader.setFloat('saturation', -15.0);
-				charShader.setFloat('brightness', -22.0);
-				charShader.setFloat('contrast', 0.0);
+					charShader.setFloat('hue', -9.0);
+					charShader.setFloat('saturation', -15.0);
+					charShader.setFloat('brightness', -22.0);
+					charShader.setFloat('contrast', 0.0);
 
-				player.shader = charShader;
-				beatMonsters.shader = charShader;
+					player.shader = charShader;
+					beatMonsters.shader = charShader;
+				}
 
 				var sky = new FlxSprite().makeGraphic(1, 1, 0x0d0712);
 				sky.scale.set(FlxG.width, FlxG.height);
@@ -673,33 +676,36 @@ class PlayState extends ConductorState
 				data.beatMonsters.scale = 0.75;
 
 			case 'stage-withered':
-				var bgShader = new CustomShader('dropshadow');
-				var charShader = new CustomShader('dropshadow');
-				var monsterShader = new CustomShader('dropshadow');
-
 				var backdrop:StageSprite = new StageSprite(stage);
 				backdrop.screenCenter();
 				stageBackLayer.add(backdrop);
 				backdrop.setCamera(camGame);
 
-				bgShader.setFloat('hue', -24.0);
-				bgShader.setFloat('saturation', -24.0);
-				bgShader.setFloat('brightness', -36.0);
-				bgShader.setFloat('contrast', 0.0);
+				if (Flag.PLAY_SHADERS)
+				{
+					var bgShader = new CustomShader('dropshadow');
+					var charShader = new CustomShader('dropshadow');
+					var monsterShader = new CustomShader('dropshadow');
 
-				charShader.setFloat('hue', -3.0);
-				charShader.setFloat('saturation', 7.0);
-				charShader.setFloat('brightness', -75.0);
-				charShader.setFloat('contrast', 0.0);
+					bgShader.setFloat('hue', -24.0);
+					bgShader.setFloat('saturation', -24.0);
+					bgShader.setFloat('brightness', -36.0);
+					bgShader.setFloat('contrast', 0.0);
 
-				monsterShader.setFloat('hue', -43.0);
-				monsterShader.setFloat('saturation', -51.0);
-				monsterShader.setFloat('brightness', -73.0);
-				monsterShader.setFloat('contrast', 0.0);
+					charShader.setFloat('hue', -3.0);
+					charShader.setFloat('saturation', 7.0);
+					charShader.setFloat('brightness', -75.0);
+					charShader.setFloat('contrast', 0.0);
 
-				backdrop.shader = bgShader;
-				player.shader = charShader;
-				beatMonsters.shader = monsterShader;
+					monsterShader.setFloat('hue', -43.0);
+					monsterShader.setFloat('saturation', -51.0);
+					monsterShader.setFloat('brightness', -73.0);
+					monsterShader.setFloat('contrast', 0.0);
+
+					backdrop.shader = bgShader;
+					player.shader = charShader;
+					beatMonsters.shader = monsterShader;
+				}
 
 			case 'containment-04':
 				var backdrop:StageSprite = new StageSprite('$stage/backdrop');
