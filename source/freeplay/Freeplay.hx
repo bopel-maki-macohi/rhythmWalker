@@ -233,7 +233,8 @@ class Freeplay extends ConductorState
 
 		runOnWaveforms((wave, waveID) ->
 		{
-			wave.alpha = FlxG.sound.volume;
+			if (waveID == songCode)
+				wave.alpha = FlxG.sound.volume;
 		});
 	}
 
