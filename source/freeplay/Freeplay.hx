@@ -1,5 +1,6 @@
 package freeplay;
 
+import util.Flag;
 import flixel.util.FlxSort;
 import openfl.media.Sound;
 import flixel.addons.display.waveform.FlxWaveformBuffer;
@@ -196,7 +197,7 @@ class Freeplay extends ConductorState
 				wave.active = false;
 				wave.visible = false;
 
-				if (Main._32bit)
+				if (!Flag.FREEPLAY_MULTICACHE)
 				{
 					curWaveforms.remove(wave);
 					curWaveformsID.remove(waveID);
@@ -205,7 +206,7 @@ class Freeplay extends ConductorState
 				}
 			});
 
-			if (Main._32bit)
+			if (Flag.FREEPLAY_MULTICACHE)
 			{
 				for (id => waveform in audioVizCache)
 				{
@@ -320,7 +321,7 @@ class Freeplay extends ConductorState
 		else
 			bgAudio.loadEmbedded(audioCache.get(songCode), true);
 
-		if (Main._32bit)
+		if (!Flag.FREEPLAY_MULTICACHE)
 		{
 			runOnWaveforms((wave, waveID) ->
 			{
@@ -495,7 +496,7 @@ class Freeplay extends ConductorState
 
 			texts.add(tXt);
 
-			if (curWaveforms[i] == null && !Main._32bit)
+			if (curWaveforms[i] == null && Flag.FREEPLAY_MULTICACHE)
 				makeWaveform(song, i);
 		}
 
