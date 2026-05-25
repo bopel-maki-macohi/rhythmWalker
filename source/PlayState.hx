@@ -934,6 +934,9 @@ class PlayState extends ConductorState
 
 		switch ([song.id, song.variation])
 		{
+			case ['mental', defaultVariation]:
+				data.player.skin = 'bro-mental';
+
 			case ['scroll down chinatown', resolved]:
 				data.player.skin = 'bro-chinatown-wanted';
 

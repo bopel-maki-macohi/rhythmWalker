@@ -1,3 +1,8 @@
+# 0.3.2 - 5/2026
+
+- Added Bro Mental Skin
+- Update Bro Captured & Chinatown Torn Skin
+
 # 0.3.1 - 5/25/2026
 
 - New Song: Mental
