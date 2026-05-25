@@ -402,7 +402,7 @@ class FlxWaveform extends FlxSprite
 		if (onDataLoad == null)
 		{
 			onDataLoad = new FlxSignal();
-            FlxG.log.add('[FlxWaveform] Re-initalized `onDataLoad`');
+			FlxG.log.add('[FlxWaveform] Re-initalized `onDataLoad`');
 		}
 		else
 		{

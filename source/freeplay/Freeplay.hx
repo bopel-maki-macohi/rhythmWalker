@@ -61,6 +61,16 @@ class Freeplay extends ConductorState
 	public static var audioCache:Map<String, Sound> = [];
 	public static var audioVizCache:Map<String, FlxWaveform> = [];
 
+	var curWaveforms:Array<FlxWaveform> = [];
+	var curWaveformsID:Array<String> = [];
+
+	function runOnWaveforms(func:FlxWaveform->String->Void)
+	{
+		if (func != null)
+			for (wf in curWaveforms)
+				func(wf, curWaveformsID[wf.ID]);
+	}
+
 	var randomTip:String = '';
 
 	var entries:Array<FreeplaySongData> = [];
@@ -79,7 +89,6 @@ class Freeplay extends ConductorState
 	var btmSegText:FlxText;
 
 	var bgAudio:FlxSound;
-	var bgAudioViz:FlxWaveform;
 	var bgAudioVizFade:FlxTween;
 
 	public var songCode(get, never):String;
@@ -175,8 +184,12 @@ class Freeplay extends ConductorState
 					bgAudio = null;
 				});
 
-			bgAudioViz.destroy();
-			bgAudioViz = null;
+			runOnWaveforms((wave, waveID) ->
+			{
+				remove(wave);
+				wave.destroy();
+				wave = null;
+			});
 
 			DialogueScene.seenIntroCutscene = false;
 			FlxG.switchState(() -> new DialogueScene(new Song(song.song, song.variation)));
@@ -186,17 +199,28 @@ class Freeplay extends ConductorState
 			if (bgAudio.volume > FlxG.sound.volume)
 				bgAudio.volume = FlxG.sound.volume;
 
-		if (bgAudioViz != null)
+		runOnWaveforms((wave, waveID) ->
 		{
-			if (bgAudioViz.waveformBuffer != null)
-			{
-				bgAudioViz.waveformTime += elapsed * 1000;
+			if (wave == null)
+				return;
+			if (wave.waveformBuffer == null)
+				return;
 
-				if (bgAudio != null)
-					if (bgAudioViz.waveformTime > bgAudio.length)
-						bgAudioViz.waveformTime = 0;
+			FlxG.watch.addQuick('waveform-${wave.ID}', waveID);
+
+			if (selectedEntry != wave.ID)
+			{
+				wave.active = false;
+				return;
 			}
-		}
+
+			wave.active = true;
+			wave.waveformTime += elapsed * 1000;
+
+			if (bgAudio != null)
+				if (wave.waveformTime > bgAudio.length)
+					wave.waveformTime = 0;
+		});
 	}
 
 	function onVolumeChange(vol:Float) @:privateAccess
@@ -207,48 +231,21 @@ class Freeplay extends ConductorState
 		bgAudio.volume = FlxG.sound.volume;
 	}
 
-	function reloadVisualizer()
+	function fadeinVisualizer()
 	{
-		if (bgAudioViz != null)
-			bgAudioViz.destroy();
-		remove(bgAudioViz);
-
 		if (bgAudio?.volume < 0.1 || bgAudio == null || bgAudio.length < 1)
 			return;
 
-		if (audioVizCache.exists(songCode) && audioVizCache.get(songCode) != null)
+		runOnWaveforms((wave, waveID) ->
 		{
-			bgAudioViz = audioVizCache.get(songCode);
-		}
-		else
-		{
-			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE,
-				FlxColor.TRANSPARENT);
-			bgAudioViz.scrollFactor.set();
-			bgAudioViz.y = topSegBG.height;
+			wave.waveformTime = 0;
 
-			bgAudioViz.loadDataFromFlxSound(bgAudio);
-
-			bgAudioViz.waveformOrientation = VERTICAL;
-			bgAudioViz.waveformDuration = 125;
-			bgAudioViz.waveformTime = 0;
-
-			bgAudioViz.alpha = 0;
-
-			bgAudioViz.waveformBuffer.autoDestroy = false;
-
-			bgAudioViz.onDataLoad.add(function()
+			if (wave.ID == selectedEntry)
 			{
-				audioVizCache.set(songCode, bgAudioViz);
-			});
-		}
-
-		add(bgAudioViz);
-
-		if (bgAudioVizFade != null)
-			bgAudioVizFade.cancel();
-
-		bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
+				FlxTween.cancelTweensOf(wave);
+				FlxTween.tween(wave, {alpha: 1}, .25, {ease: FlxEase.quartInOut});
+			}
+		});
 	}
 
 	override function onFocusLost()
@@ -268,8 +265,11 @@ class Freeplay extends ConductorState
 			bgAudio.resume();
 			// trace(bgAudio.time);
 
-			if (bgAudioViz != null)
-				bgAudioViz.waveformTime = bgAudio.time;
+			runOnWaveforms((wave, waveID) ->
+			{
+				if (wave != null)
+					wave.waveformTime = bgAudio.time;
+			});
 		}
 	}
 
@@ -281,17 +281,16 @@ class Freeplay extends ConductorState
 			return;
 
 		if (!audioCache.exists(songCode))
-			bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
-		else
 		{
-			bgAudio.loadEmbedded(audioCache.get(entries[selectedEntry].song), true);
+			bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
 			audioCache.set(songCode, bgAudio._sound);
 		}
+		else
+			bgAudio.loadEmbedded(audioCache.get(songCode), true);
 
 		bgAudio.play();
 
-		reloadVisualizer();
-
+		fadeinVisualizer();
 		bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
 	}
 
@@ -364,10 +363,11 @@ class Freeplay extends ConductorState
 			loadSongAudio();
 		else
 		{
-			if (bgAudioVizFade != null)
-				bgAudioVizFade.cancel();
-
-			bgAudioVizFade = FlxTween.tween(bgAudioViz, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
+			runOnWaveforms((wave, waveID) ->
+			{
+				FlxTween.cancelTweensOf(wave);
+				FlxTween.tween(wave, {alpha: 0}, .25, {ease: FlxEase.quartInOut});
+			});
 
 			bgAudio.fadeOut(.25, 0, t ->
 			{
@@ -429,6 +429,25 @@ class Freeplay extends ConductorState
 			texts.clear();
 		}
 
+		runOnWaveforms((wave, waveID) ->
+		{
+			var entryShit:Array<FreeplaySongData> = entries.filter(s ->
+			{
+				return '${s.song.toLowerCase()}-${(s.variation ?? defaultVariation).toString().toLowerCase()}' == waveID;
+			});
+
+			FlxG.watch.removeQuick('waveform-${wave.ID}');
+			remove(wave);
+			if (entryShit.length < 1)
+			{
+				wave.destroy();
+				wave.ID = -1;
+				wave.waveformTime = 0;
+			}
+		});
+		curWaveforms = [];
+		curWaveformsID = [];
+
 		for (i => song in entries)
 		{
 			if (song.variation == null)
@@ -449,8 +468,79 @@ class Freeplay extends ConductorState
 			tXt.x = FlxG.width - tXt.width;
 
 			texts.add(tXt);
+
+			makeWaveform(song, i);
 		}
 
 		changeSel(entries.length);
+	}
+
+	function makeWaveform(song:FreeplaySongData, i:Int) @:privateAccess
+	{
+		var viz:String = '${song.song.toLowerCase()}-${(song.variation ?? defaultVariation).toString().toLowerCase()}';
+
+		if (curWaveformsID.contains(viz))
+		{
+			runOnWaveforms((wave, waveID) ->
+			{
+				if (waveID == viz)
+				{
+					wave.ID = i;
+					curWaveformsID.remove(viz);
+					curWaveformsID.insert(i, viz);
+					add(wave);
+				}
+			});
+
+			return;
+		}
+
+		var audio:FlxSound;
+		if (audioCache.exists(viz))
+			audio = new FlxSound().loadEmbedded(audioCache.get(viz));
+		else
+		{
+			audio = new FlxSound().loadEmbedded(Paths.getSong(song.song, song.variation), true);
+
+			audioCache.set(viz, audio._sound);
+		}
+
+		if (audio == null)
+			return;
+
+		var bgAudioViz:FlxWaveform;
+
+		if (audioVizCache.exists(viz) && audioVizCache.get(viz) != null)
+		{
+			bgAudioViz = audioVizCache.get(viz);
+		}
+		else
+		{
+			bgAudioViz = new FlxWaveform(0, 0, Math.floor(FlxG.width / 4), Math.floor(FlxG.height - topSegBG.height - btmSegBG.height), FlxColor.WHITE,
+				FlxColor.TRANSPARENT);
+			bgAudioViz.scrollFactor.set();
+			bgAudioViz.y = topSegBG.height;
+
+			bgAudioViz.loadDataFromFlxSound(audio);
+
+			bgAudioViz.waveformOrientation = VERTICAL;
+			bgAudioViz.waveformDuration = 125;
+			bgAudioViz.waveformTime = 0;
+
+			bgAudioViz.alpha = 0;
+
+			bgAudioViz.waveformBuffer.autoDestroy = false;
+
+			bgAudioViz.onDataLoad.add(function()
+			{
+				audioVizCache.set(viz, bgAudioViz);
+			});
+		}
+
+		bgAudioViz.ID = i;
+		add(bgAudioViz);
+
+		curWaveforms.push(bgAudioViz);
+		curWaveformsID.push(viz);
 	}
 }
