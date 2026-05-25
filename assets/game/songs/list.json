@@ -1,46 +1,85 @@
 {
+    "filters": [
+        "volume1",
+        "volume2",
+        "volume3",
+        "resolved remix",
+        "day1",
+        "day2",
+        "day3"
+    ],
     "songs": [
         {
             "song": "First Steps",
-            "volume": "volume1"
+            "filters": [
+                "volume1",
+                "day1"
+            ]
         },
         {
             "song": "Shift Around",
-            "volume": "volume1"
+            "filters": [
+                "volume1",
+                "day1"
+            ]
         },
         {
             "song": "Scroll Down Chinatown",
-            "volume": "volume1"
+            "filters": [
+                "volume1",
+                "day2"
+            ]
         },
         {
             "song": "Train Getaway",
-            "volume": "volume2"
+            "filters": [
+                "volume2",
+                "day2"
+            ]
         },
         {
             "song": "Train Wreak",
-            "volume": "volume2"
+            "filters": [
+                "volume2",
+                "day2"
+            ]
         },
         {
             "song": "Encapture",
-            "volume": "volume2"
+            "filters": [
+                "volume2",
+                "day3"
+            ]
         },
         {
             "song": "Lost Media",
-            "volume": "volume3"
+            "filters": [
+                "volume3",
+                "day3"
+            ]
         },
         {
             "song": "First Steps",
-            "volume": "volume3",
+            "filters": [
+                "volume3",
+                "resolved remix"
+            ],
             "variation": "Resolved"
         },
         {
             "song": "Shift Around",
-            "volume": "volume3",
+            "filters": [
+                "volume3",
+                "resolved remix"
+            ],
             "variation": "Resolved"
         },
         {
             "song": "Scroll Down Chinatown",
-            "volume": "volume3",
+            "filters": [
+                "volume3",
+                "resolved remix"
+            ],
             "variation": "Resolved"
         }
     ]

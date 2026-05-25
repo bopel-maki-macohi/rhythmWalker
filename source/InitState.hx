@@ -70,7 +70,7 @@ class InitState extends FlxState
 
 		if (Assets.exists(songList))
 		{
-			Freeplay.songs = Json.parse(Assets.getText(songList)).songs;
+			Freeplay.songList = Json.parse(Assets.getText(songList));
 		}
 		else
 		{

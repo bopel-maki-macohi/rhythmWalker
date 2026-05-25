@@ -6,8 +6,10 @@
 - New Song: First Steps (Resolved)
 
 - Freeplay Update!
+    - The song texts have been moved to the right
+    - Added Visualizer to the left side of the screen
     - The song you have selected now plays in the bg
-    - Added Filtering depending on volume
+    - Added Filters!
     - Split into 2 segments now
         - Bottom segment is what filter / volume is currently selected
         - Top segment is your score, rank, and the random tip

@@ -2,12 +2,12 @@ package freeplay;
 
 import song.SongVariation;
 
-typedef SongFreeplayData =
+typedef FreeplaySongData =
 {
 	var song:String;
 
 	@:optional
-	var volume:String;
+	var filters:Array<String>;
 
 	@:optional
 	var variation:SongVariation;

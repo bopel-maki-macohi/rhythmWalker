@@ -1,5 +1,6 @@
 package freeplay;
 
+import flixel.util.FlxSort;
 import openfl.media.Sound;
 import flixel.addons.display.waveform.FlxWaveformBuffer;
 import flixel.tweens.FlxEase;
@@ -22,19 +23,37 @@ using StringTools;
 
 class Freeplay extends ConductorState
 {
-	public static var songs:Array<SongFreeplayData> = [];
+	public static var songList:FreeplaySongListData;
+
+	public static var songs(get, never):Array<FreeplaySongData>;
+
+	static function get_songs():Array<FreeplaySongData>
+		return songList.songs;
 
 	public static var tips:Array<String> = ['No tips'];
 
-	public static var volumeList(get, never):Array<String>;
+	public static var filterList(get, never):Array<String>;
 
-	static function get_volumeList():Array<String>
+	static function get_filterList():Array<String>
 	{
-		var list:Array<String> = ['all'];
+		var list:Array<String> = [];
 
-		for (song in songs)
-			if (song.volume?.trim()?.length > 0 && !list.contains(song.volume.toUpperCase()))
-				list.push(song.volume.toUpperCase());
+		var filterCounts:Map<String, Int> = [];
+
+		for (filter in songList?.filters)
+		{
+			if (!list.contains(filter.toLowerCase()))
+			{
+				list.push(filter.toLowerCase());
+				filterCounts.set(filter.toLowerCase(), 1);
+			}
+			else
+			{
+				filterCounts.set(filter.toLowerCase(), filterCounts.get(filter.toLowerCase()) + 1);
+			}
+		}
+
+		list.insert(0, 'all');
 
 		return list;
 	}
@@ -44,7 +63,7 @@ class Freeplay extends ConductorState
 
 	var randomTip:String = '';
 
-	var entries:Array<SongFreeplayData> = [];
+	var entries:Array<FreeplaySongData> = [];
 
 	var texts:FlxTypedSpriteGroup<FlxText>;
 
@@ -78,6 +97,8 @@ class Freeplay extends ConductorState
 	override function create()
 	{
 		super.create();
+
+		trace('filters: ${filterList}');
 
 		persistentUpdate = true;
 
@@ -117,7 +138,7 @@ class Freeplay extends ConductorState
 		add(btmSegBG);
 		add(btmSegText);
 
-		changeVolume(volumeList.length);
+		changeVolume(filterList.length);
 		changeSel(0);
 		filter('all');
 
@@ -142,7 +163,7 @@ class Freeplay extends ConductorState
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/confirm'));
 
-			var song:SongFreeplayData = entries[selectedEntry];
+			var song:FreeplaySongData = entries[selectedEntry];
 
 			if (bgAudio.playing)
 				bgAudio.fadeOut(.25, 0, t ->
@@ -360,11 +381,11 @@ class Freeplay extends ConductorState
 		selectedVolume += amount;
 
 		if (selectedVolume < 0)
-			selectedVolume = volumeList.length - 1;
-		if (selectedVolume > volumeList.length - 1)
+			selectedVolume = filterList.length - 1;
+		if (selectedVolume > filterList.length - 1)
 			selectedVolume = 0;
 
-		btmSegText.text = 'Volume: ${volumeList[selectedVolume]?.toUpperCase()}';
+		btmSegText.text = 'Volume: ${filterList[selectedVolume]?.toUpperCase()}';
 		btmSegText.screenCenter(X);
 		btmSegText.y = FlxG.height - btmSegText.height;
 
@@ -377,7 +398,7 @@ class Freeplay extends ConductorState
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
-			filter(volumeList[selectedVolume]);
+			filter(filterList[selectedVolume]);
 			changeAudio();
 		}
 	}
@@ -386,13 +407,13 @@ class Freeplay extends ConductorState
 	{
 		entries = [];
 
-		switch (f)
+		switch (f.toLowerCase())
 		{
 			case 'all':
 				entries = songs;
 
 			default:
-				entries = songs.filter(s -> return s.volume.toLowerCase() == f.toLowerCase());
+				entries = songs.filter(s -> return s.filters.contains(f.toLowerCase()));
 		}
 
 		if (texts.members.length > 0)
