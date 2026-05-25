@@ -3,8 +3,7 @@
 - New Song: Mental
 
 - When saving a song score, the rank will be set to BAD if it's NONE
-- [WEB] Song Score and Rank display are disabled
-- [WEB] Visualizers are disabled now
+- [WEB] Visualizers, Song Score, Rank display, and Song Played Display are disabled
 - [WEB] Fixed Crashes loading waveforms
 - You now get score from beat monsters just being alive
 - Songs can add custom freeplay filters now without it having to be in the filters songlist field
