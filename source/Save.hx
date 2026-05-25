@@ -68,7 +68,25 @@ class Save
 	{
 		var songScore:Int = songScores.get(id) ?? 0;
 		var songRank:SongRank = songRanks.get(id) ?? NONE;
-		var songRankPercent:Float = songRankPercents.get(id) ?? 0;
+		var songRankPercent:Float = 0;
+		try
+		{
+			if (Std.string(Save.songRankPercents.get(id)) == 'null')
+				songRankPercent = 0;
+			else
+				songRankPercent = Save.songRankPercents.get(id) ?? 0;
+		}
+		catch (e)
+		{
+			#if hl
+			if (e.toString().contains('assert'))
+			{
+				trace('ITS FUCKING ASSERT AGAIN.');
+			}
+			else
+			#end
+			trace(e);
+		}
 
 		var newHS:Bool = false;
 
