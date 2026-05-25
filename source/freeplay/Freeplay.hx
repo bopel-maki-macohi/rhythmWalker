@@ -299,7 +299,7 @@ class Freeplay extends ConductorState
 			trace(e);
 		}
 
-		topSegText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)\n' + 'Random Tip:\n$randomTip';
+		topSegText.text = 'Score: ${curSongScore} | Rank: ${curSongRank} (${Math.floor(curSongRankPercent * 100)}%)\n\n' + 'Random Tip:\n$randomTip';
 		topSegText.updateHitbox();
 		topSegText.screenCenter(X);
 
