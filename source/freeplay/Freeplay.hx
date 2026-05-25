@@ -203,6 +203,17 @@ class Freeplay extends ConductorState
 		}
 	}
 
+	function loadSongAudio()
+	{
+		bgAudio.stop();
+		bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry].variation), true);
+		bgAudio.play();
+
+		reloadVisualizer();
+
+		bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
+	}
+
 	function changeSel(amount:Int)
 	{
 		var prevSel = selectedEntry;
@@ -218,21 +229,13 @@ class Freeplay extends ConductorState
 		{
 			FlxG.sound.play(Paths.getAudio('sfx/menu/scroll'));
 
-			function newShit()
-			{
-				bgAudio.stop();
-				bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry].variation), true);
-				bgAudio.play();
-
-				reloadVisualizer();
-
-				bgAudio.fadeIn(.25, bgAudio.volume, FlxG.sound.volume);
-			}
-
-			bgAudio.fadeOut(.25, 0, t ->
-			{
-				newShit();
-			});
+			if (!bgAudio.playing)
+				loadSongAudio();
+			else
+				bgAudio.fadeOut(.25, 0, t ->
+				{
+					loadSongAudio();
+				});
 		}
 
 		for (i => text in texts.members)
