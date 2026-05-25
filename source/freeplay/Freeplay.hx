@@ -495,8 +495,15 @@ class Freeplay extends ConductorState
 			if (curSongRank == NONE)
 				tXt.text += ' (Unplayed)';
 
-			tXt.alignment = RIGHT;
-			tXt.x = FlxG.width - tXt.width;
+			if (Flag.FREEPLAY_VISUALIZER)
+			{
+				tXt.alignment = RIGHT;
+				tXt.x = FlxG.width - tXt.width;
+			}
+			else
+			{
+				tXt.screenCenter(X);
+			}
 
 			texts.add(tXt);
 
