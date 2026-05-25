@@ -344,12 +344,13 @@ class FlxSound extends FlxBasic
 	 * @param	OnComplete		Called when the sound finished playing
 	 * @return	This FlxSound instance (nice for chaining stuff together, if you're into that).
 	 */
-	public function loadEmbedded(EmbeddedSound:FlxSoundAsset, Looped:Bool = false, AutoDestroy:Bool = false, ?OnComplete:Void->Void):FlxSound
+	public function loadEmbedded(EmbeddedSound:FlxSoundAsset, Looped:Bool = false, AutoDestroy:Bool = false, ?OnComplete:Void->Void,
+			?destroySound:Bool = true):FlxSound
 	{
 		if (EmbeddedSound == null)
 			return this;
 			
-		cleanup(true);
+		cleanup(destroySound);
 		
 		if ((EmbeddedSound is Sound))
 		{

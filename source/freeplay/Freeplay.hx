@@ -247,7 +247,7 @@ class Freeplay extends ConductorState
 		if (entries[selectedEntry] == null)
 			return;
 
-		bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true);
+		bgAudio.loadEmbedded(Paths.getSong(entries[selectedEntry].song, entries[selectedEntry]?.variation ?? defaultVariation), true, false, null, false);
 		bgAudio.play();
 
 		reloadVisualizer();
