@@ -477,6 +477,8 @@ class PlayState extends ConductorState
 	{
 		switch ([song.id, song.variation])
 		{
+			case ['mental', defaultVariation]:
+
 			case ['scroll down chinatown', resolved]:
 				makeStage('chinatown');
 
