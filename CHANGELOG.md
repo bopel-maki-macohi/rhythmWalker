@@ -1,3 +1,5 @@
+# 0.4.0 - 6/2026
+
 # 0.3.2 - 5/25/2026
 
 - Fixed Dialogue Loading
