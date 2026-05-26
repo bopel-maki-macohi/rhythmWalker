@@ -195,6 +195,6 @@ class DialogueScene extends ConductorState
 	{
 		leaving = true;
 
-		FlxG.switchState(() -> new PlayState(song.id, song.variation));
+		FlxG.switchState(() -> new PlayState(song));
 	}
 }
