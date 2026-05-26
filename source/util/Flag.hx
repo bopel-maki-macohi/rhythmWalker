@@ -15,6 +15,12 @@ enum abstract Flag(Bool) from Bool to Bool
 
 	public static final SAVE_CLEAR = new Flag('SAVE_CLEAR', [DefineMacro.isDefined('clear') || DefineMacro.isDefined('SAVE_CLEAR')]);
 
+	public static final STARTINGSTATE_CHARTEDITOR = new Flag('STARTINGSTATE_CHARTEDITOR', [
+		DefineMacro.isDefined('chart')
+		|| DefineMacro.isDefined('charting')
+		|| DefineMacro.isDefined('CHART')
+		|| DefineMacro.isDefined('CHARTING')]);
+
 	public function new(id:String, conditionals:Array<Bool>)
 	{
 		set(conditionals);

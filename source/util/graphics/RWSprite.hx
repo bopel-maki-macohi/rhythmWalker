@@ -13,7 +13,7 @@ class RWSprite extends FlxSprite
 		this.sprite = sprite;
 
 		if (this.sprite != null)
-			loadGraphic(PathUtil.getImagePath(sprite), animated, frameWidth, frameHeight);
+			loadGraphic(PathUtil.png(sprite), animated, frameWidth, frameHeight);
 		else
 			FlxG.log.warn('Null sprite, cannot load.');
 

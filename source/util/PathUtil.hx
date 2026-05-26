@@ -11,10 +11,15 @@ class PathUtil
 	public static inline function getShadersPath(path:String)
 		return getPath('shaders/$path');
 
-	public static inline function getAudio(path:String)
-		return getPath('$path.ogg');
+	public static var AUDIO_EXT:String = 'ogg';
 
-	public static inline function getImagePath(path:String)
+	public static inline function audio(path:String)
+		return getPath('$path.$AUDIO_EXT');
+
+	public static inline function getSong(songID:String)
+		return audio('game/songs/$songID/$songID');
+
+	public static inline function png(path:String)
 		return getPath('$path.png');
 
 	public static inline function json(path:String)

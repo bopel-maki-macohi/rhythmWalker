@@ -1,3 +1,4 @@
+import game.editors.ChartEditor;
 import game.*;
 import game.song.Song;
 import util.*;
@@ -20,8 +21,8 @@ class InitState extends FlxState
 		FlxTransitionableState.defaultTransIn = getDefaultTransition();
 		FlxTransitionableState.defaultTransOut = getDefaultTransition();
 
-		FlxG.sound.soundTray.volumeUpSound = PathUtil.getAudio('sfx/volume');
-		FlxG.sound.soundTray.volumeDownSound = PathUtil.getAudio('sfx/volume');
+		FlxG.sound.soundTray.volumeUpSound = PathUtil.audio('sfx/volume');
+		FlxG.sound.soundTray.volumeDownSound = PathUtil.audio('sfx/volume');
 
 		Save.init();
 
@@ -40,7 +41,14 @@ class InitState extends FlxState
 
 	function proceed()
 	{
-		FlxG.switchState(() -> new PlayState());
+		if (Flag.STARTINGSTATE_CHARTEDITOR)
+		{
+			FlxG.switchState(() -> new ChartEditor());
+		}
+		else
+		{
+			FlxG.switchState(() -> new PlayState());
+		}
 	}
 
 	function loadAssets() {}

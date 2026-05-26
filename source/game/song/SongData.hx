@@ -4,5 +4,5 @@ import flixel.addons.sound.MusicTimeChangeEvent.MusicTimeChangeData;
 
 typedef SongData =
 {
-	timeChanges:Array<MusicTimeChangeData>,
+	bpmChanges:Array<MusicTimeChangeData>,
 }

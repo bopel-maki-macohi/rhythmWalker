@@ -1,5 +1,6 @@
 package game;
 
+import util.SongUtil;
 import util.rhythm.ConductorState;
 import game.song.Song;
 
@@ -11,11 +12,6 @@ class PlayState extends ConductorState
 	{
 		super();
 
-		if (song == null)
-		{
-			song = new Song('Stress-Pico');
-		}
-
-		this.song = song;
+		this.song = SongUtil.getSongField(song);
 	}
 }
