@@ -6,7 +6,7 @@ using StringTools;
 
 typedef SaveData =
 {
-	?saveVer:Int
+	?saveVer:Int,
 }
 
 class Save
@@ -37,6 +37,11 @@ class Save
 	public static function load()
 	{
 		game ??= {};
+
+		Reflect.deleteField(game, 'songScores');
+		Reflect.deleteField(game, 'songRanks');
+		Reflect.deleteField(game, 'songRankPercents');
+
 		game.saveVer ??= CURSAVEVER;
 
 		if (!Flag.SAVE_CLEAR)
@@ -49,7 +54,9 @@ class Save
 
 	public static function save()
 	{
-		game.saveVer = saveVer;
+		game = {
+			saveVer: saveVer,
+		};
 
 		FlxG.save.flush();
 
