@@ -40,7 +40,7 @@ class InitState extends FlxState
 
 	function proceed()
 	{
-		FlxG.switchState(() -> new PlayState(new Song('hit')));
+		FlxG.switchState(() -> new PlayState());
 	}
 
 	function loadAssets() {}

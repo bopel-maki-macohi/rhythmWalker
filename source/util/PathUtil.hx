@@ -1,5 +1,8 @@
 package util;
 
+import sys.io.File;
+import sys.FileSystem;
+
 class PathUtil
 {
 	public static inline function getPath(path:String)
@@ -25,4 +28,10 @@ class PathUtil
 
 	public static inline function vert(path:String)
 		return getShadersPath('$path.vert');
+
+	public static inline function exists(path:String):Bool
+		return FileSystem.exists(path);
+
+	public static inline function getFileContent(file:String):String
+		return File.getContent(file) ?? null;
 }

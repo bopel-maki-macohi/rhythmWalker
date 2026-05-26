@@ -26,4 +26,9 @@ class WindowUtil
 	{
 		appendToTitle('(v${FlxG.stage.application.meta.get('version')})');
 	}
+
+	public static inline function alert(message:String)
+	{
+		FlxG.stage.window.alert(message, FlxG.stage.window.title);
+	}
 }
