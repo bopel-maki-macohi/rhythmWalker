@@ -3,6 +3,9 @@ class Paths
 	public static inline function getPath(path:String)
 		return 'assets/$path';
 
+	public static inline function getShadersPath(path:String)
+		return getPath('shaders/$path');
+
 	public static inline function getAudio(path:String)
 		return getPath('$path.ogg');
 
@@ -16,8 +19,8 @@ class Paths
 		return getPath('$path.txt');
 
 	public static inline function frag(path:String)
-		return getPath('shaders/$path.frag');
+		return getShadersPath('$path.frag');
 
 	public static inline function vert(path:String)
-		return getPath('shaders/$path.vert');
+		return getShadersPath('$path.vert');
 }
