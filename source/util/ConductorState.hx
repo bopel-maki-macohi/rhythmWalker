@@ -1,3 +1,5 @@
+package util;
+
 import flixel.FlxG;
 import flixel.addons.sound.FlxRhythmConductor;
 import flixel.addons.ui.FlxUIState;

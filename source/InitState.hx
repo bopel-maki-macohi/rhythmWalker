@@ -1,18 +1,13 @@
-import song.Song;
-import util.WindowUtil;
-import util.Flag;
-import lime.app.Application;
-import lime.utils.Assets;
-import haxe.Json;
+import game.*;
+import game.song.Song;
+import util.*;
 import flixel.text.FlxText;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
-import flixel.addons.transition.FlxTransitionSprite;
 import flixel.graphics.FlxGraphic;
-import flixel.addons.transition.TransitionData;
-import flixel.FlxG;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.FlxState;
+import flixel.addons.transition.FlxTransitionSprite;
+import flixel.addons.transition.*;
+import flixel.*;
 
 using StringTools;
 

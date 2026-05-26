@@ -1,6 +1,7 @@
-package;
+package game;
 
-import song.Song;
+import util.ConductorState;
+import game.song.Song;
 
 class PlayState extends ConductorState
 {

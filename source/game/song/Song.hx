@@ -1,4 +1,4 @@
-package song;
+package game.song;
 
 class Song
 {
