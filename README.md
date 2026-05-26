@@ -1,6 +1,6 @@
 # Rhythm Walker
 
-Cool music game where you avoid projectiles falling towards you that spawn to the beat.
+Cool music game
 
 ## Links
 
@@ -8,6 +8,7 @@ Cool music game where you avoid projectiles falling towards you that spawn to th
 
 ## Credits
 
-[Maki (Me!)](https://www.youtube.com/@sphis-sinco) : Director, Programming, Art, Music
+[Maki (Me!)](https://github.com/bopel-maki-macohi) : Lead Director, Programming, Art, Animation
+[Requazar](https://github.com/requazar) : Co-Director, Musician
 
 [Nathan Gibson](https://nathangibson.myportfolio.com) : Menu UI Sounds
