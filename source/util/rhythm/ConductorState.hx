@@ -1,4 +1,4 @@
-package util;
+package util.rhythm;
 
 import flixel.FlxG;
 import flixel.addons.sound.FlxRhythmConductor;

@@ -1,4 +1,4 @@
-package util;
+package util.graphics.shaders;
 
 import flixel.FlxG;
 import flixel.addons.display.FlxRuntimeShader;
