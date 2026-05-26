@@ -8,8 +8,8 @@ class CustomShader extends FlxRuntimeShader
 {
 	public function new(name:String)
 	{
-		var fragPath:String = Paths.frag(name);
-		var vertPath:String = Paths.vert(name);
+		var fragPath:String = PathUtil.frag(name);
+		var vertPath:String = PathUtil.vert(name);
 
 		var fragCode:String = null;
 		var vertCode:String = null;

@@ -20,8 +20,8 @@ class InitState extends FlxState
 		FlxTransitionableState.defaultTransIn = getDefaultTransition();
 		FlxTransitionableState.defaultTransOut = getDefaultTransition();
 
-		FlxG.sound.soundTray.volumeUpSound = Paths.getAudio('sfx/volume');
-		FlxG.sound.soundTray.volumeDownSound = Paths.getAudio('sfx/volume');
+		FlxG.sound.soundTray.volumeUpSound = PathUtil.getAudio('sfx/volume');
+		FlxG.sound.soundTray.volumeDownSound = PathUtil.getAudio('sfx/volume');
 
 		Save.init();
 
@@ -35,23 +35,7 @@ class InitState extends FlxState
 		for (id => flag in Flag.list)
 			trace('Flag "${id}" : $flag');
 
-		if (!Flag.PLATFORM_WEB)
-		{
-			proceed();
-			return;
-		}
-
-		var clickForSync:FlxText = new FlxText(0, 0, 0, 'Click Here (Or anywhere!)', 16);
-		add(clickForSync);
-		clickForSync.screenCenter();
-	}
-
-	override function update(elapsed:Float)
-	{
-		super.update(elapsed);
-
-		if (FlxG.mouse.justPressed)
-			proceed();
+		proceed();
 	}
 
 	function proceed()

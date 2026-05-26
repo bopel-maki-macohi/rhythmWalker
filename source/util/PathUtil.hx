@@ -1,4 +1,6 @@
-class Paths
+package util;
+
+class PathUtil
 {
 	public static inline function getPath(path:String)
 		return 'assets/$path';
