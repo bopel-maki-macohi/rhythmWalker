@@ -1,5 +1,7 @@
 # 0.4.0 - 6/2026
 
+GAME HAS BEEN REMADE TO BE ENTIRELY NEW!!!!!!!
+
 # 0.3.2 - 5/25/2026
 
 - Fixed Dialogue Loading

@@ -1,6 +1,6 @@
+import song.Song;
 import util.WindowUtil;
 import util.Flag;
-import freeplay.Freeplay;
 import lime.app.Application;
 import lime.utils.Assets;
 import haxe.Json;
@@ -39,7 +39,7 @@ class InitState extends FlxState
 
 		for (id => flag in Flag.list)
 			trace('Flag "${id}" : $flag');
-		
+
 		if (!Flag.PLATFORM_WEB)
 		{
 			proceed();
@@ -61,44 +61,10 @@ class InitState extends FlxState
 
 	function proceed()
 	{
-		if (Flag.STARTINGSTATE_DIALOGUE)
-		{
-			FlxG.switchState(() -> new dialogue.DialogueScene(new song.Song('encapture')));
-			return;
-		}
-
-		if (Flag.STARTINGSTATE_RESULTS)
-		{
-			FlxG.switchState(() -> new ResultsState('train wreak-default'));
-			return;
-		}
-
-		FlxG.switchState(() -> new Freeplay());
+		FlxG.switchState(() -> new PlayState(new Song('hit')));
 	}
 
-	function loadAssets()
-	{
-		var songList = Paths.json('game/songs/list');
-		var tipsList = Paths.txt('game/tips');
-
-		if (Assets.exists(songList))
-		{
-			Freeplay.songList = Json.parse(Assets.getText(songList));
-		}
-		else
-		{
-			FlxG.stage.window.alert('SONG LIST IS MISSING, GAME WILL DIE NOW.');
-			FlxG.stage.window.close();
-		}
-
-		if (Assets.exists(tipsList))
-		{
-			Freeplay.tips = [
-				for (line in Assets.getText(tipsList).split('\n'))
-					if (line.trim().length > 0) line.trim()
-			];
-		}
-	}
+	function loadAssets() {}
 
 	function getDefaultTransition():TransitionData
 	{

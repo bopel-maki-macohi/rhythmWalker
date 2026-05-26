@@ -2,22 +2,18 @@ import util.Flag;
 import flixel.math.FlxMath;
 import lime.app.Application;
 import flixel.FlxG;
-import song.SongRank;
 
 using StringTools;
 
 typedef SaveData =
 {
-	?songScores:Map<String, Int>,
-	?songRanks:Map<String, SongRank>,
-	?songRankPercents:Map<String, Float>,
+	?saveVer:Int
 }
 
 class Save
 {
-	public static var songScores:Map<String, Int> = [];
-	public static var songRanks:Map<String, SongRank> = [];
-	public static var songRankPercents:Map<String, Float> = [];
+	public static final CURSAVEVER:Int = 2;
+	public static var saveVer:Int = CURSAVEVER;
 
 	public static var game(get, set):SaveData;
 
@@ -42,16 +38,11 @@ class Save
 	public static function load()
 	{
 		game ??= {};
-
-		game.songScores ??= [];
-		game.songRanks ??= [];
-		game.songRankPercents ??= [];
+		game.saveVer ??= CURSAVEVER;
 
 		if (!Flag.SAVE_CLEAR)
 		{
-			songScores = game.songScores;
-			songRanks = game.songRanks;
-			songRankPercents = game.songRankPercents;
+			saveVer = game.saveVer;
 		}
 
 		trace(game);
@@ -59,59 +50,10 @@ class Save
 
 	public static function save()
 	{
-		game.songScores = songScores;
-		game.songRanks = songRanks;
-		game.songRankPercents = songRankPercents;
+		game.saveVer = saveVer;
 
 		FlxG.save.flush();
 
 		trace(game);
-	}
-
-	public static function saveSongScore(id:String, score:Int, totalScore:Int)
-	{
-		var songScore:Int = songScores.get(id) ?? 0;
-		var songRank:SongRank = songRanks.get(id) ?? NONE;
-		var songRankPercent:Float = 0;
-		try
-		{
-			if (Std.string(Save.songRankPercents.get(id)) == 'null')
-				songRankPercent = 0;
-			else
-				songRankPercent = Save.songRankPercents.get(id) ?? 0;
-		}
-		catch (e)
-		{
-			if (e.toString().contains('assert') && Flag.PLATFORM_HASHLINK)
-			{
-				trace('ITS FUCKING ASSERT AGAIN.');
-			}
-			else
-				trace(e);
-		}
-
-		var newHS:Bool = false;
-
-		if (score > songScore)
-		{
-			trace('NEW HIGHSCORE FOR "$id": $score');
-			trace(' | $score / $totalScore');
-
-			songScore = score;
-
-			songRankPercent = FlxMath.roundDecimal(score / totalScore, 2);
-			songRank = SongRank.getRankFromPercent(songRankPercent);
-
-			newHS = true;
-		}
-
-		if (songRank == NONE)
-			songRank = BAD;
-
-		songScores.set(id, songScore);
-		songRanks.set(id, songRank);
-		songRankPercents.set(id, FlxMath.roundDecimal(songRankPercent, 2));
-
-		return newHS;
 	}
 }
