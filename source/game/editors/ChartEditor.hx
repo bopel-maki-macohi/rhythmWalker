@@ -20,6 +20,8 @@ class ChartEditor extends ConductorState
 	var gridTiled:FlxTiledSprite;
 	var gridZoom:Float = 1.0;
 
+	var strumline:FlxSprite;
+
 	var songLengthInPixels(get, never):Int;
 
 	function get_songLengthInPixels():Int
@@ -41,6 +43,8 @@ class ChartEditor extends ConductorState
 		this.song.onSongEnd.add(onSongEnd);
 
 		initGrid();
+
+		initStrumline();
 
 		resetConductor();
 
@@ -69,6 +73,15 @@ class ChartEditor extends ConductorState
 		song.audio.time = song.audio.length;
 	}
 
+	function initStrumline()
+	{
+		strumline = new FlxSprite().makeGraphic(Math.floor(gridTiled.width), 4);
+		strumline.screenCenter();
+		add(strumline);
+
+		FlxG.camera.follow(strumline);
+	}
+
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
@@ -80,17 +93,10 @@ class ChartEditor extends ConductorState
 
 		conductor.update(songPosition);
 
-		updateGrid();
+		if (strumline != null)
+			strumline.y = songPosition;
 
 		controlManagement();
-	}
-
-	function updateGrid()
-	{
-		if (gridTiled == null)
-			return;
-
-		gridTiled.y = (FlxG.height / 2) - songPosition;
 	}
 
 	function controlManagement()
