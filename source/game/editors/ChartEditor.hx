@@ -88,7 +88,7 @@ class ChartEditor extends ConductorState
 
 	function controlManagement()
 	{
-		if (FlxG.keys.justPressed.SPACE && song.audio == null)
+		if (FlxG.keys.justPressed.SPACE && song.audio != null)
 		{
 			if (song.audio.playing)
 				song.audio.pause();
