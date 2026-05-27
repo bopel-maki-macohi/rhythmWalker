@@ -18,6 +18,7 @@ class ChartEditor extends ConductorState
 	public static final gridBitmap:Null<BitmapData> = BitmapData.fromFile(PathUtil.png('ui/grid'));
 
 	var gridTiled:FlxTiledSprite;
+	var gridZoom:Float = 1.0;
 
 	var songLengthInPixels(get, never):Int;
 
@@ -60,7 +61,7 @@ class ChartEditor extends ConductorState
 
 	function resizeGrid()
 	{
-		gridTiled.height = songLengthInPixels;
+		gridTiled.height = songLengthInPixels / gridZoom;
 	}
 
 	function onSongEnd()
