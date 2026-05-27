@@ -76,8 +76,7 @@ class ChartEditor extends ConductorState
 
 	function onSongEnd()
 	{
-		song.audio.pause();
-		song.audio.time = song.audio.length;
+		songPosition = song.audio.length;
 	}
 
 	function initStrumline()
@@ -100,10 +99,15 @@ class ChartEditor extends ConductorState
 	{
 		super.update(elapsed);
 
+		if (song.audio.playing && song.audio.time >= song.audio.length)
+		{
+			song.audio.pause();
+			songPosition = 0;
+			song.audio.play(true);
+		}
+
 		if (song.audio?.playing)
 			songPosition += elapsed * 1000;
-		else
-			songPosition = song.audio.time;
 
 		conductor.update(songPosition);
 
@@ -143,7 +147,13 @@ class ChartEditor extends ConductorState
 			if (song.audio.playing)
 				song.audio.pause();
 			else
-				song.audio.play();
+			{
+				if (song.audio.time <= 0 || song.audio.time >= song.audio.length)
+					song.audio.play();
+				else
+					song.audio.resume();
+			}
+			songPosition = song.audio.time;
 		}
 	}
 
