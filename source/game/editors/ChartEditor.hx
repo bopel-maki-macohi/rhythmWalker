@@ -76,6 +76,7 @@ class ChartEditor extends ConductorState
 
 	function onSongEnd()
 	{
+		song.audio.pause();
 		song.audio.time = song.audio.length;
 	}
 
