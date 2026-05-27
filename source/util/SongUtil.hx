@@ -6,6 +6,6 @@ class SongUtil
 {
 	public static inline function getSongField(?song:Song):Song
 	{
-		return song ?? new Song('Stress-Pico');
+		return song ?? new Song('Dummy');
 	}
 }
