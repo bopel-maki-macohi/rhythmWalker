@@ -1,5 +1,7 @@
 package game.editors;
 
+import flixel.math.FlxMath;
+import flixel.text.FlxText;
 import flixel.addons.sound.FlxRhythmConductorUtil;
 import util.SongUtil;
 import game.song.Song;
@@ -22,10 +24,12 @@ class ChartEditor extends ConductorState
 
 	var strumline:FlxSprite;
 
+	var textShit:FlxText;
+
 	var songLengthInPixels(get, never):Int;
 
 	function get_songLengthInPixels():Int
-		return Std.int((song.audio?.length ?? 1000) * GRID_SIZE);
+		return Std.int(song.audio?.length ?? 1000);
 
 	var song:Song;
 
@@ -45,6 +49,8 @@ class ChartEditor extends ConductorState
 		initGrid();
 
 		initStrumline();
+
+		initText();
 
 		resetConductor();
 
@@ -70,7 +76,7 @@ class ChartEditor extends ConductorState
 
 	function onSongEnd()
 	{
-		songPosition = song.audio.length;
+		song.audio.time = song.audio.length;
 	}
 
 	function initStrumline()
@@ -80,6 +86,13 @@ class ChartEditor extends ConductorState
 		add(strumline);
 
 		FlxG.camera.follow(strumline);
+	}
+
+	function initText()
+	{
+		textShit = new FlxText(10, 10, gridTiled.x - 16, 'urmom', 16);
+		textShit.scrollFactor.set();
+		add(textShit);
 	}
 
 	override function update(elapsed:Float)
@@ -94,9 +107,12 @@ class ChartEditor extends ConductorState
 		conductor.update(songPosition);
 
 		if (strumline != null)
-			strumline.y = songPosition;
+			strumline.y = songPosition / gridZoom;
 
 		controlManagement();
+
+		textShit.text = 'Song: ${song.id}\n' + 'Song Position: ' + '${FlxMath.roundDecimal(songPosition / 1000, 2)}s / '
+			+ '${FlxMath.roundDecimal(song.audio.length / 1000, 2)}s';
 	}
 
 	function controlManagement()
