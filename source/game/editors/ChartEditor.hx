@@ -106,7 +106,7 @@ class ChartEditor extends ConductorState
 			if (song.audio.playing)
 				song.audio.pause();
 
-			final amount = 500;
+			final amount = 10;
 
 			if (FlxG.keys.anyPressed([W, UP]))
 				songPosition -= amount;
